@@ -1,14 +1,13 @@
-
-.container{
+.container {
   width: 100%;
   padding: 63px 124px;
 
   display: flex;
   flex-direction: row;
-  gap:113px;
+  gap: 113px;
 }
 
-.managementSidebarInner{
+.managementSidebarInner {
   position: relative;
   min-width: 84px;
 
@@ -24,27 +23,25 @@
   font-weight: 300;
 }
 
-.content{
+.content {
   width: 100%;
 }
 
-.active{
+.active {
   color: #b99470;
 
-  &:hover{
-  color: #b99470;
+  &:hover {
+    color: #b99470;
   }
 }
 
 @media screen and (max-width: 1780px) {
-
-  .container{
+  .container {
     display: flex;
     flex-direction: column;
-    
   }
 
-  .managementSidebarInner{
+  .managementSidebarInner {
     position: relative;
     display: flex;
     flex-direction: row;
@@ -55,32 +52,31 @@
 }
 
 @media screen and (max-width: 1034px) {
-  .managementSidebarInner{
+  .managementSidebarInner {
     gap: 2rem;
   }
 }
 
 @media screen and (max-width: 1034px) {
-  .container{
+  .container {
     padding: 63px 80px;
   }
 }
 
 @media screen and (max-width: 945px) {
-  .container{
+  .container {
     padding: 63px 80px;
-    
   }
 }
 
 @media screen and (max-width: 913px) {
-  .managementSidebarInner{
+  .managementSidebarInner {
     gap: 1rem;
   }
 }
 
 @media screen and (max-width: 768px) {
-  .container{
+  .container {
     padding: 63px 124px;
   }
 }

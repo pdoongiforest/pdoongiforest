@@ -1,14 +1,14 @@
-.socialContainer{
+.socialContainer {
   display: flex;
   gap: 1.9rem;
   margin-bottom: 4rem;
 }
 
-.social{
+.social {
   padding: 5px;
 
   border-radius: 15px;
-  border: 1px solid #D4D4D4;
+  border: 1px solid #d4d4d4;
   background: rgb(255, 255, 255);
 
   display: flex;
@@ -16,9 +16,8 @@
   justify-content: center;
 }
 
-.socialLink{
- 
-  img{
+.socialLink {
+  img {
     width: 3rem;
     height: 3rem;
   }

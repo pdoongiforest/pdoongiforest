@@ -1,5 +1,5 @@
-.wrapper{
-  position:relative;
+.wrapper {
+  position: relative;
   display: flex;
   justify-content: center;
   height: 20px;
@@ -12,59 +12,57 @@
   top: 100%;
   right: 0;
   z-index: 99;
-  transform: translate(170px,50%); 
+  transform: translate(170px, 50%);
   display: flex;
   flex-direction: column;
 }
 
-
 .calendarBtn,
-.cancleBtn{
+.cancleBtn {
   cursor: pointer;
   z-index: 999;
   font-size: 16px;
   width: 120px;
   height: 28px;
-    background-color: rgba(185, 148, 112, 0.2);
-    border: 1px solid #b99470;
+  background-color: rgba(185, 148, 112, 0.2);
+  border: 1px solid #b99470;
   border-radius: 4px;
-    font-weight: bold;
-    color: #b99470;
-    transition: 0.3s;
+  font-weight: bold;
+  color: #b99470;
+  transition: 0.3s;
 
-    &:hover{
+  &:hover {
     background-color: rgba(185, 148, 112, 0.4);
-    }
-  
+  }
 }
 
-  .cancleBtn:focus{
-    background-color: rgba(185, 148, 112, 0.4);
-    }
+.cancleBtn:focus {
+  background-color: rgba(185, 148, 112, 0.4);
+}
 
-.edit{
+.edit {
   display: flex;
   align-items: center;
   gap: 15px;
 }
 
-.editBtn{
-     background-color: rgba(185, 148, 112, 0.2);
-    border: 1px solid #b99470;
+.editBtn {
+  background-color: rgba(185, 148, 112, 0.2);
+  border: 1px solid #b99470;
   border-radius: 4px;
-    font-weight: bold;
-    color: #b99470;
-    transition: 0.3s;
+  font-weight: bold;
+  color: #b99470;
+  transition: 0.3s;
   padding: 3px 6px;
 
-    &:hover{
+  &:hover {
     background-color: rgba(185, 148, 112, 0.4);
-    }
+  }
 }
 
 :global(.react-calendar) {
   width: 100%;
-  transform: translate(50%,-50%);
+  transform: translate(50%, -50%);
   padding: 10px;
   max-width: 300px;
   background: white;
@@ -72,94 +70,98 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  border:1px solid #555;
+  border: 1px solid #555;
   border-radius: 10px;
   font-family: sans-serif;
 }
 
-:global(.react-calendar__navigation){
+:global(.react-calendar__navigation) {
   padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-:global(.react-calendar__navigation__prev2-button),
-:global(.react-calendar__navigation__next2-button) {
+:global(
+  .react-calendar__navigation__prev2-button
+),
+:global(
+  .react-calendar__navigation__next2-button
+) {
   display: none;
 }
 
 :global(.react-calendar__navigation__prev-button),
-:global(.react-calendar__navigation__next-button) {
+:global(
+  .react-calendar__navigation__next-button
+) {
   margin: 0 8px;
 }
 
-:global(.react-calendar__navigation__label){
+:global(.react-calendar__navigation__label) {
   font-size: 20px;
   font-weight: 600;
 }
 
-
-:global(.react-calendar__navigation__arrow){
+:global(.react-calendar__navigation__arrow) {
   font-size: 24px;
   padding: 0 5px;
 }
 
-:global(.react-calendar__month-view__weekdays){
+:global(.react-calendar__month-view__weekdays) {
   padding: 5px;
 }
-:global(.react-calendar__month-view__weekdays abbr) {
+:global(
+  .react-calendar__month-view__weekdays abbr
+) {
   text-decoration: none;
 }
 
-:global(.react-calendar__tile){
+:global(.react-calendar__tile) {
   padding: 3px;
-  border:0.1px solid rgba(85, 85, 85, 0.08)
+  border: 0.1px solid rgba(85, 85, 85, 0.08);
 }
 
-:global(.react-calendar__tile--now){
+:global(.react-calendar__tile--now) {
   background-color: #ffc0cb;
 }
 
-:global(.react-calendar__tile.calendar-sunday abbr) {
+:global(
+  .react-calendar__tile.calendar-sunday abbr
+) {
   color: crimson;
-  font-weight: bold; 
+  font-weight: bold;
 }
 
-:global(.react-calendar__tile.calendar-saturday abbr) {
+:global(
+  .react-calendar__tile.calendar-saturday abbr
+) {
   color: royalblue;
   font-weight: bold;
 }
 
 :global(.react-calendar__tile--rangeStart),
-:global(.react-calendar__tile--rangeEnd)
-{
-  background-color:#bbdada;
+:global(.react-calendar__tile--rangeEnd) {
+  background-color: #bbdada;
   border-radius: 4px;
 }
 
-:global(.react-calendar__tile--inRange){
-  background-color:#c9ebeb;
-
+:global(.react-calendar__tile--inRange) {
+  background-color: #c9ebeb;
 }
 
-
 @media screen and (max-width: 1780px) {
-
-  :global(.react-calendar){
-    transform: translate(-55%,-40%);
+  :global(.react-calendar) {
+    transform: translate(-55%, -40%);
   }
 }
 
 @media screen and (max-width: 1065px) {
-  .wrapper{
+  .wrapper {
     justify-content: left;
   }
-  
-  :global(.react-calendar){
-    transform: translate(-75%,-40%);
+
+  :global(.react-calendar) {
+    transform: translate(-75%, -40%);
   }
 }
-
-
-

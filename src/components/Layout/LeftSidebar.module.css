@@ -31,7 +31,7 @@
   padding: 4px;
   transition: 0.3s;
   width: 200px;
-  font-family: "Quicksand", sans-serif;
+  font-family: 'Quicksand', sans-serif;
   cursor: pointer;
 
   .navListText {
@@ -59,7 +59,7 @@
   width: 200px;
   font-weight: 600;
   justify-content: space-between;
-  font-family: "pretendard variable";
+  font-family: 'pretendard variable';
   margin-bottom: 0.5rem;
 
   span {

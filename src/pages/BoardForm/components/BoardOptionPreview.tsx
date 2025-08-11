@@ -1,7 +1,7 @@
-import { useProfileImageContext } from "@/components/context/useProfileImage";
-import S from "./BoardOptionPreview.module.css";
+import { useProfileImageContext } from '@/components/context/useProfileImage';
+import S from './BoardOptionPreview.module.css';
 
-import { useBoardContext } from "@/components/context/useBoardContext";
+import { useBoardContext } from '@/components/context/useBoardContext';
 
 // import { useHashTagContext } from "@/components/context/useHashTag";
 
@@ -14,8 +14,11 @@ function BoardOptionPreview() {
   return (
     <div className={S.boardOptionPreview}>
       <div className={S.previewImage}>
-        {imageUrl !== "" && imageUrl && (
-          <img src={imageUrl} alt="프로필이미지" />
+        {imageUrl !== '' && imageUrl && (
+          <img
+            src={imageUrl}
+            alt="프로필이미지"
+          />
         )}
       </div>
       <div className={S.previewOption}>

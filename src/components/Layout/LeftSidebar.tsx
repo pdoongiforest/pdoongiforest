@@ -1,15 +1,19 @@
-import { Link } from "react-router-dom";
-import S from "./LeftSidebar.module.css";
-import { useState } from "react";
-import UserList from "../UserList";
-import { showInfoAlert } from "@/utils/sweetAlert";
+import { Link } from 'react-router-dom';
+import S from './LeftSidebar.module.css';
+import { useState } from 'react';
+import UserList from '../UserList';
+import { showInfoAlert } from '@/utils/sweetAlert';
 
 function LeftSidebar() {
-  const [CommunityReady, setCommunityReady] = useState(false);
-  const [ContactReady, setContactReady] = useState(false);
-  const handleReady = (e: React.MouseEvent<HTMLLIElement>) => {
+  const [CommunityReady, setCommunityReady] =
+    useState(false);
+  const [ContactReady, setContactReady] =
+    useState(false);
+  const handleReady = (
+    e: React.MouseEvent<HTMLLIElement>
+  ) => {
     e.preventDefault();
-    showInfoAlert("준비중입니다.");
+    showInfoAlert('준비중입니다.');
   };
   return (
     <div className={S.container}>
@@ -17,7 +21,10 @@ function LeftSidebar() {
         <nav>
           <ul className={S.navListWrap}>
             <li className={S.navList}>
-              <Link to="/" className={S.navListText}>
+              <Link
+                to="/"
+                className={S.navListText}
+              >
                 <svg
                   width="25"
                   height="25"
@@ -33,7 +40,10 @@ function LeftSidebar() {
                 <h2>Home</h2>
               </Link>
             </li>
-            <Link to="/study" className={S.navList}>
+            <Link
+              to="/study"
+              className={S.navList}
+            >
               <div className={S.navListText}>
                 <svg
                   width="24"
@@ -62,8 +72,12 @@ function LeftSidebar() {
             </Link>
             <li
               className={S.navList}
-              onMouseEnter={() => setCommunityReady(true)}
-              onMouseLeave={() => setCommunityReady(false)}
+              onMouseEnter={() =>
+                setCommunityReady(true)
+              }
+              onMouseLeave={() =>
+                setCommunityReady(false)
+              }
               onClick={handleReady}
             >
               <div className={S.navListText}>
@@ -110,18 +124,22 @@ function LeftSidebar() {
                   />
                 </svg>
                 <h2
-                  className={`${S.fadeText} ${
-                    CommunityReady ? S.visible : S.hidden
-                  }`}
+                  className={`${S.fadeText} ${CommunityReady ? S.visible : S.hidden}`}
                 >
-                  {CommunityReady ? "In progress" : "Community"}
+                  {CommunityReady
+                    ? 'In progress'
+                    : 'Community'}
                 </h2>
               </div>
             </li>
             <li
               className={S.navList}
-              onMouseEnter={() => setContactReady(true)}
-              onMouseLeave={() => setContactReady(false)}
+              onMouseEnter={() =>
+                setContactReady(true)
+              }
+              onMouseLeave={() =>
+                setContactReady(false)
+              }
               onClick={handleReady}
             >
               <div className={S.navListText}>
@@ -150,11 +168,11 @@ function LeftSidebar() {
                   </defs>
                 </svg>
                 <h2
-                  className={`${S.fadeText} ${
-                    ContactReady ? S.visible : S.hidden
-                  }`}
+                  className={`${S.fadeText} ${ContactReady ? S.visible : S.hidden}`}
                 >
-                  {ContactReady ? "In Progress" : "Contact"}
+                  {ContactReady
+                    ? 'In Progress'
+                    : 'Contact'}
                 </h2>
               </div>
             </li>
@@ -162,7 +180,9 @@ function LeftSidebar() {
         </nav>
 
         <div className={S.recentEnterUserWrap}>
-          <h3 className={S.recentEnterUserTop}>가입한 사용자</h3>
+          <h3 className={S.recentEnterUserTop}>
+            가입한 사용자
+          </h3>
           <UserList />
         </div>
       </div>

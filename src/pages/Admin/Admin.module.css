@@ -1,22 +1,21 @@
-.container{
+.container {
   min-height: 80%;
-  margin: 48px 220px 0 ;
-
+  margin: 48px 220px 0;
 }
 
-.header{
+.header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
-  h2{
+  h2 {
     font-size: 36px;
     font-weight: 600;
     margin-bottom: 4rem;
   }
 }
 
-.backButton{
+.backButton {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -24,10 +23,10 @@
   padding: 10px 15px;
   height: fit-content;
   border-radius: 10px;
-  
+
   img {
     width: 20px;
-    height: 20px;      
+    height: 20px;
   }
 
   p {
@@ -45,7 +44,7 @@
   }
 }
 
-.confirmList{
+.confirmList {
   padding: 0px 3px;
   width: 85vw;
   min-height: 85vh;
@@ -54,14 +53,11 @@
   margin-bottom: 3rem;
   border-radius: 1rem;
 
-
   display: flex;
   flex-direction: row;
-  align-items:start;
-  gap : 3rem;
+  align-items: start;
+  gap: 3rem;
 }
-
-
 
 .userList {
   width: 15%;
@@ -69,20 +65,19 @@
   flex-direction: column;
   gap: 24px;
 
-
-  .userInfoButton{
+  .userInfoButton {
     background-color: #fff;
     padding: 1.3rem 1.5rem;
     border-radius: 1rem;
-    border : 3px solid #fff;
+    border: 3px solid #fff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     display: flex;
     gap: 40px;
     justify-content: center;
     align-items: center;
     transition: 0.3s;
-    
-    .name{
+
+    .name {
       color: #000;
       font-family: Pretendard;
       font-size: 1.2rem;
@@ -90,19 +85,16 @@
       font-weight: 300;
       line-height: normal;
     }
-  }    
-
-  .active{
-    background-color: #BBDADA;
-    border : 3px solid #BBDADA;
   }
-  .userInfoButton:hover{
-    border: 3px solid #BBDADA;
 
+  .active {
+    background-color: #bbdada;
+    border: 3px solid #bbdada;
+  }
+  .userInfoButton:hover {
+    border: 3px solid #bbdada;
   }
 }
-
-
 
 .user {
   width: 85%;
@@ -118,11 +110,11 @@
   }
 }
 
-.user .image{
+.user .image {
   border-radius: 1rem;
 }
 
-.user .buttonGroup{
+.user .buttonGroup {
   display: flex;
   align-items: flex-end;
   gap: 32px;
@@ -140,24 +132,23 @@
     line-height: normal;
   }
 
-  .acceptButton{
-    background: #BBDADA;
+  .acceptButton {
+    background: #bbdada;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 
-    &:hover{
+    &:hover {
       background-color: #95acac;
     }
   }
 
-  .rejectButton{
-    background: #FFC0CB;
+  .rejectButton {
+    background: #ffc0cb;
     box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.25);
     transition: 0.3s;
 
-    &:hover{
+    &:hover {
       background-color: #c7979f;
     }
   }
 }
-

@@ -1,6 +1,6 @@
-.sectionName{
+.sectionName {
   color: #000;
-  font-family: "Pretendard Variable";
+  font-family: 'Pretendard Variable';
   font-size: 1.6rem;
   font-style: normal;
   font-weight: 600;
@@ -9,58 +9,58 @@
   margin-bottom: 1.7rem;
 }
 
-.postContainer{
+.postContainer {
   width: 100%;
   padding: 2.3rem 3.8rem;
   margin-bottom: 4rem;
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   border-radius: 10px;
-  border: 1px solid #D4D4D4;
-  background: #FFF;
+  border: 1px solid #d4d4d4;
+  background: #fff;
 }
 
-.postList{
+.postList {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.post a{
+.post a {
   min-height: 45px;
   padding: 0 1rem;
 
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between; 
+  justify-content: space-between;
   border-bottom: 1px solid #868686;
   gap: 3rem;
 
-  &:last-child{
+  &:last-child {
     margin-bottom: 1rem;
   }
-  
-  .postTitle{
+
+  .postTitle {
     display: block;
     width: 35%;
 
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
-  
+
     color: #000;
-    font-family: "Pretendard Variable";
+    font-family: 'Pretendard Variable';
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
     line-height: normal;
   }
-  
-  .postContent{
+
+  .postContent {
     display: block;
     width: 65%;
 
@@ -68,8 +68,8 @@
     overflow: hidden;
     white-space: nowrap;
 
-    color: rgba(85, 85, 85, 0.60);
-    font-family: "Pretendard Variable";
+    color: rgba(85, 85, 85, 0.6);
+    font-family: 'Pretendard Variable';
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -77,7 +77,7 @@
   }
 }
 
-.nothing{
+.nothing {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -85,25 +85,25 @@
   justify-content: center;
   animation: fadeIn 0.7s ease-in-out;
   margin-bottom: 4rem;
-  
-  img{
+
+  img {
     width: 8rem;
     margin-bottom: 1rem;
   }
-  p{
+  p {
     text-align: center;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.6;
-    
-    padding: 0.5rem 1.5rem;
-    border: 2px solid #A6B37D; 
-    border-radius: 32px;
-    
-    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4); 
-    color: #A6B37D; 
-    background-color: #F0F8E0; 
 
+    padding: 0.5rem 1.5rem;
+    border: 2px solid #a6b37d;
+    border-radius: 32px;
+
+    box-shadow: 0 4px 12px
+      rgba(166, 179, 125, 0.4);
+    color: #a6b37d;
+    background-color: #f0f8e0;
   }
 }
 
@@ -118,40 +118,36 @@
   }
 }
 
-
 @media screen and (max-width: 1024px) {
-  .postContainer{
+  .postContainer {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
-  
-  .postList>.post{
-    .postTitle{
+
+  .postList > .post {
+    .postTitle {
       width: 100%;
     }
-  
+
     .postContent {
       display: none;
     }
   }
-
-
 }
 
 @media screen and (max-width: 768px) {
-
-  .postContainer{
+  .postContainer {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
-  
-  .postList>.post{
-    .postTitle{
+
+  .postList > .post {
+    .postTitle {
       width: 35%;
     }
-  
+
     .postContent {
-      display:block;
+      display: block;
       width: 65%;
     }
   }

@@ -1,1 +1,1 @@
-declare module "@yaireo/tagify/react";
+declare module '@yaireo/tagify/react';

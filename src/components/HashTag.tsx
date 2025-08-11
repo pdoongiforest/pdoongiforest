@@ -1,8 +1,8 @@
-import Tags from "@yaireo/tagify/react"; // React-wrapper file
-import "@yaireo/tagify/dist/tagify.css"; // Tagify CSS
-import S from "./HashTag.module.css";
-import { useCallback, useRef } from "react";
-import type { ChangeEventData } from "@yaireo/tagify";
+import Tags from '@yaireo/tagify/react'; // React-wrapper file
+import '@yaireo/tagify/dist/tagify.css'; // Tagify CSS
+import S from './HashTag.module.css';
+import { useCallback, useRef } from 'react';
+import type { ChangeEventData } from '@yaireo/tagify';
 
 interface Props {
   taglist?: string[] | null;
@@ -14,10 +14,17 @@ interface BaseTagData {
   value: string;
 }
 
-function HashTag({ taglist, defaultList, editable, callBack }: Props) {
+function HashTag({
+  taglist,
+  defaultList,
+  editable,
+  callBack,
+}: Props) {
   const hasgTag = useRef(null);
   const onChange = useCallback(
-    (e: CustomEvent<ChangeEventData<BaseTagData>>) => {
+    (
+      e: CustomEvent<ChangeEventData<BaseTagData>>
+    ) => {
       if (!callBack) return;
       callBack(e.detail.tagify.getCleanValue());
     },

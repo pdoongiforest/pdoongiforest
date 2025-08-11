@@ -1,4 +1,4 @@
-.container{
+.container {
   margin-top: 20px;
   width: 100%;
   display: flex;
@@ -7,12 +7,11 @@
   margin-bottom: 1rem;
 }
 
-.inputProfile{
+.inputProfile {
   display: flex;
 }
 
-
-.replyProfile{
+.replyProfile {
   display: flex;
 }
 .profileWrapper {
@@ -28,7 +27,7 @@
 }
 
 .contentBox {
-width: 88%;
+  width: 88%;
   display: flex;
   justify-content: flex-end;
   flex-direction: column;
@@ -43,20 +42,19 @@ width: 88%;
   font-size: 0.9rem;
   color: #222;
 
-  .time{
+  .time {
     font-size: 12px;
-    color:rgba(85, 85, 85, 0.5)
+    color: rgba(85, 85, 85, 0.5);
   }
 
-  .edit{
+  .edit {
     display: flex;
     gap: 4px;
 
-    >button{
+    > button {
       font-size: 12px;
-color:rgba(85, 85, 85, 0.5)
+      color: rgba(85, 85, 85, 0.5);
     }
-    
   }
 }
 
@@ -78,13 +76,13 @@ color:rgba(85, 85, 85, 0.5)
   color: #888;
 }
 
-.likeBtn{
+.likeBtn {
   display: flex;
   gap: 4px;
   align-items: center;
 }
 
-.recomment{
+.recomment {
   display: flex;
   gap: 4px;
   align-items: center;

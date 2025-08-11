@@ -1,7 +1,10 @@
-export function commentTime(dateString: string): string {
-  const now = new Date(Date.now())
+export function commentTime(
+  dateString: string
+): string {
+  const now = new Date(Date.now());
   const created = new Date(dateString);
-  const diff = (now.getTime() - created.getTime()) / 1000; 
+  const diff =
+    (now.getTime() - created.getTime()) / 1000;
 
   const minutes = Math.floor(diff / 60);
   const hours = Math.floor(diff / 3600);
@@ -11,7 +14,7 @@ export function commentTime(dateString: string): string {
 
   switch (true) {
     case diff < 60:
-      return "방금 전";
+      return '방금 전';
     case diff < 3600:
       return `${minutes}분 전`;
     case diff < 86400:
@@ -23,7 +26,4 @@ export function commentTime(dateString: string): string {
     default:
       return `${years}년 전`;
   }
-
-
 }
-

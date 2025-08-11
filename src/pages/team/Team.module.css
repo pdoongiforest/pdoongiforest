@@ -20,7 +20,7 @@
   background-color: #fff;
   padding: 30px 32px;
   border-radius: 8px;
-  gap:10px;
+  gap: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -109,27 +109,24 @@
     border-radius: 32px;
     font-weight: 600;
     line-height: 1.6;
-    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4);
+    box-shadow: 0 4px 12px
+      rgba(166, 179, 125, 0.4);
     font-size: 1.25rem;
   }
 }
 
-
-
 @media screen and (max-width: 1280px) {
-
-  .container{
-    width:50vw; 
+  .container {
+    width: 50vw;
   }
 }
 
 @media screen and (max-width: 980px) {
-
-  .container{
-    width:40vw; 
+  .container {
+    width: 40vw;
   }
 
-  .teaminfoWrap{
+  .teaminfoWrap {
     flex-direction: column;
     align-items: center;
 
@@ -137,53 +134,46 @@
       margin-bottom: 0.5rem;
     }
 
-    h3{
+    h3 {
       margin-bottom: 1rem;
     }
-
   }
 
-  .teamWrap{
+  .teamWrap {
     flex-direction: column;
 
-    .teaminfo{
+    .teaminfo {
       text-align: center;
     }
 
-    .deadline{
+    .deadline {
       align-items: center;
     }
   }
-
-
 }
 
-
-
 @media screen and (max-width: 768px) {
-
-  .container{
-    width:80vw; 
+  .container {
+    width: 80vw;
   }
 
-  .teaminfoWrap{
+  .teaminfoWrap {
     flex-direction: row;
 
     p {
       margin-bottom: 0;
     }
   }
-  
-  .teamWrap{
+
+  .teamWrap {
     flex-direction: row;
 
-    .teaminfo{
+    .teaminfo {
       text-align: left;
     }
 
-    .deadline{
+    .deadline {
       align-items: center;
     }
   }
-
 }

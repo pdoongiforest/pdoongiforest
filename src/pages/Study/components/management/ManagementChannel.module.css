@@ -1,18 +1,17 @@
-.mangementChannelContainer{
+.mangementChannelContainer {
   display: flex;
   flex-direction: column;
   margin-right: 220px;
 }
 
-.contentHeader{
+.contentHeader {
   font-family: Pretendard;
   font-size: 28px;
   font-style: normal;
   font-weight: 600;
   line-height: normal;
-  
 }
-.controlSection{
+.controlSection {
   font-family: Pretendard;
   font-size: 28px;
   font-style: normal;
@@ -24,58 +23,58 @@
 .projectDetailForm,
 .activeSection,
 .deleteSection,
-.activeGroup  {
+.activeGroup {
   margin-left: 0.5rem;
   margin-top: 36px;
 }
 
-.projectDetailForm{
+.projectDetailForm {
   display: flex;
   flex-direction: column;
   gap: 52px;
 }
 
-.category{
+.category {
   display: flex;
   justify-content: space-between;
   gap: 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid #e0e0e0;
 
-  .categoryRadio{
-    display:flex;
-     gap: 36px;
+  .categoryRadio {
+    display: flex;
+    gap: 36px;
 
-     .study,.project{
+    .study,
+    .project {
       display: flex;
       align-items: center;
       gap: 8px;
-     }
-
-  input{
-    width: 16px;
-    height: 16px;
-  }
-    label{  
-    font-family: Pretendard;
-    font-size: 16px;
-    font-weight: 400;  
     }
-  }  
+
+    input {
+      width: 16px;
+      height: 16px;
+    }
+    label {
+      font-family: Pretendard;
+      font-size: 16px;
+      font-weight: 400;
+    }
+  }
 }
 .deadline {
   display: flex;
   justify-content: space-between;
-  gap: 8px;  
+  gap: 8px;
   padding-bottom: 24px;
-  border-bottom: 1px solid #e0e0e0; 
-  
-  .calendarBox{
+  border-bottom: 1px solid #e0e0e0;
+
+  .calendarBox {
     display: flex;
     align-items: center;
 
-
-    .calendarBtn{
+    .calendarBtn {
       cursor: pointer;
       z-index: 999;
       font-size: 16px;
@@ -87,28 +86,32 @@
       color: #b99470;
       transition: 0.3s;
 
-      &:hover{
-        background-color: rgba(185, 148, 112, 0.4);
+      &:hover {
+        background-color: rgba(
+          185,
+          148,
+          112,
+          0.4
+        );
       }
-  
     }
-        
-    .disableBtn{
-      pointer-events: none;     
-      opacity: 0.5;            
+
+    .disableBtn {
+      pointer-events: none;
+      opacity: 0.5;
       font-size: 16px;
-      background-color: #ccc;   
+      background-color: #ccc;
       border-radius: 4px;
       border: 1px solid #666;
-      color: #666;                
+      color: #666;
       width: 120px;
       height: 28px;
-      cursor: not-allowed;  
+      cursor: not-allowed;
     }
   }
 }
 
-.sectionHeader{
+.sectionHeader {
   font-family: Pretendard;
   font-size: 22px;
   font-style: normal;
@@ -117,34 +120,34 @@
   align-self: flex-start;
 }
 
-.categoryWrap{
-  display:flex;
+.categoryWrap {
+  display: flex;
   align-items: center;
-  gap:100px;
+  gap: 100px;
 }
 
-
-.time{
-  display:flex;
+.time {
+  display: flex;
   justify-content: space-between;
   gap: 24px;
-    padding-bottom: 24px;
+  padding-bottom: 24px;
   border-bottom: 1px solid #e0e0e0;
 
-    input {
+  input {
     width: 257.6px;
     height: 39.253px;
 
     border: none;
     border-radius: 8px;
-    background: #FFF;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
+    background: #fff;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+      inset;
 
     padding-left: 1rem;
   }
 
-  input::placeholder{
-    color: rgba(85, 85, 85, 0.50);
+  input::placeholder {
+    color: rgba(85, 85, 85, 0.5);
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
@@ -153,155 +156,151 @@
   }
 }
 
-.contributors{
+.contributors {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap:24px;
+  gap: 24px;
   padding-bottom: 24px;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.countButton{
+.countButton {
   display: flex;
   align-items: center;
   gap: 48px;
   background-color: #fff;
   border-radius: 30%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  
-  div{
+
+  div {
     color: #222;
     font-family: Pretendard;
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal; 
+    line-height: normal;
   }
 
   button {
     width: 36px;
     height: 36px;
-    background:#999;
+    background: #999;
     font-size: 24px;
-    color:#fff;
+    color: #fff;
   }
 
-  .upButton{
+  .upButton {
     background-color: #999;
     border-top-left-radius: 30%;
     border-bottom-left-radius: 30%;
     transition: 0.3s;
 
-    &:hover{
-    background-color: #888;
+    &:hover {
+      background-color: #888;
     }
 
-    &:active{
-    background-color: #777;
+    &:active {
+      background-color: #777;
     }
   }
 
-  .downButton{
-     background-color:#999;
+  .downButton {
+    background-color: #999;
     border-top-right-radius: 30%;
     border-bottom-right-radius: 30%;
-    transition:0.3s;
+    transition: 0.3s;
 
-    &:hover{
-     background-color:#888;
+    &:hover {
+      background-color: #888;
     }
 
-    &:active{
-    background-color: #777;
+    &:active {
+      background-color: #777;
     }
   }
-
 }
 
-
-.location{
+.location {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.chooseLocation{
+.chooseLocation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
 
-.locationRadio{
+.locationRadio {
   display: flex;
   flex-direction: row;
   gap: 24px;
   margin-bottom: 26px;
 
-
-  .online{
+  .online {
     display: flex;
     align-items: center;
     gap: 8px;
   }
 
-  .offline{
+  .offline {
     display: flex;
     align-items: center;
     gap: 8px;
   }
-  div{
+  div {
     display: flex;
     justify-content: flex-end;
     gap: 36px;
   }
 
-  input{
+  input {
     width: 16px;
     height: 16px;
   }
 
-  label{
+  label {
     color: #222;
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;  
+    line-height: normal;
   }
 }
 
-.locationWrapper{
+.locationWrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
 
-.locationButton{
+.locationButton {
   width: 300px;
   height: 40px;
   margin-bottom: 1rem;
   border-radius: 8px;
-  background: #FFF;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
+  background: #fff;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
+    inset;
 
   text-align: start;
   padding-left: 1rem;
 }
 
-
-.locationButton .address{
-  color:#222;
+.locationButton .address {
+  color: #222;
   font-family: Pretendard;
   font-weight: 600;
   text-align: left;
   padding-right: 24px;
-
 }
 
 .location p {
-  color: rgba(85, 85, 85, 0.50);
+  color: rgba(85, 85, 85, 0.5);
   font-family: Pretendard;
   font-size: 16px;
   font-style: normal;
@@ -309,17 +308,17 @@
   line-height: normal;
 }
 
-.postWrapper{
+.postWrapper {
   width: 100%;
   max-width: 555px;
 }
 
-.saveButton{
+.saveButton {
   width: 102.322px;
   height: 42.5px;
   margin-bottom: 24px;
 
-  align-self:flex-end;
+  align-self: flex-end;
   color: #222;
   font-family: Pretendard;
   font-size: 24px;
@@ -328,127 +327,123 @@
   line-height: normal;
 
   border-radius: 8px;
-  background: #BBDADA;
+  background: #bbdada;
   box-shadow: 2px 4px 4px 0 rgba(0, 0, 0, 0.25);
 
-  &:hover{
-   background-color: #a5cfcf;
+  &:hover {
+    background-color: #a5cfcf;
   }
 
-  &:active{
-    background-color: #89B8B8;
+  &:active {
+    background-color: #89b8b8;
   }
 }
 
-.hr{
+.hr {
   margin-top: 80px;
   width: 100%;
-  border : 1px solid rgba(231, 231, 231, 0.973);
+  border: 1px solid rgba(231, 231, 231, 0.973);
 }
 
-
-.activeGroup{
-  display:flex;
+.activeGroup {
+  display: flex;
   justify-content: space-between;
   align-items: center;
   padding-bottom: 24px;
   border-bottom: 1px solid #e0e0e0;
 }
 
-.isActive{
+.isActive {
   display: flex;
   flex-direction: row;
   gap: 36px;
 
-  div{
+  div {
     display: flex;
     flex-direction: row;
     gap: 10px;
   }
 
-  input{
+  input {
     width: 16px;
     height: 16px;
   }
 
-  label{
+  label {
     color: #222;
     font-family: Pretendard;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: normal;  
+    line-height: normal;
   }
 }
 
-
-.deleteSection{
+.deleteSection {
   display: flex;
   align-items: center;
   justify-content: space-between;
 
-  .sectionHeader{
+  .sectionHeader {
     display: inline-block;
     line-height: 1;
     transform: translateY(20px);
   }
 
-  .deleteButton{
-  width: 140px;
-  height: 40px;
-  border-radius: 8px;
-  border: 1px solid #Ff6666;
-  background: #FFF;
+  .deleteButton {
+    width: 140px;
+    height: 40px;
+    border-radius: 8px;
+    border: 1px solid #ff6666;
+    background: #fff;
 
-  color: #Ff6666;
-  font-size: 16px;
-  font-weight: 400;
-  transition: 0.3s;
+    color: #ff6666;
+    font-size: 16px;
+    font-weight: 400;
+    transition: 0.3s;
 
-  &:hover{
-    background-color:#E05555;
-    color:#fff;
+    &:hover {
+      background-color: #e05555;
+      color: #fff;
+    }
+
+    &:active {
+      background-color: #c94a4a;
+      color: #fff;
+    }
   }
-
-  &:active{
-    background-color: #C94A4A;
-    color:#fff;
-  }
-  }
-
 }
 
 @media screen and (max-width: 1780px) {
-  .mangementChannelContainer{
+  .mangementChannelContainer {
     width: 100%;
   }
-
 }
 
 @media screen and (max-width: 1180px) {
-  .mangementChannelContainer{
+  .mangementChannelContainer {
     width: 100%;
   }
 
-  .postWrapper{
+  .postWrapper {
     max-width: 400px;
   }
 }
 
 @media screen and (max-width: 1065px) {
-  section{
+  section {
     flex-direction: column;
   }
 
-  .chooseLocation{
+  .chooseLocation {
     flex-direction: column;
 
-    h2{
+    h2 {
       padding-bottom: 24px;
     }
   }
 
-  .locationRadio{
+  .locationRadio {
     flex-direction: row;
     align-items: center;
   }
@@ -457,40 +452,40 @@
     align-items: start;
   }
 
-  .countButton{
+  .countButton {
     justify-content: left;
   }
 
-  .locationWrapper{
+  .locationWrapper {
     align-items: start;
     margin-bottom: 1rem;
   }
 
-  .locationButton{
+  .locationButton {
     margin-bottom: 1rem;
   }
 
-  .activeGroup{
+  .activeGroup {
     align-items: start;
-    .sectionHeader{
+    .sectionHeader {
       margin-bottom: 2rem;
     }
   }
 
   .deleteSection {
     align-items: start;
-    .sectionHeader{
+    .sectionHeader {
       margin-bottom: 2.5rem;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
-  .locationButton{
+  .locationButton {
     margin-bottom: 1rem;
   }
 
-  .postWrapper{
+  .postWrapper {
     max-width: 555px;
   }
 }

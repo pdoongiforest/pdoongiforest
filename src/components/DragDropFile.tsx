@@ -1,4 +1,4 @@
-import S from "./DragDropFile.module.css";
+import S from './DragDropFile.module.css';
 
 interface Props {
   onChangeFile: (file: File) => void;
@@ -6,13 +6,17 @@ interface Props {
 
 function DragDropFile({ onChangeFile }: Props) {
   // 드래그 중인 요소가 목표 지점에 위치할때
-  const handleDragOver = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleDragOver = (
+    e: React.DragEvent<HTMLLabelElement>
+  ) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
   // 드래그 중인 요소가 목표 지점에서 드롭될때
-  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
+  const handleDrop = (
+    e: React.DragEvent<HTMLLabelElement>
+  ) => {
     e.preventDefault();
     e.stopPropagation();
 
@@ -25,13 +29,17 @@ function DragDropFile({ onChangeFile }: Props) {
   };
 
   // Drag & Drop이 아닌 클릭 이벤트로 업로드되는 기능도 추가
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files ? e.target.files[0] : null;
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const file = e.target.files
+      ? e.target.files[0]
+      : null;
     if (!file) return;
     onChangeFile(file);
 
     // input 요소의 값 초기화
-    e.target.value = "";
+    e.target.value = '';
   };
   return (
     <div className={S.uploadContainer}>
@@ -44,12 +52,18 @@ function DragDropFile({ onChangeFile }: Props) {
         >
           {/* 프로필로 등록할 이미지를 올려주세요 */}
           <div className={S.img}>
-            <img src="/images/imageUpload.png" alt="" />
+            <img
+              src="/images/imageUpload.png"
+              alt=""
+            />
           </div>
           <div className={S.description}>
-            <span className={S.title}>Drag & drop images</span>
+            <span className={S.title}>
+              Drag & drop images
+            </span>
             <span className={S.contents}>
-              or Click to upload from your computer
+              or Click to upload from your
+              computer
             </span>
           </div>
         </label>

@@ -23,14 +23,15 @@
   gap: 12px;
 
   p {
-    color: #A6B37D;
-    background-color: #F0F8E0;
-    border: 2px solid #A6B37D;
+    color: #a6b37d;
+    background-color: #f0f8e0;
+    border: 2px solid #a6b37d;
     padding: 16px 24px;
     border-radius: 32px;
     font-weight: 600;
     line-height: 1.6;
-    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4);
+    box-shadow: 0 4px 12px
+      rgba(166, 179, 125, 0.4);
     font-size: 1.25rem;
   }
 
@@ -52,12 +53,12 @@
 }
 
 @media screen and (min-width: 1200px) and (max-width: 1375px) {
-  .container{
+  .container {
     max-width: 750px;
   }
 }
 @media screen and (min-width: 1025px) and (max-width: 1199px) {
-  .container{
+  .container {
     max-width: 750px;
   }
   .cardGrid {
@@ -85,15 +86,14 @@
   }
 }
 
-
-.spinnerWrapper{
+.spinnerWrapper {
   display: flex;
   justify-content: center;
   align-items: center;
-  height:180px;
+  height: 180px;
 }
 
-.spinner{
+.spinner {
   animation: spinner-rotate 2.5s linear infinite;
   transform-origin: center;
 }

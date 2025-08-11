@@ -1,26 +1,34 @@
-import type { Tables } from "@/supabase/database.types";
-import S from "./ManagementMembers.module.css";
-import { useEffect, useState } from "react";
-import supabase from "@/supabase/supabase";
-import { Link, useParams } from "react-router-dom";
-import { useToast } from "@/utils/useToast";
-import { useAuth } from "@/auth/AuthProvider";
+import type { Tables } from '@/supabase/database.types';
+import S from './ManagementMembers.module.css';
+import { useEffect, useState } from 'react';
+import supabase from '@/supabase/supabase';
+import {
+  Link,
+  useParams,
+} from 'react-router-dom';
+import { useToast } from '@/utils/useToast';
+import { useAuth } from '@/auth/AuthProvider';
 
-type User = Tables<"user_profile"> & {
-  user_base: Tables<"user_base">;
+type User = Tables<'user_profile'> & {
+  user_base: Tables<'user_base'>;
 };
 
 function ManagementMembers() {
   const { success } = useToast();
   const { profileId } = useAuth();
   const { id } = useParams();
-  const [members, setMembers] = useState<User[]>([]);
+  const [members, setMembers] = useState<User[]>(
+    []
+  );
 
   useEffect(() => {
     const fetchData = async () => {
-      const { data: profileData, error: profileError } = await supabase
-        .from("approve_member")
-        .select("profile_id")
+      const {
+        data: profileData,
+        error: profileError,
+      } = await supabase
+        .from('approve_member')
+        .select('profile_id')
         .match({
           board_id: id,
           status: 1,
@@ -31,10 +39,13 @@ function ManagementMembers() {
         .map((member) => member.profile_id)
         .filter((id) => id && id !== profileId);
 
-      const { data: memberData, error: memberError } = await supabase
-        .from("user_profile")
-        .select("*,user_base(*)")
-        .in("profile_id", memberId);
+      const {
+        data: memberData,
+        error: memberError,
+      } = await supabase
+        .from('user_profile')
+        .select('*,user_base(*)')
+        .in('profile_id', memberId);
       if (!memberData) return;
       if (memberError) console.error();
       setMembers(memberData);
@@ -42,10 +53,12 @@ function ManagementMembers() {
     fetchData();
   }, [id, profileId]);
 
-  const handleOut = async (profile_id: string) => {
-    success("멤버를 내보내셨습니다");
+  const handleOut = async (
+    profile_id: string
+  ) => {
+    success('멤버를 내보내셨습니다');
     const { error } = await supabase
-      .from("approve_member")
+      .from('approve_member')
       .update({
         status: 2,
       })
@@ -56,37 +69,61 @@ function ManagementMembers() {
     if (error) console.error();
 
     const { error: memberError } = await supabase
-      .from("board_member")
+      .from('board_member')
       .delete()
       .match({
         profile_id,
         board_id: id,
       });
     if (memberError) console.error(error);
-    setMembers((prev) => prev.filter((user) => user.profile_id !== profile_id));
+    setMembers((prev) =>
+      prev.filter(
+        (user) => user.profile_id !== profile_id
+      )
+    );
   };
 
   return (
-    <main className={S.managementMembersContainer}>
+    <main
+      className={S.managementMembersContainer}
+    >
       {members &&
-        members.map(({ profile_id, profile_images, user_base }) => (
-          <div className={S.card} key={profile_id}>
-            <Link to={`/mypage/${profile_id}`}>
-              <img src={profile_images} alt="프로필" />
-              <div className={S.information}>
-                <p className={S.name}>{user_base.name}</p>
-                <p className={S.role}>{user_base.role}</p>
-              </div>
-            </Link>
-            <button
-              className={S.reject}
-              type="submit"
-              onClick={() => handleOut(profile_id)}
+        members.map(
+          ({
+            profile_id,
+            profile_images,
+            user_base,
+          }) => (
+            <div
+              className={S.card}
+              key={profile_id}
             >
-              내보내기
-            </button>
-          </div>
-        ))}
+              <Link to={`/mypage/${profile_id}`}>
+                <img
+                  src={profile_images}
+                  alt="프로필"
+                />
+                <div className={S.information}>
+                  <p className={S.name}>
+                    {user_base.name}
+                  </p>
+                  <p className={S.role}>
+                    {user_base.role}
+                  </p>
+                </div>
+              </Link>
+              <button
+                className={S.reject}
+                type="submit"
+                onClick={() =>
+                  handleOut(profile_id)
+                }
+              >
+                내보내기
+              </button>
+            </div>
+          )
+        )}
     </main>
   );
 }

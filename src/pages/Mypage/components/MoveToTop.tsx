@@ -1,43 +1,53 @@
-import gsap from "gsap";
-import { useRef } from "react"
-import S from './MoveToTop.module.css'
-
-
-
+import gsap from 'gsap';
+import { useRef } from 'react';
+import S from './MoveToTop.module.css';
 
 function MypageMoveToTop() {
-  const topButtonRef = useRef<HTMLButtonElement>(null);
+  const topButtonRef =
+    useRef<HTMLButtonElement>(null);
 
   const handleMoveToTop = () => {
-    window.scrollTo({top:0, left:0, behavior:'smooth'})
-  }
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  };
 
   const handleEnterUpButton = () => {
-    gsap.to(topButtonRef.current,{
+    gsap.to(topButtonRef.current, {
       rotate: 360,
       duration: 1,
-      ease:'power2.out',
+      ease: 'power2.out',
       onComplete: () => {
-        gsap.set(topButtonRef.current, {rotate:0})
-      }
-    })
-  }
+        gsap.set(topButtonRef.current, {
+          rotate: 0,
+        });
+      },
+    });
+  };
 
   return (
     <>
       <h2 hidden>top 버튼</h2>
       <section>
-        <button 
-        className={S.upButton}
-        ref={topButtonRef} 
-        type="button" 
-        onClick={handleMoveToTop} 
-        onMouseEnter={handleEnterUpButton}>
-          <img src="/images/topButton.png" alt="move to top" />
-          <span className={S.tooltip}>최상단 이동</span>
+        <button
+          className={S.upButton}
+          ref={topButtonRef}
+          type="button"
+          onClick={handleMoveToTop}
+          onMouseEnter={handleEnterUpButton}
+        >
+          <img
+            src="/images/topButton.png"
+            alt="move to top"
+          />
+          <span className={S.tooltip}>
+            최상단 이동
+          </span>
         </button>
       </section>
     </>
-  )
+  );
 }
-export default MypageMoveToTop
+export default MypageMoveToTop;
