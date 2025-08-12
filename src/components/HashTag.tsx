@@ -14,22 +14,12 @@ interface BaseTagData {
   value: string;
 }
 
-function HashTag({
-  taglist,
-  defaultList,
-  editable,
-  callBack,
-}: Props) {
+function HashTag({ taglist, defaultList, editable, callBack }: Props) {
   const hasgTag = useRef(null);
-  const onChange = useCallback(
-    (
-      e: CustomEvent<ChangeEventData<BaseTagData>>
-    ) => {
-      if (!callBack) return;
-      callBack(e.detail.tagify.getCleanValue());
-    },
-    []
-  );
+  const onChange = useCallback((e: CustomEvent<ChangeEventData<BaseTagData>>) => {
+    if (!callBack) return;
+    callBack(e.detail.tagify.getCleanValue());
+  }, []);
 
   return (
     <>

@@ -1,18 +1,11 @@
 import { useAuth } from '@/auth/AuthProvider';
-import {
-  createContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from 'react';
+import { createContext, useEffect, useState, type ReactNode } from 'react';
 
 interface IsMineContextType {
   isMine: boolean;
 }
 
-const IsMineContext = createContext<
-  IsMineContextType | undefined
->(undefined);
+const IsMineContext = createContext<IsMineContextType | undefined>(undefined);
 
 export function IsMineProvider({
   children,
@@ -30,11 +23,7 @@ export function IsMineProvider({
     }
   }, [profileId, writerProfileId]);
 
-  return (
-    <IsMineContext.Provider value={{ isMine }}>
-      {children}
-    </IsMineContext.Provider>
-  );
+  return <IsMineContext.Provider value={{ isMine }}>{children}</IsMineContext.Provider>;
 }
 
 export default IsMineContext;

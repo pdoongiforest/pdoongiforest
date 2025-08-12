@@ -1,11 +1,7 @@
 import { createPortal } from 'react-dom';
 import S from './PeerReviewPopup.module.css';
 import type { User } from '@/pages/Mypage/Mypage';
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import gsap from 'gsap';
 
@@ -14,29 +10,21 @@ interface Props {
   onClose: () => void;
 }
 
-function PeerReviewPopup({
-  user,
-  onClose,
-}: Props) {
-  const [averageScore, setAverageScore] =
-    useState(0);
-  const container = document.getElementById(
-    'standard-container'
-  );
+function PeerReviewPopup({ user, onClose }: Props) {
+  const [averageScore, setAverageScore] = useState(0);
+  const container = document.getElementById('standard-container');
   const popupRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchPeer = async () => {
-      const { count, data, error } =
-        await supabase
-          .from('peer_review')
-          .select('review_score', {
-            count: 'exact',
-          })
-          .match({
-            profile_id:
-              user.profile[0].profile_id,
-          });
+      const { count, data, error } = await supabase
+        .from('peer_review')
+        .select('review_score', {
+          count: 'exact',
+        })
+        .match({
+          profile_id: user.profile[0].profile_id,
+        });
 
       if (error) {
         console.error('피어리뷰 불러오기 실패');
@@ -49,9 +37,7 @@ function PeerReviewPopup({
       });
 
       const average = count ? total / count : 0;
-      const percent = Math.round(
-        (average / 5) * 100
-      ); // 온도계용 퍼센트
+      const percent = Math.round((average / 5) * 100); // 온도계용 퍼센트
       setAverageScore(percent);
     };
 
@@ -91,24 +77,14 @@ function PeerReviewPopup({
         </div>
         <div className={S.middle}>
           <div className={S.image}>
-            <img
-              src={
-                user.profile[0]?.profile_images
-              }
-            />
+            <img src={user.profile[0]?.profile_images} />
           </div>
           <div className={S.details}>
-            <span>
-              {user.nickname || '프둥이'},{' '}
-            </span>
-            <span>
-              {user.profile[0]?.age || '0'}
-            </span>
+            <span>{user.nickname || '프둥이'}, </span>
+            <span>{user.profile[0]?.age || '0'}</span>
           </div>
           <div className={S.role}>
-            <span>
-              {user.role || '프론트엔드'}
-            </span>
+            <span>{user.role || '프론트엔드'}</span>
           </div>
         </div>
         <div className={S.score}>
@@ -117,15 +93,12 @@ function PeerReviewPopup({
               className={S.thermoFill}
               style={{
                 height: `${averageScore}%`,
-                backgroundColor:
-                  getColor(averageScore),
+                backgroundColor: getColor(averageScore),
               }}
             ></div>
           </div>
           <div className={S.scoreText}>
-            <span>
-              {(averageScore / 20).toFixed(1)}°
-            </span>
+            <span>{(averageScore / 20).toFixed(1)}°</span>
             <span>피어온도</span>
           </div>
         </div>

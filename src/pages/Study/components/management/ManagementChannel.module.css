@@ -87,12 +87,7 @@
       transition: 0.3s;
 
       &:hover {
-        background-color: rgba(
-          185,
-          148,
-          112,
-          0.4
-        );
+        background-color: rgba(185, 148, 112, 0.4);
       }
     }
 
@@ -140,8 +135,7 @@
     border: none;
     border-radius: 8px;
     background: #fff;
-    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
-      inset;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
 
     padding-left: 1rem;
   }
@@ -284,8 +278,7 @@
   margin-bottom: 1rem;
   border-radius: 8px;
   background: #fff;
-  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25)
-    inset;
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25) inset;
 
   text-align: start;
   padding-left: 1rem;

@@ -5,17 +5,11 @@ interface Props {
   setSearch: (value: string) => void;
 }
 
-function BannerSection({
-  search,
-  setSearch,
-}: Props) {
+function BannerSection({ search, setSearch }: Props) {
   return (
     <section className={S.container}>
       <div className={S.bannerImage}>
-        <img
-          src="images/banner2.png"
-          alt="모여봐요 프둥이숲"
-        />
+        <img src="images/banner2.png" alt="모여봐요 프둥이숲" />
       </div>
       <div className={S.searchWrapper}>
         <svg
@@ -32,9 +26,7 @@ function BannerSection({
           type="text"
           placeholder="관심 스터디를 검색해보세요!"
           value={search}
-          onChange={(e) =>
-            setSearch(e.target.value)
-          }
+          onChange={(e) => setSearch(e.target.value)}
           className={S.searchInput}
         />
       </div>

@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useState,
-  startTransition,
-} from 'react';
+import { useEffect, useState, startTransition } from 'react';
 import type { Tables } from '../../supabase/database.types';
 import supabase from '../../supabase/supabase';
 import S from './MainStudyCard.module.css';
@@ -21,17 +17,10 @@ interface Props {
 }
 
 function MainStudyCard({ search }: Props) {
-  const [cards, setCards] = useState<
-    BoardWithTag[]
-  >([]);
-  const [displayCards, setDisplayCards] =
-    useState<BoardWithTag[]>([]);
-  const [
-    initialDisplayCards,
-    setInitialDisplayCards,
-  ] = useState<BoardWithTag[]>([]);
-  const [isLoading, setIsLoading] =
-    useState(true);
+  const [cards, setCards] = useState<BoardWithTag[]>([]);
+  const [displayCards, setDisplayCards] = useState<BoardWithTag[]>([]);
+  const [initialDisplayCards, setInitialDisplayCards] = useState<BoardWithTag[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -43,9 +32,7 @@ function MainStudyCard({ search }: Props) {
         .eq('active', true);
 
       if (data) {
-        const shuffled = [...data]
-          .sort(() => Math.random() - 0.5)
-          .slice(0, 6);
+        const shuffled = [...data].sort(() => Math.random() - 0.5).slice(0, 6);
 
         startTransition(() => {
           setCards(data);
@@ -53,10 +40,7 @@ function MainStudyCard({ search }: Props) {
           setDisplayCards(shuffled);
         });
       } else {
-        console.error(
-          '게시글 불러오기 실패',
-          error?.message
-        );
+        console.error('게시글 불러오기 실패', error?.message);
       }
 
       setIsLoading(false);
@@ -76,32 +60,19 @@ function MainStudyCard({ search }: Props) {
 
       const filtered = cards.filter((card) => {
         const matchesBoards =
-          (card.title ?? '')
-            .toLowerCase()
-            .includes(lower) ||
-          (card.contents ?? '')
-            .toLowerCase()
-            .includes(lower) ||
-          (card.address ?? '')
-            .toLowerCase()
-            .includes(lower) ||
-          (card.board_cls ?? '')
-            .toLowerCase()
-            .includes(lower);
+          (card.title ?? '').toLowerCase().includes(lower) ||
+          (card.contents ?? '').toLowerCase().includes(lower) ||
+          (card.address ?? '').toLowerCase().includes(lower) ||
+          (card.board_cls ?? '').toLowerCase().includes(lower);
 
         const matchesTags =
-          card.board_tag?.some((tag) =>
-            (tag.hash_tag ?? '')
-              .toLowerCase()
-              .includes(lower)
-          ) ?? false;
+          card.board_tag?.some((tag) => (tag.hash_tag ?? '').toLowerCase().includes(lower)) ??
+          false;
 
         return matchesBoards || matchesTags;
       });
 
-      const shuffled = [...filtered]
-        .sort(() => Math.random() - 0.5)
-        .slice(0, 6);
+      const shuffled = [...filtered].sort(() => Math.random() - 0.5).slice(0, 6);
       setDisplayCards(shuffled);
     }, 300);
 
@@ -162,18 +133,12 @@ function MainStudyCard({ search }: Props) {
             <br />
             🍃🍃🍃
           </p>
-          <img
-            src="/images/서치이미지.png"
-            alt="검색 결과 없음"
-          />
+          <img src="/images/서치이미지.png" alt="검색 결과 없음" />
         </div>
       ) : (
         <div className={S.cardGrid}>
           {displayCards.map((card) => (
-            <Card
-              key={card.board_id}
-              card={card}
-            />
+            <Card key={card.board_id} card={card} />
           ))}
         </div>
       )}
