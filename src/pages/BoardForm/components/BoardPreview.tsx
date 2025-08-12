@@ -15,10 +15,7 @@ function BoardPreview() {
   return (
     <div className={S.boardPreview}>
       <BoardOptionPreview />
-      <MarkDownConvert
-        markdown={markdown}
-        addClass={S.boardMarkDown}
-      />
+      <MarkDownConvert markdown={markdown} addClass={S.boardMarkDown} />
     </div>
   );
 }

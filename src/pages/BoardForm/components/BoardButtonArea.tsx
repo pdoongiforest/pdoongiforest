@@ -23,9 +23,7 @@ function BoardButtonArea() {
   const { setPostData } = useBoardContext();
   const { error: errorPop } = useToast();
 
-  const handleMarkdownMenu = (
-    icons: MarkdownOption
-  ) => {
+  const handleMarkdownMenu = (icons: MarkdownOption) => {
     setPostData((prev) => {
       return {
         ...prev,
@@ -48,21 +46,16 @@ function BoardButtonArea() {
       throw new Error(error.message);
     }
 
-    const { data: publicUrlData } =
-      supabase.storage
-        .from('boardimage')
-        .getPublicUrl(
-          `markdownImage/${fileName}`
-        );
+    const { data: publicUrlData } = supabase.storage
+      .from('boardimage')
+      .getPublicUrl(`markdownImage/${fileName}`);
 
     const imageUrl = publicUrlData.publicUrl;
 
     setPostData((prev) => {
       return {
         ...prev,
-        contents:
-          prev.contents +
-          `\n![${file.name}](${imageUrl})`,
+        contents: prev.contents + `\n![${file.name}](${imageUrl})`,
       };
     });
   };
@@ -81,10 +74,7 @@ function BoardButtonArea() {
                     handleMarkdownMenu(icons);
                   }}
                 >
-                  <img
-                    src={src}
-                    alt="마크다운 삽입버튼"
-                  />
+                  <img src={src} alt="마크다운 삽입버튼" />
                 </a>
               ) : (
                 <label htmlFor="markdownPicture">
@@ -93,18 +83,13 @@ function BoardButtonArea() {
                     id="markdownPicture"
                     hidden
                     onChange={(e) => {
-                      const target =
-                        e.target as HTMLInputElement;
+                      const target = e.target as HTMLInputElement;
                       if (!target.files) return;
-                      const file =
-                        target.files[0];
+                      const file = target.files[0];
                       handleChange(file);
                     }}
                   />
-                  <img
-                    src={src}
-                    alt="마크다운 삽입버튼"
-                  />
+                  <img src={src} alt="마크다운 삽입버튼" />
                 </label>
               )}
             </li>

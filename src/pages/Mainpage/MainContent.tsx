@@ -1,8 +1,4 @@
-import {
-  useState,
-  useEffect,
-  useRef,
-} from 'react';
+import { useState, useEffect, useRef } from 'react';
 import BannerSection from './BannerSection';
 import NewsSection from './NewsSection';
 import MainStudyCard from './MainStudyCard';
@@ -11,8 +7,7 @@ import { debounce } from '@/utils/debounce';
 
 function MainContent() {
   const [search, setSearch] = useState('');
-  const [debouncedSearch, setDebouncedSearch] =
-    useState('');
+  const [debouncedSearch, setDebouncedSearch] = useState('');
 
   const debouncedSetSearch = useRef(
     debounce((value: string) => {
@@ -27,10 +22,7 @@ function MainContent() {
   return (
     <section className={S.mainContent}>
       <div className={S.bannerSection}>
-        <BannerSection
-          search={search}
-          setSearch={setSearch}
-        />
+        <BannerSection search={search} setSearch={setSearch} />
       </div>
 
       <div className={S.mainStudyCard}>

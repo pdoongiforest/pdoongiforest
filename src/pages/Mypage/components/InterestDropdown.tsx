@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import S from './InterestDropdown.module.css';
 import back from '/icons/back.svg';
 import interestData from '@/components/data/interestData.json';
@@ -19,14 +15,10 @@ interface Props {
   plusClicked: boolean;
   setPlusClicked: (value: boolean) => void;
   userInterest: { profile_id: string } | null;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
   user: User | null;
   interestArray: Interest[] | null;
-  setInterestArray: React.Dispatch<
-    React.SetStateAction<Interest[] | null>
-  >;
+  setInterestArray: React.Dispatch<React.SetStateAction<Interest[] | null>>;
 }
 
 type Interest = Tables<'user_interest'>;
@@ -40,26 +32,18 @@ function InterestDropdown({
   setInterestArray,
 }: Props) {
   const [isTyping, setIsTyping] = useState(false);
-  const [filteredInterest, setFilteredInterest] =
-    useState<string[]>([]);
-  const [fontSize, setFontSize] =
-    useState<string>('');
+  const [filteredInterest, setFilteredInterest] = useState<string[]>([]);
+  const [fontSize, setFontSize] = useState<string>('');
 
-  const ulRef = useRef<HTMLUListElement | null>(
-    null
-  );
-  const inputRef =
-    useRef<HTMLInputElement | null>(null);
+  const ulRef = useRef<HTMLUListElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
   const { error } = useToast();
 
   useEffect(() => {
     const fetchInterest = async () => {
       if (!userInterest?.profile_id) return;
-      const result = await compareUserId(
-        userInterest.profile_id,
-        'user_interest'
-      );
+      const result = await compareUserId(userInterest.profile_id, 'user_interest');
       setInterestArray(result || []);
     };
 
@@ -83,18 +67,13 @@ function InterestDropdown({
   const filterInterest = (value: string) => {
     if (value === '') setIsTyping(false);
 
-    const result = interestData.filter(
-      (interest) =>
-        interest
-          .toLowerCase()
-          .includes(value.toLowerCase().trim())
+    const result = interestData.filter((interest) =>
+      interest.toLowerCase().includes(value.toLowerCase().trim())
     );
     return result;
   };
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value.trim();
     console.log(value.length);
     if (value.length > 15) {
@@ -110,9 +89,7 @@ function InterestDropdown({
     setFilteredInterest(filterInterest(value));
   };
 
-  const handleFilteredInterest = (
-    e: React.MouseEvent<HTMLLIElement>
-  ) => {
+  const handleFilteredInterest = (e: React.MouseEvent<HTMLLIElement>) => {
     const text = e.currentTarget.textContent;
     if (text && inputRef.current) {
       inputRef.current.value = text;
@@ -140,20 +117,14 @@ function InterestDropdown({
 
     const currentInterests = interestArray ?? [];
 
-    const lowerInterest = currentInterests.map(
-      (i) => i.interest.toLowerCase()
-    );
-    if (
-      lowerInterest.includes(value.toLowerCase())
-    ) {
+    const lowerInterest = currentInterests.map((i) => i.interest.toLowerCase());
+    if (lowerInterest.includes(value.toLowerCase())) {
       error('관심사 중복!');
       return;
     }
 
     if (currentInterests.length >= 5) {
-      error(
-        '관심사는 최대 5개까지 추가할 수 있어요!'
-      );
+      error('관심사는 최대 5개까지 추가할 수 있어요!');
       return;
     }
 
@@ -162,33 +133,27 @@ function InterestDropdown({
       return;
     }
 
-    const { data, error: insertError } =
-      await supabase
-        .from('user_interest')
-        .insert([
-          {
-            profile_id,
-            interest: value,
-          },
-        ])
-        .select()
-        .single();
+    const { data, error: insertError } = await supabase
+      .from('user_interest')
+      .insert([
+        {
+          profile_id,
+          interest: value,
+        },
+      ])
+      .select()
+      .single();
 
     if (insertError) {
       error('추가 실패');
       return;
     }
 
-    setInterestArray((prev) =>
-      prev ? [...prev, data] : [data]
-    );
+    setInterestArray((prev) => (prev ? [...prev, data] : [data]));
     setUserData((prev) => {
       if (!prev) return prev;
 
-      const newInterest = [
-        ...(prev.profile[0].interest || []),
-        data,
-      ];
+      const newInterest = [...(prev.profile[0].interest || []), data];
       return {
         ...prev,
         profile: [
@@ -202,9 +167,7 @@ function InterestDropdown({
 
     toast.info('관심사가 추가되었습니다.', {
       onClose() {
-        navigate(
-          `/mypage/${userInterest?.profile_id}`
-        );
+        navigate(`/mypage/${userInterest?.profile_id}`);
       },
       autoClose: 1500,
     });
@@ -229,43 +192,24 @@ function InterestDropdown({
           type="text"
           className={S.interestInput}
           onChange={handleInputChange}
-          style={
-            fontSize ? { fontSize } : undefined
-          }
+          style={fontSize ? { fontSize } : undefined}
         />
-        <div
-          className={S.interestBackSave}
-          id="btnBox"
-        >
-          <button
-            className={S.interestBackBtn}
-            onClick={() => setPlusClicked(false)}
-          >
+        <div className={S.interestBackSave} id="btnBox">
+          <button className={S.interestBackBtn} onClick={() => setPlusClicked(false)}>
             <img src={back} />
           </button>
-          <button
-            type="button"
-            className={S.interestSaveBtn}
-            onClick={handleInterestSave}
-          >
+          <button type="button" className={S.interestSaveBtn} onClick={handleInterestSave}>
             저장
           </button>
         </div>
         {isTyping && (
           <div className={S.dropdown}>
             <ul ref={ulRef}>
-              {filteredInterest.map(
-                (item, index) => (
-                  <li
-                    key={index}
-                    onClick={
-                      handleFilteredInterest
-                    }
-                  >
-                    {item}
-                  </li>
-                )
-              )}
+              {filteredInterest.map((item, index) => (
+                <li key={index} onClick={handleFilteredInterest}>
+                  {item}
+                </li>
+              ))}
             </ul>
           </div>
         )}

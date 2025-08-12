@@ -8,23 +8,14 @@ import ProfileEdit from './components/ProfileEdit';
 interface Props {
   user: User | null;
   editMode: boolean;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
-function MypageProfile({
-  user,
-  editMode,
-  setUserData,
-}: Props) {
-  const [showDropdown, setShowDropdown] =
-    useState(false);
-  const [showProfileDrop, setShowProfileDrop] =
-    useState(false);
+function MypageProfile({ user, editMode, setUserData }: Props) {
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showProfileDrop, setShowProfileDrop] = useState(false);
   const [prevImage, setPrevImage] = useState('');
-  const [prevProfileImage, setPrevProfileImage] =
-    useState('');
+  const [prevProfileImage, setPrevProfileImage] = useState('');
 
   if (!user || !user.profile) {
     return <p>프로필 정보가 없습니다.</p>;
@@ -40,9 +31,7 @@ function MypageProfile({
 
   const handleEditProfile = () => {
     setShowProfileDrop(true);
-    setPrevProfileImage(
-      profileData.profile_images
-    );
+    setPrevProfileImage(profileData.profile_images);
   };
 
   return (
@@ -51,17 +40,8 @@ function MypageProfile({
         <div className={S.mypageBg}>
           {editMode ? (
             <>
-              <img
-                src={
-                  profileData.background_images
-                }
-                className={E.edit_mypageBg}
-              />
-              <button
-                type="button"
-                className={E.edit_mypageBgBtn}
-                onClick={handleEditBackground}
-              >
+              <img src={profileData.background_images} className={E.edit_mypageBg} />
+              <button type="button" className={E.edit_mypageBgBtn} onClick={handleEditBackground}>
                 <img src="/icons/edit_pencil.svg" />
               </button>
               {showDropdown && (
@@ -69,9 +49,7 @@ function MypageProfile({
                   prevImage={prevImage}
                   setPrevImage={setPrevImage}
                   showDropdown={showDropdown}
-                  setShowDropdown={
-                    setShowDropdown
-                  }
+                  setShowDropdown={setShowDropdown}
                   profileData={profileData}
                   setUserData={setUserData}
                 />
@@ -88,40 +66,22 @@ function MypageProfile({
         <div className={S.mypageProfile}>
           {editMode ? (
             <>
-              <button
-                type="button"
-                onClick={handleEditProfile}
-                className={E.editProfileBtn}
-              >
-                <img
-                  src={profileData.profile_images}
-                  className={E.editProfileImg}
-                />
+              <button type="button" onClick={handleEditProfile} className={E.editProfileBtn}>
+                <img src={profileData.profile_images} className={E.editProfileImg} />
               </button>
               {showProfileDrop && (
                 <ProfileEdit
-                  prevProfileImage={
-                    prevProfileImage
-                  }
-                  setPrevProfileImage={
-                    setPrevProfileImage
-                  }
-                  setShowProfileDrop={
-                    setShowProfileDrop
-                  }
+                  prevProfileImage={prevProfileImage}
+                  setPrevProfileImage={setPrevProfileImage}
+                  setShowProfileDrop={setShowProfileDrop}
                   profileData={profileData}
                   setUserData={setUserData}
-                  showProfileDrop={
-                    showProfileDrop
-                  }
+                  showProfileDrop={showProfileDrop}
                 />
               )}
             </>
           ) : (
-            <img
-              src={profileData.profile_images}
-              className={S.mypageProfileImg}
-            />
+            <img src={profileData.profile_images} className={S.mypageProfileImg} />
           )}
         </div>
       </div>

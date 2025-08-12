@@ -1,11 +1,7 @@
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import { useToast } from '@/utils/useToast';
-import {
-  useEffect,
-  useState,
-  createContext,
-} from 'react';
+import { useEffect, useState, createContext } from 'react';
 
 type Notification = Tables<'notification'>;
 
@@ -21,16 +17,12 @@ export function NotificationProvider({
   children: React.ReactNode;
   profileId: string | null;
 }) {
-  const [alarms, setAlarms] = useState<
-    Notification[]
-  >([]);
+  const [alarms, setAlarms] = useState<Notification[]>([]);
   const { success } = useToast();
   useEffect(() => {
     if (!profileId) return;
 
-    let channel: ReturnType<
-      typeof supabase.channel
-    > | null = null;
+    let channel: ReturnType<typeof supabase.channel> | null = null;
 
     const fetchAndSubscribe = async () => {
       const { data } = await supabase
@@ -50,17 +42,9 @@ export function NotificationProvider({
             filter: `user_profile_id=eq.${profileId}`,
           },
           (payload) => {
-            if (
-              payload.new.user_profile_id !==
-              profileId
-            )
-              return;
-            const newAlarm =
-              payload.new as Notification;
-            setAlarms((prev) => [
-              ...prev,
-              newAlarm,
-            ]);
+            if (payload.new.user_profile_id !== profileId) return;
+            const newAlarm = payload.new as Notification;
+            setAlarms((prev) => [...prev, newAlarm]);
             success(`${newAlarm.content}`);
           }
         )
@@ -77,19 +61,12 @@ export function NotificationProvider({
   }, [profileId]);
 
   const deleteAlarm = async (id: string) => {
-    setAlarms((prev) =>
-      prev.filter((a) => a.id !== id)
-    );
-    await supabase
-      .from('notification')
-      .delete()
-      .eq('id', id);
+    setAlarms((prev) => prev.filter((a) => a.id !== id));
+    await supabase.from('notification').delete().eq('id', id);
   };
 
   return (
-    <NotificationContext.Provider
-      value={{ alarms, deleteAlarm }}
-    >
+    <NotificationContext.Provider value={{ alarms, deleteAlarm }}>
       {children}
     </NotificationContext.Provider>
   );

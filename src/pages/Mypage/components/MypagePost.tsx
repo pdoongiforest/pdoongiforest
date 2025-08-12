@@ -12,24 +12,14 @@ interface Props {
 }
 
 function MypagePost({ profileId }: Props) {
-  const [posts, setPosts] = useState<
-    Post[] | null
-  >(null);
-  const [boards, setBoards] = useState<
-    Board[] | null
-  >(null);
+  const [posts, setPosts] = useState<Post[] | null>(null);
+  const [boards, setBoards] = useState<Board[] | null>(null);
 
   useEffect(() => {
     if (!profileId) return;
     const fetchPosts = async () => {
-      const { data, error } = await supabase
-        .from('board')
-        .select('*')
-        .eq('profile_id', profileId);
-      if (error)
-        return console.error(
-          '포스트 불러오기 실패'
-        );
+      const { data, error } = await supabase.from('board').select('*').eq('profile_id', profileId);
+      if (error) return console.error('포스트 불러오기 실패');
       setPosts(data);
     };
     fetchPosts();
@@ -46,10 +36,7 @@ function MypagePost({ profileId }: Props) {
             .eq('board_id', post.board_id)
             .single();
 
-          if (error)
-            return console.error(
-              '보드 불러오기 실패'
-            );
+          if (error) return console.error('보드 불러오기 실패');
 
           return data;
         })
@@ -69,41 +56,19 @@ function MypagePost({ profileId }: Props) {
         <section className={S.postContainer}>
           <ul className={S.postList}>
             {boards &&
-              boards.map(
-                ({
-                  board_id,
-                  title,
-                  contents,
-                }) => (
-                  <li
-                    key={board_id}
-                    className={S.post}
-                  >
-                    <Link
-                      to={`/channel/${board_id}`}
-                    >
-                      <div
-                        className={S.postTitle}
-                      >
-                        {title}
-                      </div>
-                      <div
-                        className={S.postContent}
-                      >
-                        {contents}
-                      </div>
-                    </Link>
-                  </li>
-                )
-              )}
+              boards.map(({ board_id, title, contents }) => (
+                <li key={board_id} className={S.post}>
+                  <Link to={`/channel/${board_id}`}>
+                    <div className={S.postTitle}>{title}</div>
+                    <div className={S.postContent}>{contents}</div>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </section>
       ) : (
         <div className={S.nothing}>
-          <img
-            src="/images/emptyContents.png"
-            alt="작성한 포스트 없음"
-          />
+          <img src="/images/emptyContents.png" alt="작성한 포스트 없음" />
           <p>
             아직 작성한 포스트가 없습니다
             <br />

@@ -7,18 +7,10 @@ interface Props {
   name: string;
   placeholder: string;
   value: string;
-  onChange: (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-function PasswordInput({
-  id,
-  name,
-  placeholder,
-  value,
-  onChange,
-}: Props) {
+function PasswordInput({ id, name, placeholder, value, onChange }: Props) {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -35,14 +27,8 @@ function PasswordInput({
       <button
         type="button"
         className={S.pwdToggle}
-        onClick={() =>
-          setVisible((prev) => !prev)
-        }
-        aria-label={
-          visible
-            ? '비밀번호 숨기기'
-            : '비밀번호 보기'
-        }
+        onClick={() => setVisible((prev) => !prev)}
+        aria-label={visible ? '비밀번호 숨기기' : '비밀번호 보기'}
       >
         {visible ? (
           <svg

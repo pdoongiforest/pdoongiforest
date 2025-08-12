@@ -352,8 +352,7 @@
 
   &:hover {
     transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 4px 10px
-      rgba(166, 179, 125, 0.2);
+    box-shadow: 0 4px 10px rgba(166, 179, 125, 0.2);
     background-color: #b2b99d;
     border-radius: 50%;
   }
