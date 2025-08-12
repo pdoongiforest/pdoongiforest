@@ -1,9 +1,4 @@
-import {
-  Link,
-  NavLink,
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 import S from './StudyJoinInfomation.module.css';
 import type { Tables } from '@/supabase/database.types';
 import Project from './components/Project';
@@ -25,15 +20,10 @@ function StudyJoinInfomation() {
   const { profileId } = useAuth();
   const { isAdmin } = useAdmin();
   const { id } = useParams();
-  const [card, setCard] =
-    useState<CardProps | null>(null);
-  const [tagList, setTagList] = useState<
-    string[]
-  >([]);
+  const [card, setCard] = useState<CardProps | null>(null);
+  const [tagList, setTagList] = useState<string[]>([]);
   const [isFinish, setIsFinish] = useState(false);
-  const [isMember, setIsMember] = useState<
-    boolean | null
-  >(null);
+  const [isMember, setIsMember] = useState<boolean | null>(null);
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
@@ -47,9 +37,7 @@ function StudyJoinInfomation() {
         .single();
       if (error) {
         navigate('*');
-        throw new Error(
-          '데이터가 들어오지않아요'
-        );
+        throw new Error('데이터가 들어오지않아요');
       }
       setCard(data as CardProps);
     };
@@ -88,10 +76,7 @@ function StudyJoinInfomation() {
     if (!card) return;
     if (card.board_tag) {
       const tagList = card.board_tag
-        .filter(
-          (tag) =>
-            typeof tag.hash_tag === 'string'
-        )
+        .filter((tag) => typeof tag.hash_tag === 'string')
         .map((tag) => tag.hash_tag as string);
       setTagList(tagList);
     }
@@ -99,16 +84,10 @@ function StudyJoinInfomation() {
 
   useEffect(() => {
     const finishProject = async () => {
-      const { data } = await supabase
-        .from('board')
-        .select('deadline')
-        .eq('board_id', id)
-        .single();
+      const { data } = await supabase.from('board').select('deadline').eq('board_id', id).single();
 
       if (!data) return;
-      const deadLine = new Date(
-        data.deadline
-      ).getTime();
+      const deadLine = new Date(data.deadline).getTime();
       if (deadLine <= Date.now()) {
         setIsFinish(true);
       }
@@ -119,13 +98,10 @@ function StudyJoinInfomation() {
   useEffect(() => {
     const fetchSubmit = async () => {
       if (!id || !profileId) return;
-      const { data, error } = await supabase
-        .from('peer_review')
-        .select('review_id')
-        .match({
-          board_id: id,
-          writer_id: profileId,
-        });
+      const { data, error } = await supabase.from('peer_review').select('review_id').match({
+        board_id: id,
+        writer_id: profileId,
+      });
       if (error) console.error(error);
       if (!data) return;
       setIsSubmit(data.length > 0);
@@ -134,42 +110,21 @@ function StudyJoinInfomation() {
   }, [id, profileId]);
 
   if (!card) return;
-  const {
-    images,
-    title,
-    address,
-    member,
-    contents,
-    board_id,
-    board_cls,
-  } = card;
+  const { images, title, address, member, contents, board_id, board_cls } = card;
 
   return (
     <main className={S.container}>
       <div className={S.layout}>
         <div className={S.channelInfoBox}>
-          {images && (
-            <img
-              src={images}
-              alt="스터디 이미지"
-            />
-          )}
+          {images && <img src={images} alt="스터디 이미지" />}
           <div className={S.textInfo}>
             <div className={S.title}>
               <div className={S.titleTop}>
                 <h2>{title}</h2>
                 {isAdmin && (
-                  <NavLink
-                    to={`/write/${board_id}`}
-                  >
-                    <button
-                      type="button"
-                      className={S.setting}
-                    >
-                      <img
-                        src="/icons/edit.svg"
-                        alt=""
-                      />
+                  <NavLink to={`/write/${board_id}`}>
+                    <button type="button" className={S.setting}>
+                      <img src="/icons/edit.svg" alt="" />
                     </button>
                   </NavLink>
                 )}
@@ -236,55 +191,34 @@ function StudyJoinInfomation() {
                   </>
                 )}
               </div>
-              {tagList && (
-                <HashTag
-                  taglist={tagList}
-                  defaultList={tagList}
-                  editable={false}
-                />
-              )}
+              {tagList && <HashTag taglist={tagList} defaultList={tagList} editable={false} />}
             </div>
           </div>
         </div>
-        <MarkDownConvert
-          markdown={contents}
-          addClass={S.contents}
-        />
+        <MarkDownConvert markdown={contents} addClass={S.contents} />
         <section>
           <div className={S.project}>
             <h4>프로젝트안내</h4>
             {isAdmin && (
               <Link to="management">
-                <button
-                  type="button"
-                  className={S.makeProject}
-                >
+                <button type="button" className={S.makeProject}>
                   <span>+</span> 프로젝트 생성
                 </button>
               </Link>
             )}
           </div>
-          <div
-            className={S.projectInfo}
-            style={{ position: 'relative' }}
-          >
+          <div className={S.projectInfo} style={{ position: 'relative' }}>
             <Project />
             {board_cls === '1' && isFinish && (
               <div className={S.overlay}>
                 {isMember ? (
                   isSubmit ? (
-                    <p>
-                      피어리뷰를 제출하셨습니다
-                    </p>
+                    <p>피어리뷰를 제출하셨습니다</p>
                   ) : (
                     <button
                       type="button"
                       className={S.peerReviewBtn}
-                      onClick={() =>
-                        navigate(
-                          `/channel/${id}/peerReview/${id}`
-                        )
-                      }
+                      onClick={() => navigate(`/channel/${id}/peerReview/${id}`)}
                     >
                       피어리뷰 작성하기
                     </button>

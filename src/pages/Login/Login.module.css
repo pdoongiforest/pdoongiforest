@@ -75,8 +75,7 @@
 
     &:focus {
       border-color: rgba(166 179 125);
-      box-shadow: 0 0 0 4px
-        rgba(136, 199, 150, 0.2);
+      box-shadow: 0 0 0 4px rgba(136, 199, 150, 0.2);
     }
 
     &:-webkit-autofill {

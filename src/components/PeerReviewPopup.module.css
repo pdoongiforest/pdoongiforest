@@ -22,8 +22,7 @@
     border-radius: 25px;
     padding: 1rem 1.5rem;
 
-    box-shadow: 0 30px 24px
-      rgba(200, 200, 200, 0.2);
+    box-shadow: 0 30px 24px rgba(200, 200, 200, 0.2);
     backdrop-filter: blur(8px);
   }
 }

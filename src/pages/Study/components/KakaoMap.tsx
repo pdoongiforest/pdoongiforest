@@ -1,9 +1,6 @@
 import { useKakaoReady } from '@/components/context/useKakaoLoaderProvider';
 import { useEffect, useState } from 'react';
-import {
-  Map,
-  MapMarker,
-} from 'react-kakao-maps-sdk';
+import { Map, MapMarker } from 'react-kakao-maps-sdk';
 
 interface Props {
   address: string;
@@ -11,28 +8,18 @@ interface Props {
 
 function KakaoMap({ address }: Props) {
   const isKakaoReady = useKakaoReady();
-  const [lat, setLat] = useState<number | null>(
-    null
-  );
-  const [lng, setLng] = useState<number | null>(
-    null
-  );
+  const [lat, setLat] = useState<number | null>(null);
+  const [lng, setLng] = useState<number | null>(null);
 
   useEffect(() => {
     if (!isKakaoReady) return;
-    const geocoder =
-      new kakao.maps.services.Geocoder();
-    geocoder.addressSearch(
-      address,
-      function (result, status) {
-        if (
-          status === kakao.maps.services.Status.OK
-        ) {
-          setLat(Number(result[0].y));
-          setLng(Number(result[0].x));
-        }
+    const geocoder = new kakao.maps.services.Geocoder();
+    geocoder.addressSearch(address, function (result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        setLat(Number(result[0].y));
+        setLng(Number(result[0].x));
       }
-    );
+    });
   }, [isKakaoReady, address]);
 
   return (

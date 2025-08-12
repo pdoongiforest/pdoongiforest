@@ -12,16 +12,10 @@ interface Props {
   shouldFetch: boolean;
 }
 
-function Calender({
-  isHidden,
-  callBack,
-  shouldFetch,
-}: Props) {
+function Calender({ isHidden, callBack, shouldFetch }: Props) {
   const { id } = useParams();
   const [hidden, setHidden] = useState(isHidden);
-  const [range, setRange] = useState<
-    [Date, Date] | null
-  >(null);
+  const [range, setRange] = useState<[Date, Date] | null>(null);
 
   useEffect(() => {
     if (!shouldFetch) return;
@@ -42,42 +36,39 @@ function Calender({
     fetchData();
   }, [id, shouldFetch]);
 
-  const handleChange: CalendarProps['onChange'] =
-    async (value) => {
-      if (Array.isArray(value)) {
-        const [start, end] = value;
-        if (start && end) {
-          setRange([start, end]);
-          setHidden(true);
-          callBack(
-            `${format(start, 'yyyy-MM-dd')} ~ ${format(end, 'yyyy-MM-dd')}`
-          );
-
-          await supabase
-            .from('board')
-            .update({
-              start_date: start,
-              deadline: end,
-            })
-            .eq('board_id', id);
-        }
-        return;
-      }
-
-      if (value instanceof Date) {
-        setRange([value, value]);
+  const handleChange: CalendarProps['onChange'] = async (value) => {
+    if (Array.isArray(value)) {
+      const [start, end] = value;
+      if (start && end) {
+        setRange([start, end]);
         setHidden(true);
-        callBack(format(value, 'yyyy-MM-dd'));
+        callBack(`${format(start, 'yyyy-MM-dd')} ~ ${format(end, 'yyyy-MM-dd')}`);
 
         await supabase
           .from('board')
           .update({
-            start_date: value,
-            deadline: value,
+            start_date: start,
+            deadline: end,
           })
           .eq('board_id', id);
       }
-    };
+      return;
+    }
+
+    if (value instanceof Date) {
+      setRange([value, value]);
+      setHidden(true);
+      callBack(format(value, 'yyyy-MM-dd'));
+
+      await supabase
+        .from('board')
+        .update({
+          start_date: value,
+          deadline: value,
+        })
+        .eq('board_id', id);
+    }
+  };
 
   const handleClick = () => {
     setHidden(false);
@@ -101,29 +92,17 @@ function Calender({
             <span className={C.dateText}>
               {`${format(range[0], 'yyyy-MM-dd')} ~ ${format(range[1], 'yyyy-MM-dd')}`}
             </span>
-            <button
-              type="button"
-              className={C.editBtn}
-              onClick={handleEdit}
-            >
+            <button type="button" className={C.editBtn} onClick={handleEdit}>
               수정
             </button>
           </div>
         ) : (
-          <button
-            type="button"
-            className={C.calendarBtn}
-            onClick={handleClick}
-          >
+          <button type="button" className={C.calendarBtn} onClick={handleClick}>
             날짜선택
           </button>
         )
       ) : (
-        <button
-          type="button"
-          className={C.cancleBtn}
-          onClick={handleCancel}
-        >
+        <button type="button" className={C.cancleBtn} onClick={handleCancel}>
           선택취소
         </button>
       )}
@@ -134,16 +113,12 @@ function Calender({
             value={range ?? undefined}
             selectRange
             calendarType="gregory"
-            formatDay={(_, date) =>
-              String(date.getDate())
-            }
+            formatDay={(_, date) => String(date.getDate())}
             tileClassName={({ date, view }) => {
               if (view !== 'month') return '';
               const day = date.getDay();
-              if (day === 0)
-                return 'calendar-sunday';
-              if (day === 6)
-                return 'calendar-saturday';
+              if (day === 0) return 'calendar-sunday';
+              if (day === 6) return 'calendar-saturday';
               return '';
             }}
           />

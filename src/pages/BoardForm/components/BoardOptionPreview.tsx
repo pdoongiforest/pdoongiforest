@@ -14,12 +14,7 @@ function BoardOptionPreview() {
   return (
     <div className={S.boardOptionPreview}>
       <div className={S.previewImage}>
-        {imageUrl !== '' && imageUrl && (
-          <img
-            src={imageUrl}
-            alt="프로필이미지"
-          />
-        )}
+        {imageUrl !== '' && imageUrl && <img src={imageUrl} alt="프로필이미지" />}
       </div>
       <div className={S.previewOption}>
         <h1>{postData?.title}</h1>

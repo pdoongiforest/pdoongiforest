@@ -24,16 +24,10 @@ interface Props {
   userId: string;
 }
 function BoardForm({ userId }: Props) {
-  const { postData, setPostData } =
-    useBoardContext();
+  const { postData, setPostData } = useBoardContext();
   const { hashTagData } = useHashTagContext();
-  const { profileImage } =
-    useProfileImageContext();
-  const {
-    success,
-    error: errorPop,
-    info,
-  } = useToast();
+  const { profileImage } = useProfileImageContext();
+  const { success, error: errorPop, info } = useToast();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -48,21 +42,11 @@ function BoardForm({ userId }: Props) {
 
       const save = data?.[0];
       if (save) {
-        if (
-          save.title === '' &&
-          save.contents === ''
-        )
-          return;
+        if (save.title === '' && save.contents === '') return;
         if (!save.title && !save.contents) return;
 
-        const updateTime = format(
-          save.update_at,
-          'yyyy-MM-dd HH:mm:ss'
-        );
-        showConfirmAlert(
-          updateTime,
-          '작성하던 글이 있습니다 불러오시겠습니까?'
-        ).then((result) => {
+        const updateTime = format(save.update_at, 'yyyy-MM-dd HH:mm:ss');
+        showConfirmAlert(updateTime, '작성하던 글이 있습니다 불러오시겠습니까?').then((result) => {
           if (result.isConfirmed) {
             setPostData((prev) => {
               return {
@@ -74,32 +58,20 @@ function BoardForm({ userId }: Props) {
           }
         });
       } else {
-        const { error } = await supabase
-          .from('board_save')
-          .insert({ profile_id: userId })
-          .select();
+        const { error } = await supabase.from('board_save').insert({ profile_id: userId }).select();
         if (error) {
-          throw new Error(
-            '임시저장 데이터를 만드는 중 에러가 발생했습니다.'
-          );
+          throw new Error('임시저장 데이터를 만드는 중 에러가 발생했습니다.');
         }
       }
       if (error) {
-        throw new Error(
-          '임시저장 데이터를 불러오는 중 오류가 발생했습니다.'
-        );
+        throw new Error('임시저장 데이터를 불러오는 중 오류가 발생했습니다.');
       }
     };
     temporarySave();
   }, []);
 
-  const insertBoard = async (
-    insertData: boardData
-  ) => {
-    const { data, error } = await supabase
-      .from('board')
-      .insert(insertData)
-      .select();
+  const insertBoard = async (insertData: boardData) => {
+    const { data, error } = await supabase.from('board').insert(insertData).select();
     if (error) {
       throw new Error('글게시에 실패하였습니다.');
     }
@@ -114,9 +86,7 @@ function BoardForm({ userId }: Props) {
     }
   };
 
-  const insertHashTag = async (
-    board_id: string
-  ) => {
+  const insertHashTag = async (board_id: string) => {
     if (!hashTagData) return;
 
     const hashTag = hashTagData.map((tags) => {
@@ -127,17 +97,13 @@ function BoardForm({ userId }: Props) {
       };
     });
 
-    const { error } = await supabase
-      .from('board_tag')
-      .insert(hashTag);
+    const { error } = await supabase.from('board_tag').insert(hashTag);
     if (error) {
       throw new Error('tag insert 실패.');
     }
   };
 
-  const handleBoardUpload = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleBoardUpload = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     if (!postData || postData?.title === '') {
@@ -157,19 +123,13 @@ function BoardForm({ userId }: Props) {
 
     insertBoard(insertData);
   };
-  const imageUpload = async (
-    board_id: string
-  ) => {
+  const imageUpload = async (board_id: string) => {
     let imageUrl = '';
     if (!profileImage) return;
-    const fileExt = profileImage.name
-      .split('.')
-      .pop(); // 확장자 추출
+    const fileExt = profileImage.name.split('.').pop(); // 확장자 추출
     const fileName = `${Date.now()}${board_id}.${fileExt}`; // 중복 방지를 위한 이름
 
-    const { error } = await supabase.storage
-      .from('boardimage')
-      .upload(fileName, profileImage);
+    const { error } = await supabase.storage.from('boardimage').upload(fileName, profileImage);
 
     if (error) {
       errorPop('이미지 업로드에 실패하였습니다.');
@@ -177,10 +137,7 @@ function BoardForm({ userId }: Props) {
       throw new Error(error.message);
     }
 
-    const { data: publicUrlData } =
-      supabase.storage
-        .from('boardimage')
-        .getPublicUrl(fileName);
+    const { data: publicUrlData } = supabase.storage.from('boardimage').getPublicUrl(fileName);
 
     imageUrl = publicUrlData.publicUrl;
 
@@ -189,15 +146,11 @@ function BoardForm({ userId }: Props) {
       .update({ images: imageUrl })
       .eq('board_id', board_id);
     if (updateError) {
-      throw new Error(
-        '이미지 update 중 오류가 발생하였습니다.'
-      );
+      throw new Error('이미지 update 중 오류가 발생하였습니다.');
     }
   };
 
-  const handleSave = async (
-    e: React.MouseEvent<HTMLButtonElement>
-  ) => {
+  const handleSave = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const { error } = await supabase
       .from('board_save')
@@ -209,40 +162,27 @@ function BoardForm({ userId }: Props) {
       .select();
 
     if (error) {
-      throw new Error(
-        '임시저장중 오류가 발생하였습니다.'
-      );
+      throw new Error('임시저장중 오류가 발생하였습니다.');
     }
     success('저장되었습니다');
     info('이미지와 해시태그는 저장되지 않습니다');
   };
 
   const deleteSaveData = async () => {
-    const { error } = await supabase
-      .from('board_save')
-      .delete()
-      .eq('profile_id', userId);
+    const { error } = await supabase.from('board_save').delete().eq('profile_id', userId);
     if (error) {
-      throw new Error(
-        '임시 저장 데이터 삭제를 실패했습니다.'
-      );
+      throw new Error('임시 저장 데이터 삭제를 실패했습니다.');
     }
   };
-  const insertApproveMember = async (
-    board_id: string
-  ) => {
-    const { error } = await supabase
-      .from('approve_member')
-      .insert({
-        profile_id: userId,
-        status: '1',
-        board_id,
-      });
+  const insertApproveMember = async (board_id: string) => {
+    const { error } = await supabase.from('approve_member').insert({
+      profile_id: userId,
+      status: '1',
+      board_id,
+    });
 
     if (error) {
-      throw new Error(
-        'approve_member insert 중 에러 발생'
-      );
+      throw new Error('approve_member insert 중 에러 발생');
     }
   };
   return (
@@ -252,17 +192,10 @@ function BoardForm({ userId }: Props) {
         <BoardPreview />
       </div>
       <div className={S.boardBottonArea}>
-        <button
-          id={S.boardWrite}
-          type="button"
-          onClick={handleBoardUpload}
-        >
+        <button id={S.boardWrite} type="button" onClick={handleBoardUpload}>
           글 게시
         </button>
-        <button
-          type="button"
-          onClick={handleSave}
-        >
+        <button type="button" onClick={handleSave}>
           임시 저장
         </button>
       </div>

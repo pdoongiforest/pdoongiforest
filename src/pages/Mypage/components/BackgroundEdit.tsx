@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-  type ChangeEvent,
-} from 'react';
+import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import E from '../MypageEdit.module.css';
 import type { Tables } from 'src/supabase/database.types';
 import supabase from '../../../supabase/supabase';
@@ -19,9 +14,7 @@ interface Props {
   setPrevImage: (value: string) => void;
   setShowDropdown: (value: boolean) => void;
   profileData: Tables<'user_profile'>;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
   showDropdown: boolean;
 }
 
@@ -33,17 +26,13 @@ function BackgroundEdit({
   profileData,
   setUserData,
 }: Props) {
-  const [file, setFile] = useState<File | null>(
-    null
-  );
+  const [file, setFile] = useState<File | null>(null);
   // const [showAlert, setShowAlert] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const popupRef = useRef<HTMLDivElement>(null);
 
-  const container = document.getElementById(
-    'standard-container'
-  );
+  const container = document.getElementById('standard-container');
 
   const navigate = useNavigate();
 
@@ -60,10 +49,7 @@ function BackgroundEdit({
           ease: 'power3.out',
         }
       );
-    } else if (
-      !showDropdown &&
-      popupRef.current
-    ) {
+    } else if (!showDropdown && popupRef.current) {
       gsap.to(popupRef.current, {
         opacity: 0,
         y: -10,
@@ -79,14 +65,11 @@ function BackgroundEdit({
     inputRef.current?.click();
   };
 
-  const handleFileChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const coverFiles = e.currentTarget.files;
 
     if (coverFiles && coverFiles.length > 0) {
-      const lastFile =
-        coverFiles[coverFiles.length - 1];
+      const lastFile = coverFiles[coverFiles.length - 1];
       setFile(lastFile);
       setPrevImage(URL.createObjectURL(lastFile));
     } else {
@@ -108,7 +91,7 @@ function BackgroundEdit({
     const { profile_id } = profileData;
 
     const default_image =
-      'https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/e564cf92-7719-43db-9803-100bd6cf23f6-1753344498261.jpg';
+      'https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/e564cf92-7719-43db-9803-100bd6cf23f6-1753344498261.jpg';
     let imageUrl: string | null = null;
 
     if (!file) {
@@ -117,24 +100,17 @@ function BackgroundEdit({
       const fileName = `${profile_id}-${Date.now()}.jpg`;
 
       // supabase storage 에 업로드
-      const { error: uploadError } =
-        await supabase.storage
-          .from('backgroundimages')
-          .upload(
-            `profile-backgrounds/${fileName}`,
-            file
-          );
+      const { error: uploadError } = await supabase.storage
+        .from('backgroundimages')
+        .upload(`profile-backgrounds/${fileName}`, file);
 
       if (uploadError) {
-        console.log(
-          '파일 업로드 실패',
-          uploadError
-        );
+        console.log('파일 업로드 실패', uploadError);
         return;
       }
 
       // 파일 URL 생성
-      imageUrl = `https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/${fileName}`;
+      imageUrl = `https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/${fileName}`;
     }
 
     // 업로드된 이미지 URL을 DB에 저장
@@ -144,10 +120,7 @@ function BackgroundEdit({
       .eq('profile_id', profile_id);
 
     if (bgImageError) {
-      console.error(
-        'DB 업데이트 실패!!',
-        bgImageError
-      );
+      console.error('DB 업데이트 실패!!', bgImageError);
       return;
     }
 
@@ -168,9 +141,7 @@ function BackgroundEdit({
     // alert('성공적으로 업로드가 완료되었습니다~!');
     toast.info('배경이미지가 적용되었습니다.', {
       onClose() {
-        navigate(
-          `/mypage/${profileData.profile_id}`
-        );
+        navigate(`/mypage/${profileData.profile_id}`);
       },
       autoClose: 1500,
     });
@@ -180,17 +151,12 @@ function BackgroundEdit({
   const handleDeleteFile = () => {
     setPrevImage('/images/default_cover.png');
 
-    toast.info(
-      '삭제 후 적용버튼을 꼭 눌러주세요.',
-      {
-        onClose() {
-          navigate(
-            `/mypage/${profileData.profile_id}`
-          );
-        },
-        autoClose: 1500,
-      }
-    );
+    toast.info('삭제 후 적용버튼을 꼭 눌러주세요.', {
+      onClose() {
+        navigate(`/mypage/${profileData.profile_id}`);
+      },
+      autoClose: 1500,
+    });
   };
 
   const handleClosePopup = () => {
@@ -203,10 +169,7 @@ function BackgroundEdit({
 
   return createPortal(
     <div className={E.backgroundEditWrapper}>
-      <div
-        ref={popupRef}
-        className={E.backgroundEditContainer}
-      >
+      <div ref={popupRef} className={E.backgroundEditContainer}>
         <div
           style={{
             display: 'flex',
@@ -216,21 +179,11 @@ function BackgroundEdit({
           }}
         >
           <h1>배경 이미지</h1>
-          <button
-            onClick={handleClosePopup}
-            className={E.bgEditCloseBtn}
-          >
-            <img
-              src={CloseIcon}
-              alt="배경 이미지 수정창 닫기 버튼"
-            />
+          <button onClick={handleClosePopup} className={E.bgEditCloseBtn}>
+            <img src={CloseIcon} alt="배경 이미지 수정창 닫기 버튼" />
           </button>
         </div>
-        {file ? (
-          <img src={URL.createObjectURL(file)} />
-        ) : (
-          <img src={prevImage} />
-        )}
+        {file ? <img src={URL.createObjectURL(file)} /> : <img src={prevImage} />}
         <div
           style={{
             display: 'flex',
@@ -240,10 +193,7 @@ function BackgroundEdit({
             flex: '11',
           }}
         >
-          <button
-            onClick={handleDeleteFile}
-            className={E.bgEditDeleteBtn}
-          >
+          <button onClick={handleDeleteFile} className={E.bgEditDeleteBtn}>
             삭제
           </button>
           <input
@@ -254,12 +204,8 @@ function BackgroundEdit({
             accept="image/*"
             onChange={handleFileChange}
           />
-          <button onClick={handleFileUpload}>
-            업로드
-          </button>
-          <button onClick={handleFileApply}>
-            적용
-          </button>
+          <button onClick={handleFileUpload}>업로드</button>
+          <button onClick={handleFileApply}>적용</button>
         </div>
       </div>
     </div>,

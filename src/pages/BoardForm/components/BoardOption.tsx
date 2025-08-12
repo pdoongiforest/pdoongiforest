@@ -12,12 +12,9 @@ interface BaseTagData {
 }
 
 function BoardOption() {
-  const { setProfileImage, setImageUrl } =
-    useProfileImageContext();
-  const { postData, setPostData } =
-    useBoardContext();
-  const { hashTagData, sethashTagData } =
-    useHashTagContext();
+  const { setProfileImage, setImageUrl } = useProfileImageContext();
+  const { postData, setPostData } = useBoardContext();
+  const { hashTagData, sethashTagData } = useHashTagContext();
   const titleId = useId();
 
   const handleFileSelect = (file: File) => {
@@ -31,15 +28,11 @@ function BoardOption() {
     }
   };
 
-  const handleHashTag = (
-    values: BaseTagData[]
-  ) => {
+  const handleHashTag = (values: BaseTagData[]) => {
     sethashTagData(values);
   };
 
-  const onChangeTitle = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target as HTMLInputElement;
     const title = target.value;
     setPostData((prev) => {
@@ -49,9 +42,7 @@ function BoardOption() {
   return (
     <div className={S.boardOption}>
       <div className={S.boardOptionImage}>
-        <DragDropFile
-          onChangeFile={handleFileSelect}
-        />
+        <DragDropFile onChangeFile={handleFileSelect} />
       </div>
       <div className={S.boardOptionDetail}>
         <div className={S.boardTitle}>
@@ -67,16 +58,10 @@ function BoardOption() {
         {hashTagData && (
           <HashTag
             callBack={handleHashTag}
-            defaultList={[
-              ...hashTagData.map(
-                (tagData) => tagData.value
-              ),
-            ]}
+            defaultList={[...hashTagData.map((tagData) => tagData.value)]}
           />
         )}
-        {!hashTagData && (
-          <HashTag callBack={handleHashTag} />
-        )}
+        {!hashTagData && <HashTag callBack={handleHashTag} />}
         <BoardButtonArea />
       </div>
     </div>

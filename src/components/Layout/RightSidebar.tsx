@@ -1,15 +1,8 @@
 import S from './RghtSidebar.module.css';
 import '../../style/reset.css';
-import {
-  Link,
-  useNavigate,
-} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthProvider';
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import Notification from './Notification';
 
@@ -18,10 +11,7 @@ import Offline from '/icons/offline.svg';
 import Away from '/icons/away.svg';
 import Dnd from '/icons/dnd.svg';
 import gsap from 'gsap';
-import {
-  showConfirmAlert,
-  showInfoAlert,
-} from '@/utils/sweetAlert';
+import { showConfirmAlert, showInfoAlert } from '@/utils/sweetAlert';
 
 type CurrentUser = {
   profileId: string;
@@ -41,51 +31,31 @@ interface Overlay {
 
 export type StatusCode = 0 | 1 | 2 | 3 | null;
 
-function RightSidebar({
-  isOverlay,
-  setIsOverlay,
-  isNotification,
-  setIsNotification,
-}: Overlay) {
-  const { user, isLoading, logout, profileId } =
-    useAuth();
-  const [currentUser, setCurrentUser] =
-    useState<CurrentUser | null>(null);
-  const [status, setStatus] =
-    useState<StatusCode>(null);
-  const [isStatusClicked, setIsStatusClicked] =
-    useState(false);
-  const [isClicked, setIsClicked] =
-    useState(false);
+function RightSidebar({ isOverlay, setIsOverlay, isNotification, setIsNotification }: Overlay) {
+  const { user, isLoading, logout, profileId } = useAuth();
+  const [currentUser, setCurrentUser] = useState<CurrentUser | null>(null);
+  const [status, setStatus] = useState<StatusCode>(null);
+  const [isStatusClicked, setIsStatusClicked] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const popupRef =
-    useRef<HTMLUListElement | null>(null);
-  const [messageReady, setMessageReady] =
-    useState(false);
-  const [scrapReady, setScrapReady] =
-    useState(false);
-  const [membershipReady, setMembershipReady] =
-    useState(false);
+  const popupRef = useRef<HTMLUListElement | null>(null);
+  const [messageReady, setMessageReady] = useState(false);
+  const [scrapReady, setScrapReady] = useState(false);
+  const [membershipReady, setMembershipReady] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const initUser = async () => {
       if (!isLoading && user && profileId) {
-        const {
-          data: nickname,
-          error: nameError,
-        } = await supabase
+        const { data: nickname, error: nameError } = await supabase
           .from('user_base')
           .select('nickname')
           .eq('id', user.id)
           .single();
 
         if (nameError) {
-          console.error(
-            '정보 불러오기 실패:',
-            nameError?.message
-          );
+          console.error('정보 불러오기 실패:', nameError?.message);
           return;
         }
         const { data, error } = await supabase
@@ -94,10 +64,7 @@ function RightSidebar({
           .eq('profile_id', profileId)
           .single();
         if (!data || error) {
-          console.error(
-            '프로필 이미지 불러오기 실패',
-            error.message
-          );
+          console.error('프로필 이미지 불러오기 실패', error.message);
           return;
         }
         // 2. currentUser에 status 포함시켜 초기화
@@ -113,11 +80,7 @@ function RightSidebar({
         // 3. 별도 status 상태도 동기화
         setStatus(0);
         setLoading(true);
-      } else if (
-        !isLoading &&
-        !user &&
-        !profileId
-      ) {
+      } else if (!isLoading && !user && !profileId) {
         setLoading(true);
       }
     };
@@ -160,15 +123,12 @@ function RightSidebar({
           filter: `profile_id=eq.${profileId}`,
         },
         (payload) => {
-          if (
-            payload.new.profile_id === profileId
-          ) {
+          if (payload.new.profile_id === profileId) {
             setCurrentUser((prev) =>
               prev
                 ? {
                     ...prev,
-                    profileImage:
-                      payload.new.profile_images,
+                    profileImage: payload.new.profile_images,
                   }
                 : prev
             );
@@ -201,30 +161,18 @@ function RightSidebar({
     const outSideClick = (e: MouseEvent) => {
       const { target } = e;
 
-      if (
-        isStatusClicked &&
-        popupRef.current &&
-        !popupRef.current.contains(target as Node)
-      ) {
+      if (isStatusClicked && popupRef.current && !popupRef.current.contains(target as Node)) {
         setIsStatusClicked(false);
       }
     };
-    document.addEventListener(
-      'click',
-      outSideClick
-    );
+    document.addEventListener('click', outSideClick);
     return () => {
-      document.removeEventListener(
-        'click',
-        outSideClick
-      );
+      document.removeEventListener('click', outSideClick);
     };
   }, [isStatusClicked, popupRef]);
 
   const handleLogout = async () => {
-    showConfirmAlert(
-      '정말 로그아웃 하시겠습니까?'
-    ).then((result) => {
+    showConfirmAlert('정말 로그아웃 하시겠습니까?').then((result) => {
       if (result.isConfirmed) {
         if (currentUser) {
           supabase
@@ -243,9 +191,7 @@ function RightSidebar({
     });
   };
 
-  const updateStatusInDB = async (
-    newStatus: StatusCode
-  ): Promise<boolean> => {
+  const updateStatusInDB = async (newStatus: StatusCode): Promise<boolean> => {
     if (!currentUser) return false;
 
     const { error } = await supabase
@@ -266,27 +212,17 @@ function RightSidebar({
     setIsOverlay(!isOverlay);
   };
 
-  const handleStatus = async (
-    selected: StatusCode
-  ) => {
-    const newStatus =
-      status === selected ? null : selected;
-    const success =
-      await updateStatusInDB(newStatus);
+  const handleStatus = async (selected: StatusCode) => {
+    const newStatus = status === selected ? null : selected;
+    const success = await updateStatusInDB(newStatus);
     if (success) {
       setStatus(newStatus);
-      setCurrentUser((prev) =>
-        prev
-          ? { ...prev, status: newStatus }
-          : prev
-      );
+      setCurrentUser((prev) => (prev ? { ...prev, status: newStatus } : prev));
     }
     setIsClicked((prev) => !prev);
     console.log(isClicked);
   };
-  const handleReady = (
-    e: React.MouseEvent<HTMLAnchorElement>
-  ) => {
+  const handleReady = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     showInfoAlert('준비중입니다.');
   };
@@ -298,22 +234,14 @@ function RightSidebar({
             {loading &&
               (currentUser ? (
                 <button onClick={handleLogout}>
-                  <p className={S.logout}>
-                    로그아웃
-                  </p>
+                  <p className={S.logout}>로그아웃</p>
                 </button>
               ) : (
                 <>
-                  <Link
-                    to="/login"
-                    className={S.linkButton}
-                  >
+                  <Link to="/login" className={S.linkButton}>
                     로그인
                   </Link>
-                  <Link
-                    to="/register"
-                    className={S.linkButton}
-                  >
+                  <Link to="/register" className={S.linkButton}>
                     회원가입
                   </Link>
                 </>
@@ -324,88 +252,40 @@ function RightSidebar({
               (currentUser ? (
                 <img
                   className={S.profileImage}
-                  src={
-                    currentUser.profileImage ||
-                    '/images/여울.png'
-                  }
+                  src={currentUser.profileImage || '/images/여울.png'}
                   alt="프로필"
                   onClick={(e) => {
                     e.stopPropagation();
                     setTimeout(() => {
-                      setIsStatusClicked(
-                        (prev) => !prev
-                      );
+                      setIsStatusClicked((prev) => !prev);
                     }, 0);
                   }}
                 />
               ) : (
-                <img
-                  className={S.profileImage}
-                  src={'/images/여울.png'}
-                  alt="프로필"
-                />
+                <img className={S.profileImage} src={'/images/여울.png'} alt="프로필" />
               ))}
             {isStatusClicked && (
-              <div
-                className={S.statusPopup}
-                id="popupBox"
-              >
+              <div className={S.statusPopup} id="popupBox">
                 <ul ref={popupRef}>
-                  <li
-                    onClick={() =>
-                      handleStatus(0)
-                    }
-                    className={
-                      status === 0
-                        ? S.clicked
-                        : ''
-                    }
-                  >
+                  <li onClick={() => handleStatus(0)} className={status === 0 ? S.clicked : ''}>
                     <div className={S.online}>
                       <img src={Online} />
                     </div>
                     온라인
                   </li>
-                  <li
-                    onClick={() =>
-                      handleStatus(3)
-                    }
-                    className={
-                      status === 3
-                        ? S.clicked
-                        : ''
-                    }
-                  >
+                  <li onClick={() => handleStatus(3)} className={status === 3 ? S.clicked : ''}>
                     <div className={S.away}>
                       <img src={Away} />
                     </div>
                     자리 비움
                   </li>
-                  <li
-                    onClick={() =>
-                      handleStatus(2)
-                    }
-                    className={
-                      status === 2
-                        ? S.clicked
-                        : ''
-                    }
-                  >
+                  <li onClick={() => handleStatus(2)} className={status === 2 ? S.clicked : ''}>
                     <div className={S.dnd}>
                       <img src={Dnd} />
                     </div>
                     방해 금지
                   </li>
-                  <li
-                    onClick={() =>
-                      handleStatus(1)
-                    }
-                    className={
-                      status === 1
-                        ? S.clicked
-                        : ''
-                    }
-                  >
+                  <li onClick={() => handleStatus(1)} className={status === 1 ? S.clicked : ''}>
                     <div className={S.offline}>
                       <img src={Offline} />
                     </div>
@@ -416,13 +296,8 @@ function RightSidebar({
             )}
             {loading &&
               (currentUser?.profileId ? (
-                currentUser?.profileId ===
-                'a51ad237-ffd7-44c9-b00d-1f6f007f0999' ? (
-                  <Link
-                    to={`/admin`}
-                    className={S.loginBoxGreeting}
-                    title="관리자페이지 이동"
-                  >
+                currentUser?.profileId === 'a51ad237-ffd7-44c9-b00d-1f6f007f0999' ? (
+                  <Link to={`/admin`} className={S.loginBoxGreeting} title="관리자페이지 이동">
                     <p>Admin</p>
                     <h3>관리자 계정</h3>
                   </Link>
@@ -433,22 +308,15 @@ function RightSidebar({
                     title="마이페이지 이동"
                   >
                     <p>Hello</p>
-                    {currentUser.name === '' ||
-                    !currentUser.name ? (
-                      <p
-                        className={S.nonNickName}
-                      >
-                        프둥이
-                      </p>
+                    {currentUser.name === '' || !currentUser.name ? (
+                      <p className={S.nonNickName}>프둥이</p>
                     ) : (
                       <h3>{currentUser.name}</h3>
                     )}
                   </Link>
                 )
               ) : (
-                <div
-                  className={S.loginBoxGreeting}
-                >
+                <div className={S.loginBoxGreeting}>
                   <p>Hello</p>
                   <h3>Guest</h3>
                 </div>
@@ -464,91 +332,46 @@ function RightSidebar({
             {isNotification && (
               <div className={S.notifyPanel}>
                 <h4>Notification</h4>
-                <div
-                  className={S.notificationList}
-                >
+                <div className={S.notificationList}>
                   <Notification />
                 </div>
               </div>
             )}
-            <span
-              className={S.navListText}
-              onClick={handleNotification}
-            >
-              <img
-                src="/icons/notification.svg"
-                className={S.notifiIcon}
-                alt="알림아이콘"
-              />
+            <span className={S.navListText} onClick={handleNotification}>
+              <img src="/icons/notification.svg" className={S.notifiIcon} alt="알림아이콘" />
 
               <h3>Notification</h3>
             </span>
           </li>
           <li
             className={S.navList}
-            onMouseEnter={() =>
-              setMessageReady(true)
-            }
-            onMouseLeave={() =>
-              setMessageReady(false)
-            }
+            onMouseEnter={() => setMessageReady(true)}
+            onMouseLeave={() => setMessageReady(false)}
           >
-            <a
-              href="#"
-              className={S.navListText}
-              onClick={handleReady}
-            >
-              <img
-                src="/icons/message.svg"
-                alt="메세지 아이콘"
-              />
+            <a href="#" className={S.navListText} onClick={handleReady}>
+              <img src="/icons/message.svg" alt="메세지 아이콘" />
 
-              <h3
-                className={`${S.fadeText} ${messageReady ? S.visible : S.hidden}`}
-              >
-                {messageReady
-                  ? 'In Progress'
-                  : 'Message'}
+              <h3 className={`${S.fadeText} ${messageReady ? S.visible : S.hidden}`}>
+                {messageReady ? 'In Progress' : 'Message'}
               </h3>
             </a>
           </li>
           <li className={S.navList}>
-            <Link
-              to="/team"
-              className={S.navListText}
-            >
-              <img
-                src="/icons/team.svg"
-                alt="팀 아이콘"
-              />
+            <Link to="/team" className={S.navListText}>
+              <img src="/icons/team.svg" alt="팀 아이콘" />
 
               <h3>Team</h3>
             </Link>
           </li>
           <li
             className={S.navList}
-            onMouseEnter={() =>
-              setScrapReady(true)
-            }
-            onMouseLeave={() =>
-              setScrapReady(false)
-            }
+            onMouseEnter={() => setScrapReady(true)}
+            onMouseLeave={() => setScrapReady(false)}
           >
-            <a
-              href="#"
-              className={S.navListText}
-              onClick={handleReady}
-            >
-              <img
-                src="/icons/scrapicon.svg"
-                alt="스크랩 아이콘"
-              />
-              <h3
-                className={`${S.fadeText} ${scrapReady ? S.visible : S.hidden}`}
-              >
-                {scrapReady
-                  ? 'In Progress'
-                  : 'Scrap'}
+            <a href="#" className={S.navListText} onClick={handleReady}>
+              <img src="/icons/scrapicon.svg" alt="스크랩 아이콘" />
+              <h3 className={`${S.fadeText} ${scrapReady ? S.visible : S.hidden}`}>
+                {scrapReady ? 'In Progress' : 'Scrap'}
               </h3>
             </a>
           </li>
@@ -560,22 +383,15 @@ function RightSidebar({
           <div className={S.membershipTextBox}>
             <h4>멤버쉽 이용하기</h4>
             <p>
-              월 1만원으로 <br /> 더 많은 기능을
-              이용할 수 있어요
+              월 1만원으로 <br /> 더 많은 기능을 이용할 수 있어요
             </p>
             <button
               type="button"
               className={S.membershipButton}
-              onMouseEnter={() =>
-                setMembershipReady(true)
-              }
-              onMouseLeave={() =>
-                setMembershipReady(false)
-              }
+              onMouseEnter={() => setMembershipReady(true)}
+              onMouseLeave={() => setMembershipReady(false)}
             >
-              {membershipReady
-                ? 'In Progress'
-                : '가입하기'}
+              {membershipReady ? 'In Progress' : '가입하기'}
             </button>
           </div>
         </div>

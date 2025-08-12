@@ -1,10 +1,5 @@
 import supabase from '@/supabase/supabase';
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 interface User {
   id: string;
   email: string;
@@ -17,21 +12,11 @@ interface AuthContextType {
   isLoading: boolean;
   profileId: string | null;
 }
-const AuthContext =
-  createContext<AuthContextType | null>(null);
-export function AuthProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [user, setUser] = useState<User | null>(
-    null
-  );
-  const [isLoading, setIsLoading] =
-    useState(true);
-  const [profileId, setProfileId] = useState<
-    string | null
-  >(null);
+const AuthContext = createContext<AuthContextType | null>(null);
+export function AuthProvider({ children }: { children: React.ReactNode }) {
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [profileId, setProfileId] = useState<string | null>(null);
   useEffect(() => {
     const getSessionUser = async () => {
       const {
@@ -41,34 +26,25 @@ export function AuthProvider({
         setUser({
           id: session.user.id,
           email: session.user.email!,
-          lastSignAt:
-            session.user.last_sign_in_at!,
+          lastSignAt: session.user.last_sign_in_at!,
         });
       }
       setIsLoading(false);
     };
     getSessionUser();
-    const { data: listener } =
-      supabase.auth.onAuthStateChange(
-        async (event, session) => {
-          if (
-            event === 'SIGNED_IN' &&
-            session?.user
-          ) {
-            setUser({
-              id: session.user.id,
-              email: session.user.email!,
-              lastSignAt:
-                session.user.last_sign_in_at!,
-            });
-          } else if (event === 'SIGNED_OUT') {
-            setUser(null);
-          }
-          setIsLoading(false);
-        }
-      );
-    return () =>
-      listener.subscription.unsubscribe();
+    const { data: listener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user) {
+        setUser({
+          id: session.user.id,
+          email: session.user.email!,
+          lastSignAt: session.user.last_sign_in_at!,
+        });
+      } else if (event === 'SIGNED_OUT') {
+        setUser(null);
+      }
+      setIsLoading(false);
+    });
+    return () => listener.subscription.unsubscribe();
   }, []);
   useEffect(() => {
     const getProfile = async () => {
@@ -108,9 +84,6 @@ export function AuthProvider({
 }
 export function useAuth() {
   const ctx = useContext(AuthContext);
-  if (!ctx)
-    throw new Error(
-      '<AuthProvider> 안에서만 사용할 수 있습니다.'
-    );
+  if (!ctx) throw new Error('<AuthProvider> 안에서만 사용할 수 있습니다.');
   return ctx;
 }
