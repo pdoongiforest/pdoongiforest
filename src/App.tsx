@@ -125,7 +125,7 @@ function App() {
             <Route path="/write" element={<BoardWrite />} />
             <Route path="/write/:id" element={<BoardWrite />} />
             <Route path="/mypage/:id" element={<Mypage />} />
-            {profileId === 'a51ad237-ffd7-44c9-b00d-1f6f007f0999' && (
+            {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>
             )}
 

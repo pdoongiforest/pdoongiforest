@@ -296,7 +296,7 @@ function RightSidebar({ isOverlay, setIsOverlay, isNotification, setIsNotificati
             )}
             {loading &&
               (currentUser?.profileId ? (
-                currentUser?.profileId === 'a51ad237-ffd7-44c9-b00d-1f6f007f0999' ? (
+                currentUser?.profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' ? (
                   <Link to={`/admin`} className={S.loginBoxGreeting} title="관리자페이지 이동">
                     <p>Admin</p>
                     <h3>관리자 계정</h3>

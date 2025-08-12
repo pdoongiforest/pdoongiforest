@@ -22,7 +22,7 @@ function UserList() {
 
       if (fetchData) {
         const filterData = fetchData.filter(
-          (user) => user.profile[0].profile_id !== 'a51ad237-ffd7-44c9-b00d-1f6f007f0999'
+          (user) => user.profile[0].profile_id !== '163205a8-db22-4ed6-b44d-2e12718acb17'
         );
         setUserData(filterData);
       }

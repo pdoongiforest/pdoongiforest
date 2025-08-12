@@ -37,7 +37,7 @@ function KakaoMap({ address }: Props) {
           <MapMarker
             position={{ lat, lng }}
             image={{
-              src: 'https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/assets//marker.png',
+              src: 'https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/assets//marker.png',
               size: { width: 70, height: 70 },
             }}
           />
