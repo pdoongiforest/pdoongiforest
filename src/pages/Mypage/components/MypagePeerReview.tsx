@@ -1,17 +1,9 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Tables } from 'src/supabase/database.types';
 import compareUserId from '../../../utils/compareUserId';
 import S from './MypagePeerReview.module.css';
 
-import {
-  Swiper,
-  SwiperSlide,
-  type SwiperClass,
-} from 'swiper/react';
+import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import './MypageSwiper.css';
 import 'swiper/css';
@@ -32,17 +24,11 @@ interface Props {
   profileId: string;
 }
 function MypagePeerReview({ profileId }: Props) {
-  const [rawPeerReviews, setRawPeerReviews] =
-    useState<PeerReview[] | null>(null);
-  const [peerReviews, setPeerReviews] = useState<
-    PeerReviewsList[] | null
-  >(null);
-  const [swiper, setSwiper] =
-    useState<SwiperClass>();
-  const [swiperIndex, setSwiperIndex] =
-    useState<number>(0);
-  const swiperWrappedRef =
-    useRef<HTMLElement | null>(null);
+  const [rawPeerReviews, setRawPeerReviews] = useState<PeerReview[] | null>(null);
+  const [peerReviews, setPeerReviews] = useState<PeerReviewsList[] | null>(null);
+  const [swiper, setSwiper] = useState<SwiperClass>();
+  const [swiperIndex, setSwiperIndex] = useState<number>(0);
+  const swiperWrappedRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     if (!profileId) return;
@@ -51,10 +37,7 @@ function MypagePeerReview({ profileId }: Props) {
         .from('peer_review')
         .select('*')
         .eq('profile_id', profileId);
-      if (error)
-        return console.error(
-          '피어리뷰 불러오기 실패'
-        );
+      if (error) return console.error('피어리뷰 불러오기 실패');
       setRawPeerReviews(data);
     };
     fetchPeerReviews();
@@ -65,18 +48,9 @@ function MypagePeerReview({ profileId }: Props) {
       if (!rawPeerReviews) return;
       const data = await Promise.all(
         rawPeerReviews.map(async (raw) => {
-          const {
-            review_id,
-            writer_id,
-            review_contents,
-            review_score,
-          } = raw;
-          const writerData = await compareUserId(
-            writer_id,
-            'user_profile'
-          );
-          const writerProfileImage =
-            writerData?.[0].profile_images!;
+          const { review_id, writer_id, review_contents, review_score } = raw;
+          const writerData = await compareUserId(writer_id, 'user_profile');
+          const writerProfileImage = writerData?.[0].profile_images!;
           return {
             review_id,
             writer_id,
@@ -93,20 +67,14 @@ function MypagePeerReview({ profileId }: Props) {
 
   const handlePrev = () => {
     if (!swiper || !peerReviews) return;
-    const newIndex =
-      swiperIndex - 1 < 0
-        ? peerReviews?.length - 1
-        : swiperIndex - 1;
+    const newIndex = swiperIndex - 1 < 0 ? peerReviews?.length - 1 : swiperIndex - 1;
     setSwiperIndex(newIndex);
     swiper.slideTo(newIndex);
   };
 
   const handleNext = () => {
     if (!swiper || !peerReviews) return;
-    const newIndex =
-      swiperIndex + 1 > peerReviews.length - 1
-        ? 0
-        : swiperIndex + 1;
+    const newIndex = swiperIndex + 1 > peerReviews.length - 1 ? 0 : swiperIndex + 1;
     setSwiperIndex(newIndex);
     swiper.slideTo(newIndex);
   };
@@ -115,18 +83,9 @@ function MypagePeerReview({ profileId }: Props) {
     <>
       <h2 className={S.sectionName}>피어리뷰</h2>
       {peerReviews && peerReviews.length !== 0 ? (
-        <section
-          className={S.peerReviewContainer}
-        >
-          <button
-            type="button"
-            className={S.prevButton}
-            onClick={handlePrev}
-          >
-            <img
-              src="/icons/arrowLeft.svg"
-              alt="피어리뷰 좌측 네비게이션"
-            />
+        <section className={S.peerReviewContainer}>
+          <button type="button" className={S.prevButton} onClick={handlePrev}>
+            <img src="/icons/arrowLeft.svg" alt="피어리뷰 좌측 네비게이션" />
           </button>
           <Swiper
             className="peerReview"
@@ -147,8 +106,7 @@ function MypagePeerReview({ profileId }: Props) {
               1024: { spaceBetween: 28 },
             }}
             onSwiper={(e) => {
-              swiperWrappedRef.current =
-                e.wrapperEl;
+              swiperWrappedRef.current = e.wrapperEl;
               setSwiper(e);
             }}
             onSlideChange={(swiper) => {
@@ -156,15 +114,7 @@ function MypagePeerReview({ profileId }: Props) {
             }}
           >
             {peerReviews.map(
-              (
-                {
-                  review_id,
-                  writerProfileImage,
-                  review_contents,
-                  review_score,
-                },
-                index
-              ) => (
+              ({ review_id, writerProfileImage, review_contents, review_score }, index) => (
                 <SwiperSlide
                   key={review_id}
                   onClick={() => {
@@ -173,24 +123,16 @@ function MypagePeerReview({ profileId }: Props) {
                   }}
                   className={`peerReview ${swiperIndex === index ? 'peerReviewActive' : ''}`}
                 >
-                  <div
-                    className={S.peerReviewCard}
-                  >
+                  <div className={S.peerReviewCard}>
                     <img
-                      className={
-                        S.peerReviewWriterImg
-                      }
+                      className={S.peerReviewWriterImg}
                       src={writerProfileImage}
                       alt="피어리뷰 작성자 프로필"
                     />
-                    <p className={S.review_score}>
-                      {review_score}
-                    </p>
+                    <p className={S.review_score}>{review_score}</p>
                     <div
                       className={
-                        index === swiperIndex
-                          ? S.peerReviewContent
-                          : S.peerReviewContentPreview
+                        index === swiperIndex ? S.peerReviewContent : S.peerReviewContentPreview
                       }
                     >
                       {review_contents}
@@ -200,27 +142,16 @@ function MypagePeerReview({ profileId }: Props) {
               )
             )}
           </Swiper>
-          <button
-            type="button"
-            className={S.nextButton}
-            onClick={handleNext}
-          >
-            <img
-              src="/icons/arrowRight.svg"
-              alt="피어리뷰 우측 네비게이션"
-            />
+          <button type="button" className={S.nextButton} onClick={handleNext}>
+            <img src="/icons/arrowRight.svg" alt="피어리뷰 우측 네비게이션" />
           </button>
         </section>
       ) : (
         <div className={S.nothing}>
-          <img
-            src="/images/emptyContents.png"
-            alt="피어리뷰 없음"
-          />
+          <img src="/images/emptyContents.png" alt="피어리뷰 없음" />
           <p>
             아직 피어리뷰가 없습니다 <br />
-            스터디, 프로젝트에 가입하여 피어리뷰를
-            작성해보세요!
+            스터디, 프로젝트에 가입하여 피어리뷰를 작성해보세요!
             <br />
           </p>
         </div>

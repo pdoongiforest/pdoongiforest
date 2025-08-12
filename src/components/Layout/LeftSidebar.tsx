@@ -5,13 +5,9 @@ import UserList from '../UserList';
 import { showInfoAlert } from '@/utils/sweetAlert';
 
 function LeftSidebar() {
-  const [CommunityReady, setCommunityReady] =
-    useState(false);
-  const [ContactReady, setContactReady] =
-    useState(false);
-  const handleReady = (
-    e: React.MouseEvent<HTMLLIElement>
-  ) => {
+  const [CommunityReady, setCommunityReady] = useState(false);
+  const [ContactReady, setContactReady] = useState(false);
+  const handleReady = (e: React.MouseEvent<HTMLLIElement>) => {
     e.preventDefault();
     showInfoAlert('준비중입니다.');
   };
@@ -21,10 +17,7 @@ function LeftSidebar() {
         <nav>
           <ul className={S.navListWrap}>
             <li className={S.navList}>
-              <Link
-                to="/"
-                className={S.navListText}
-              >
+              <Link to="/" className={S.navListText}>
                 <svg
                   width="25"
                   height="25"
@@ -40,10 +33,7 @@ function LeftSidebar() {
                 <h2>Home</h2>
               </Link>
             </li>
-            <Link
-              to="/study"
-              className={S.navList}
-            >
+            <Link to="/study" className={S.navList}>
               <div className={S.navListText}>
                 <svg
                   width="24"
@@ -72,12 +62,8 @@ function LeftSidebar() {
             </Link>
             <li
               className={S.navList}
-              onMouseEnter={() =>
-                setCommunityReady(true)
-              }
-              onMouseLeave={() =>
-                setCommunityReady(false)
-              }
+              onMouseEnter={() => setCommunityReady(true)}
+              onMouseLeave={() => setCommunityReady(false)}
               onClick={handleReady}
             >
               <div className={S.navListText}>
@@ -92,20 +78,8 @@ function LeftSidebar() {
                     d="M4.98633 12.787C4.98633 10.4806 6.85605 8.61084 9.16248 8.61084H15.7606C18.067 8.61084 19.9367 10.4806 19.9367 12.787V16.4452H4.98633V12.787Z"
                     fill="#222222"
                   />
-                  <ellipse
-                    cx="12.4619"
-                    cy="4.19904"
-                    rx="3.16598"
-                    ry="3.75373"
-                    fill="#222222"
-                  />
-                  <ellipse
-                    cx="6.36489"
-                    cy="5.12333"
-                    rx="2.38637"
-                    ry="2.82938"
-                    fill="#222222"
-                  />
+                  <ellipse cx="12.4619" cy="4.19904" rx="3.16598" ry="3.75373" fill="#222222" />
+                  <ellipse cx="6.36489" cy="5.12333" rx="2.38637" ry="2.82938" fill="#222222" />
                   <ellipse
                     cx="2.38637"
                     cy="2.82938"
@@ -123,23 +97,15 @@ function LeftSidebar() {
                     fill="#222222"
                   />
                 </svg>
-                <h2
-                  className={`${S.fadeText} ${CommunityReady ? S.visible : S.hidden}`}
-                >
-                  {CommunityReady
-                    ? 'In progress'
-                    : 'Community'}
+                <h2 className={`${S.fadeText} ${CommunityReady ? S.visible : S.hidden}`}>
+                  {CommunityReady ? 'In progress' : 'Community'}
                 </h2>
               </div>
             </li>
             <li
               className={S.navList}
-              onMouseEnter={() =>
-                setContactReady(true)
-              }
-              onMouseLeave={() =>
-                setContactReady(false)
-              }
+              onMouseEnter={() => setContactReady(true)}
+              onMouseLeave={() => setContactReady(false)}
               onClick={handleReady}
             >
               <div className={S.navListText}>
@@ -167,12 +133,8 @@ function LeftSidebar() {
                     </clipPath>
                   </defs>
                 </svg>
-                <h2
-                  className={`${S.fadeText} ${ContactReady ? S.visible : S.hidden}`}
-                >
-                  {ContactReady
-                    ? 'In Progress'
-                    : 'Contact'}
+                <h2 className={`${S.fadeText} ${ContactReady ? S.visible : S.hidden}`}>
+                  {ContactReady ? 'In Progress' : 'Contact'}
                 </h2>
               </div>
             </li>
@@ -180,9 +142,7 @@ function LeftSidebar() {
         </nav>
 
         <div className={S.recentEnterUserWrap}>
-          <h3 className={S.recentEnterUserTop}>
-            가입한 사용자
-          </h3>
+          <h3 className={S.recentEnterUserTop}>가입한 사용자</h3>
           <UserList />
         </div>
       </div>

@@ -2,10 +2,7 @@ import { ProfileImageProvider } from '@/components/context/useProfileImage';
 import BoardForm from './BoardForm';
 import { BoardProvider } from '@/components/context/useBoardContext';
 import { HashTagProvider } from '@/components/context/useHashTag';
-import {
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAuth } from '@/auth/AuthProvider';
 import BoardUpdate from './BoardUpdate';
@@ -13,12 +10,9 @@ import { showErrorAlert } from '@/utils/sweetAlert';
 
 function BoardWrite() {
   const { id: boardId } = useParams();
-  const { user, isLoading, profileId } =
-    useAuth();
+  const { user, isLoading, profileId } = useAuth();
   const navigate = useNavigate();
-  const [userId, setUserId] = useState<
-    string | null
-  >('');
+  const [userId, setUserId] = useState<string | null>('');
 
   useEffect(() => {
     if (!isLoading) {
@@ -36,15 +30,8 @@ function BoardWrite() {
     <ProfileImageProvider>
       <BoardProvider>
         <HashTagProvider>
-          {userId && boardId && (
-            <BoardUpdate
-              boardId={boardId}
-              userId={userId}
-            />
-          )}
-          {userId && !boardId && (
-            <BoardForm userId={userId} />
-          )}
+          {userId && boardId && <BoardUpdate boardId={boardId} userId={userId} />}
+          {userId && !boardId && <BoardForm userId={userId} />}
         </HashTagProvider>
       </BoardProvider>
     </ProfileImageProvider>

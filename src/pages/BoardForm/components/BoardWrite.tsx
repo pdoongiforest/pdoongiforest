@@ -3,15 +3,11 @@ import S from './BoardWrite.module.css';
 // import { debounce } from "@/utils/debounce";
 import type React from 'react';
 function BoardWrite() {
-  const { postData, setPostData } =
-    useBoardContext();
+  const { postData, setPostData } = useBoardContext();
 
   // const onChangeText = debounce((e: React.ChangeEvent<HTMLTextAreaElement>) => {
-  const onChangeText = (
-    e: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const target =
-      e.target as HTMLTextAreaElement;
+  const onChangeText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const target = e.target as HTMLTextAreaElement;
     const content = target.value;
     setPostData((prev) => {
       return { ...prev, contents: content };

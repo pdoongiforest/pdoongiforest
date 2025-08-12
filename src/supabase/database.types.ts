@@ -1,16 +1,10 @@
-export type Json =
-  | string
-  | number
-  | boolean
-  | null
-  | { [key: string]: Json | undefined }
-  | Json[];
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
   // Allows to automatically instanciate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
-    PostgrestVersion: '12.2.3 (519615d)';
+    PostgrestVersion: '13.0.4';
   };
   public: {
     Tables: {
@@ -19,25 +13,19 @@ export type Database = {
           board_id: string | null;
           id: string;
           profile_id: string | null;
-          status:
-            | Database['public']['Enums']['membership_status']
-            | null;
+          status: Database['public']['Enums']['membership_status'] | null;
         };
         Insert: {
           board_id?: string | null;
           id?: string;
           profile_id?: string | null;
-          status?:
-            | Database['public']['Enums']['membership_status']
-            | null;
+          status?: Database['public']['Enums']['membership_status'] | null;
         };
         Update: {
           board_id?: string | null;
           id?: string;
           profile_id?: string | null;
-          status?:
-            | Database['public']['Enums']['membership_status']
-            | null;
+          status?: Database['public']['Enums']['membership_status'] | null;
         };
         Relationships: [
           {
@@ -60,9 +48,7 @@ export type Database = {
         Row: {
           active: boolean;
           address: string | null;
-          board_cls:
-            | Database['public']['Enums']['board_cls']
-            | null;
+          board_cls: Database['public']['Enums']['board_cls'] | null;
           board_id: string;
           contents: string;
           create_at: string;
@@ -78,9 +64,7 @@ export type Database = {
         Insert: {
           active?: boolean;
           address?: string | null;
-          board_cls?:
-            | Database['public']['Enums']['board_cls']
-            | null;
+          board_cls?: Database['public']['Enums']['board_cls'] | null;
           board_id?: string;
           contents: string;
           create_at?: string;
@@ -96,9 +80,7 @@ export type Database = {
         Update: {
           active?: boolean;
           address?: string | null;
-          board_cls?:
-            | Database['public']['Enums']['board_cls']
-            | null;
+          board_cls?: Database['public']['Enums']['board_cls'] | null;
           board_id?: string;
           contents?: string;
           create_at?: string;
@@ -146,7 +128,7 @@ export type Database = {
             referencedColumns: ['board_id'];
           },
           {
-            foreignKeyName: 'fk_user_profile_to_channel_member';
+            foreignKeyName: 'board_member_profile_id_fkey';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
@@ -241,7 +223,7 @@ export type Database = {
           board_id?: string;
           comment_id?: string;
           contents: string;
-          create_at: string;
+          create_at?: string;
           likes?: number;
           profile_id?: string;
         };
@@ -311,24 +293,6 @@ export type Database = {
             referencedColumns: ['profile_id'];
           },
         ];
-      };
-      debug_log: {
-        Row: {
-          id: number;
-          message: string | null;
-          time: string | null;
-        };
-        Insert: {
-          id?: number;
-          message?: string | null;
-          time?: string | null;
-        };
-        Update: {
-          id?: number;
-          message?: string | null;
-          time?: string | null;
-        };
-        Relationships: [];
       };
       news_cards: {
         Row: {
@@ -432,13 +396,6 @@ export type Database = {
             referencedRelation: 'user_profile';
             referencedColumns: ['profile_id'];
           },
-          {
-            foreignKeyName: 'peer_review_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
-          },
         ];
       };
       post: {
@@ -519,7 +476,7 @@ export type Database = {
         Insert: {
           board_id?: string;
           contents: string;
-          create_at: string;
+          create_at?: string;
           likes?: number;
           profile_id?: string;
           thread_id?: string;
@@ -597,30 +554,30 @@ export type Database = {
           create_at: string;
           id: string;
           name: string;
-          nickname: string | null;
+          nickname: string;
           recent_at: string | null;
           role: string | null;
-          status: Database['public']['Enums']['status'];
+          status: Database['public']['Enums']['status'] | null;
         };
         Insert: {
           approve?: boolean;
           create_at?: string;
           id?: string;
           name: string;
-          nickname?: string | null;
+          nickname?: string;
           recent_at?: string | null;
           role?: string | null;
-          status?: Database['public']['Enums']['status'];
+          status?: Database['public']['Enums']['status'] | null;
         };
         Update: {
           approve?: boolean;
           create_at?: string;
           id?: string;
           name?: string;
-          nickname?: string | null;
+          nickname?: string;
           recent_at?: string | null;
           role?: string | null;
-          status?: Database['public']['Enums']['status'];
+          status?: Database['public']['Enums']['status'] | null;
         };
         Relationships: [];
       };
@@ -735,7 +692,6 @@ export type Database = {
     };
     Enums: {
       board_cls: '0' | '1';
-      join_cls: '0' | '1';
       membership_status: '0' | '1' | '2';
       status: '0' | '1' | '2' | '3';
     };
@@ -745,29 +701,20 @@ export type Database = {
   };
 };
 
-type DatabaseWithoutInternals = Omit<
-  Database,
-  '__InternalSupabase'
->;
+type DatabaseWithoutInternals = Omit<Database, '__InternalSupabase'>;
 
-type DefaultSchema =
-  DatabaseWithoutInternals[Extract<
-    keyof Database,
-    'public'
-  >];
+type DefaultSchema = DatabaseWithoutInternals[Extract<keyof Database, 'public'>];
 
 export type Tables<
   DefaultSchemaTableNameOrOptions extends
-    | keyof (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])
+    | keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends
-    DefaultSchemaTableNameOrOptions extends {
-      schema: keyof DatabaseWithoutInternals;
-    }
-      ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
-          DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
-      : never = never,
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof (DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables'] &
+        DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Views'])
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -777,10 +724,8 @@ export type Tables<
     }
     ? R
     : never
-  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])
-    ? (DefaultSchema['Tables'] &
-        DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
+  : DefaultSchemaTableNameOrOptions extends keyof (DefaultSchema['Tables'] & DefaultSchema['Views'])
+    ? (DefaultSchema['Tables'] & DefaultSchema['Views'])[DefaultSchemaTableNameOrOptions] extends {
         Row: infer R;
       }
       ? R
@@ -791,12 +736,11 @@ export type TablesInsert<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends
-    DefaultSchemaTableNameOrOptions extends {
-      schema: keyof DatabaseWithoutInternals;
-    }
-      ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-      : never = never,
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -817,12 +761,11 @@ export type TablesUpdate<
   DefaultSchemaTableNameOrOptions extends
     | keyof DefaultSchema['Tables']
     | { schema: keyof DatabaseWithoutInternals },
-  TableName extends
-    DefaultSchemaTableNameOrOptions extends {
-      schema: keyof DatabaseWithoutInternals;
-    }
-      ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
-      : never = never,
+  TableName extends DefaultSchemaTableNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaTableNameOrOptions['schema']]['Tables']
+    : never = never,
 > = DefaultSchemaTableNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -843,12 +786,11 @@ export type Enums<
   DefaultSchemaEnumNameOrOptions extends
     | keyof DefaultSchema['Enums']
     | { schema: keyof DatabaseWithoutInternals },
-  EnumName extends
-    DefaultSchemaEnumNameOrOptions extends {
-      schema: keyof DatabaseWithoutInternals;
-    }
-      ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
-      : never = never,
+  EnumName extends DefaultSchemaEnumNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[DefaultSchemaEnumNameOrOptions['schema']]['Enums']
+    : never = never,
 > = DefaultSchemaEnumNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -861,12 +803,11 @@ export type CompositeTypes<
   PublicCompositeTypeNameOrOptions extends
     | keyof DefaultSchema['CompositeTypes']
     | { schema: keyof DatabaseWithoutInternals },
-  CompositeTypeName extends
-    PublicCompositeTypeNameOrOptions extends {
-      schema: keyof DatabaseWithoutInternals;
-    }
-      ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
-      : never = never,
+  CompositeTypeName extends PublicCompositeTypeNameOrOptions extends {
+    schema: keyof DatabaseWithoutInternals;
+  }
+    ? keyof DatabaseWithoutInternals[PublicCompositeTypeNameOrOptions['schema']]['CompositeTypes']
+    : never = never,
 > = PublicCompositeTypeNameOrOptions extends {
   schema: keyof DatabaseWithoutInternals;
 }
@@ -879,7 +820,6 @@ export const Constants = {
   public: {
     Enums: {
       board_cls: ['0', '1'],
-      join_cls: ['0', '1'],
       membership_status: ['0', '1', '2'],
       status: ['0', '1', '2', '3'],
     },

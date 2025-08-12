@@ -3,8 +3,7 @@ import { useRef } from 'react';
 import S from './MoveToTop.module.css';
 
 function MypageMoveToTop() {
-  const topButtonRef =
-    useRef<HTMLButtonElement>(null);
+  const topButtonRef = useRef<HTMLButtonElement>(null);
 
   const handleMoveToTop = () => {
     window.scrollTo({
@@ -38,13 +37,8 @@ function MypageMoveToTop() {
           onClick={handleMoveToTop}
           onMouseEnter={handleEnterUpButton}
         >
-          <img
-            src="/images/topButton.png"
-            alt="move to top"
-          />
-          <span className={S.tooltip}>
-            최상단 이동
-          </span>
+          <img src="/images/topButton.png" alt="move to top" />
+          <span className={S.tooltip}>최상단 이동</span>
         </button>
       </section>
     </>

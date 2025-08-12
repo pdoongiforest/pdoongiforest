@@ -1,6 +1,4 @@
-export const chooseRegion = (
-  address: string | null
-) => {
+export const chooseRegion = (address: string | null) => {
   const region = address?.split(' ');
   const regionDo = region?.[0];
   const regionSi = region?.[1];

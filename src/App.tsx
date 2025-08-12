@@ -1,10 +1,6 @@
 import './App.css';
 import './style/reset.css';
-import {
-  Route,
-  Routes,
-  useLocation,
-} from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import RightSidebar from './components/Layout/RightSidebar';
 import LeftSidebar from './components/Layout/LeftSidebar';
 import StudyChannel from './pages/Study/StudyChannel';
@@ -35,9 +31,7 @@ import Admin from './pages/Admin/Admin';
 function App() {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
-  const isAuthPage =
-    location.pathname === '/login' ||
-    location.pathname === '/register';
+  const isAuthPage = location.pathname === '/login' || location.pathname === '/register';
   const isNotFoundPage = !(
     path === '/' ||
     path.startsWith('/login') ||
@@ -48,56 +42,28 @@ function App() {
     path.startsWith('/mypage/') ||
     path.startsWith('/team')
   );
-  const [isOverlay, setIsOverlay] =
-    useState(false);
-  const [isNotification, setIsNotification] =
-    useState(false);
-  const [
-    isLeftSidebarOpen,
-    setIsLeftSidebarOpen,
-  ] = useState(false);
-  const [
-    isRightSidebarOpen,
-    setIsRightSidebarOpen,
-  ] = useState(false);
+  const [isOverlay, setIsOverlay] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
+  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
+  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
   const { profileId } = useAuth();
 
-  const leftSidebarRef =
-    useRef<HTMLElement>(null);
-  const leftSidebarButton =
-    useRef<HTMLButtonElement>(null);
-  const rightSidebarRef =
-    useRef<HTMLElement>(null);
-  const rightSidebarButton =
-    useRef<HTMLButtonElement>(null);
+  const leftSidebarRef = useRef<HTMLElement>(null);
+  const leftSidebarButton = useRef<HTMLButtonElement>(null);
+  const rightSidebarRef = useRef<HTMLElement>(null);
+  const rightSidebarButton = useRef<HTMLButtonElement>(null);
 
   const toggleLeftSidebar = () => {
-    if (
-      !leftSidebarRef.current ||
-      !leftSidebarButton.current
-    )
-      return;
-    leftSidebarRef.current.classList.toggle(
-      'active'
-    );
-    leftSidebarButton.current.classList.toggle(
-      'isOpen'
-    );
+    if (!leftSidebarRef.current || !leftSidebarButton.current) return;
+    leftSidebarRef.current.classList.toggle('active');
+    leftSidebarButton.current.classList.toggle('isOpen');
     setIsLeftSidebarOpen((prev) => !prev);
   };
 
   const toggleRightSidebar = () => {
-    if (
-      !rightSidebarRef.current ||
-      !rightSidebarButton.current
-    )
-      return;
-    rightSidebarRef.current.classList.toggle(
-      'active'
-    );
-    rightSidebarButton.current.classList.toggle(
-      'isOpen'
-    );
+    if (!rightSidebarRef.current || !rightSidebarButton.current) return;
+    rightSidebarRef.current.classList.toggle('active');
+    rightSidebarButton.current.classList.toggle('isOpen');
     setIsRightSidebarOpen((prev) => !prev);
   };
 
@@ -115,37 +81,15 @@ function App() {
         )}
         {!isAuthPage && !isNotFoundPage && (
           <>
-            <button
-              id="leftSidebar"
-              onClick={toggleLeftSidebar}
-              ref={leftSidebarButton}
-            >
+            <button id="leftSidebar" onClick={toggleLeftSidebar} ref={leftSidebarButton}>
               <img
-                src={
-                  isLeftSidebarOpen
-                    ? '/images/close.png'
-                    : '/images/leftSidebar.png'
-                }
-                title={
-                  isLeftSidebarOpen
-                    ? '닫기'
-                    : '좌측 사이드바 열기'
-                }
+                src={isLeftSidebarOpen ? '/images/close.png' : '/images/leftSidebar.png'}
+                title={isLeftSidebarOpen ? '닫기' : '좌측 사이드바 열기'}
                 alt="left Sidebar Toggle"
               />
             </button>
-            <nav
-              className="leftcontainer"
-              ref={leftSidebarRef}
-            >
-              {isOverlay && (
-                <div
-                  className="overlay"
-                  onClick={() =>
-                    setIsOverlay(false)
-                  }
-                ></div>
-              )}
+            <nav className="leftcontainer" ref={leftSidebarRef}>
+              {isOverlay && <div className="overlay" onClick={() => setIsOverlay(false)}></div>}
               <LeftSidebar />
             </nav>
           </>
@@ -155,26 +99,11 @@ function App() {
           id="standard-container"
         >
           <Routes>
-            <Route
-              path="/"
-              element={<MainContent />}
-            />
-            <Route
-              path="/login"
-              element={<Login />}
-            />
-            <Route
-              path="/register"
-              element={<Register />}
-            />
-            <Route
-              path="/study"
-              element={<StudyChannel />}
-            />
-            <Route
-              path="/team"
-              element={<Team />}
-            />
+            <Route path="/" element={<MainContent />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/study" element={<StudyChannel />} />
+            <Route path="/team" element={<Team />} />
             <Route
               path="/channel/:id"
               element={
@@ -183,103 +112,44 @@ function App() {
                 </AdminProvider>
               }
             >
-              <Route
-                index
-                element={<StudyJoinInfomation />}
-              />
-              <Route
-                path="memberchannel"
-                element={<StudyMemberChannel />}
-              />
-              <Route
-                path="thread"
-                element={<Thread />}
-              />
-              <Route
-                path="peerReview/:id"
-                element={<PeerReiview />}
-              />
-              <Route
-                path="management"
-                element={<Management />}
-              >
-                <Route
-                  index
-                  element={<MangementChannel />}
-                />
-                <Route
-                  path="approve"
-                  element={<Approve />}
-                />
-                <Route
-                  path="managementmembers"
-                  element={<ManagementMembers />}
-                />
+              <Route index element={<StudyJoinInfomation />} />
+              <Route path="memberchannel" element={<StudyMemberChannel />} />
+              <Route path="thread" element={<Thread />} />
+              <Route path="peerReview/:id" element={<PeerReiview />} />
+              <Route path="management" element={<Management />}>
+                <Route index element={<MangementChannel />} />
+                <Route path="approve" element={<Approve />} />
+                <Route path="managementmembers" element={<ManagementMembers />} />
               </Route>
             </Route>
-            <Route
-              path="/write"
-              element={<BoardWrite />}
-            />
-            <Route
-              path="/write/:id"
-              element={<BoardWrite />}
-            />
-            <Route
-              path="/mypage/:id"
-              element={<Mypage />}
-            />
-            {profileId ===
-              'a51ad237-ffd7-44c9-b00d-1f6f007f0999' && (
-              <Route
-                path="/admin"
-                element={<Admin />}
-              ></Route>
+            <Route path="/write" element={<BoardWrite />} />
+            <Route path="/write/:id" element={<BoardWrite />} />
+            <Route path="/mypage/:id" element={<Mypage />} />
+            {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
+              <Route path="/admin" element={<Admin />}></Route>
             )}
 
-            <Route
-              path="*"
-              element={<NotFound />}
-            />
+            <Route path="*" element={<NotFound />} />
           </Routes>
 
-          {!isAuthPage && !isNotFoundPage && (
-            <Footer />
-          )}
+          {!isAuthPage && !isNotFoundPage && <Footer />}
         </div>
 
         {!isAuthPage && !isNotFoundPage && (
           <>
-            <button
-              id="rightSidebar"
-              onClick={toggleRightSidebar}
-              ref={rightSidebarButton}
-            >
+            <button id="rightSidebar" onClick={toggleRightSidebar} ref={rightSidebarButton}>
               <img
-                src={
-                  isRightSidebarOpen
-                    ? '/images/close.png'
-                    : '/images/rightSidebar.png'
-                }
-                title={
-                  isRightSidebarOpen
-                    ? '닫기'
-                    : '우측 사이드바 열기'
-                }
+                src={isRightSidebarOpen ? '/images/close.png' : '/images/rightSidebar.png'}
+                title={isRightSidebarOpen ? '닫기' : '우측 사이드바 열기'}
                 alt="right Sidebar Toggle"
               />
             </button>
-            <nav
-              className="rightcontainer"
-              ref={rightSidebarRef}
-            >
+            <nav className="rightcontainer" ref={rightSidebarRef}>
               <RightSidebar
                 isOverlay={isOverlay}
                 setIsOverlay={setIsOverlay}
                 isNotification={isNotification}
-                setIsNotification={
-                  setIsNotification
-                }
+                setIsNotification={setIsNotification}
               />
             </nav>
           </>
