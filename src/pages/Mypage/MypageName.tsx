@@ -12,6 +12,7 @@ import { useToast } from '@/utils/useToast';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { showConfirmAlert } from '@/utils/sweetAlert';
+import EditPencil from './components/editPencil';
 
 interface Props {
   user: User | null;
@@ -292,14 +293,15 @@ function MypageName({
             </button>
           </div>
         ) : (
-          <div className={S.mypageNameEdit}>
-            <button
-              type="button"
-              onClick={handleEditName}
-            >
-              <img src="/icons/edit_pencil.svg" />
-            </button>
-          </div>
+          <EditPencil onClick={handleEditName} />
+          // <div className={S.mypageNameEdit}>
+          //   <button
+          //     type="button"
+          //     onClick={handleEditName}
+          //   >
+          //     <img src="/icons/edit_pencil.svg" />
+          //   </button>
+          // </div>
         ))}
     </div>
   );

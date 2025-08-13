@@ -4,6 +4,7 @@ import E from './MypageEdit.module.css';
 import BackgroundEdit from './components/BackgroundEdit';
 import { useState } from 'react';
 import ProfileEdit from './components/ProfileEdit';
+import EditPencil from './components/editPencil';
 
 interface Props {
   user: User | null;
@@ -26,17 +27,16 @@ function MypageProfile({
   const [prevProfileImage, setPrevProfileImage] =
     useState('');
 
+  const handleEditBackground = () => {
+    setShowDropdown(true);
+    setPrevImage(profileData.background_images);
+  };
+
   if (!user || !user.profile) {
     return <p>프로필 정보가 없습니다.</p>;
   }
 
   const profileData = user.profile[0];
-
-  const handleEditBackground = () => {
-    setShowDropdown(true);
-
-    setPrevImage(profileData.background_images);
-  };
 
   const handleEditProfile = () => {
     setShowProfileDrop(true);
@@ -57,13 +57,7 @@ function MypageProfile({
                 }
                 className={E.edit_mypageBg}
               />
-              <button
-                type="button"
-                className={E.edit_mypageBgBtn}
-                onClick={handleEditBackground}
-              >
-                <img src="/icons/edit_pencil.svg" />
-              </button>
+              <EditPencil onClick={handleEditBackground} />
               {showDropdown && (
                 <BackgroundEdit
                   prevImage={prevImage}

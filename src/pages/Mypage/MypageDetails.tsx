@@ -1,6 +1,5 @@
 import type { User } from './Mypage';
 import S from './MypageTop.module.css';
-import Edit from '/icons/edit_pencil.svg';
 import E from './MypageEdit.module.css';
 import { useEffect, useState } from 'react';
 import Eye from '/icons/eye.svg';
@@ -11,6 +10,7 @@ import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { showConfirmAlert } from '@/utils/sweetAlert';
+import EditPencil from './components/editPencil';
 
 interface Props {
   user: User | null;
@@ -444,12 +444,7 @@ function MypageDetails({
           </div>
         ) : (
           <div className={S.mypageDetailEdit}>
-            <button
-              type="button"
-              onClick={handleEditDetail}
-            >
-              <img src={Edit} />
-            </button>
+            <EditPencil onClick={handleEditDetail} />
           </div>
         )
       ) : (

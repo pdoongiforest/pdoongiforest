@@ -108,7 +108,7 @@ function ProfileEdit({
     const { profile_id } = profileData;
 
     const default_image =
-      'https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/profileimages/profile/e564cf92-7719-43db-9803-100bd6cf23f6-profile-1753406546405.jpg';
+      'https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/profileimages/profile/e564cf92-7719-43db-9803-100bd6cf23f6-profile-1753406546405.jpg';
     let imageUrl: string | null = null;
 
     if (!file) {
@@ -128,7 +128,7 @@ function ProfileEdit({
 
       // 파일 URL 생성
       // https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/sign/profileimages/profile/e564cf92-7719-43db-9803-100bd6cf23f6-profile-1753406175294.jpg?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV83YTU2MjIwNi05MTIxLTRjOWMtYTViZS02OTIxZWJjY2QyZjEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJwcm9maWxlaW1hZ2VzL3Byb2ZpbGUvZTU2NGNmOTItNzcxOS00M2RiLTk4MDMtMTAwYmQ2Y2YyM2Y2LXByb2ZpbGUtMTc1MzQwNjE3NTI5NC5qcGciLCJpYXQiOjE3NTM0MDYwOTcsImV4cCI6MTc1NDAxMDg5N30.p3LJQ3y4zaLXOo-4mQjz7n3SzsxMgJDiwHICrZkGyVU
-      imageUrl = `https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/profileimages/profile/${fileName}`;
+      imageUrl = `https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/profileimages/profile/${fileName}`;
     }
 
     const { error: profileError } = await supabase

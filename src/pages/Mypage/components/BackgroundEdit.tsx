@@ -108,7 +108,7 @@ function BackgroundEdit({
     const { profile_id } = profileData;
 
     const default_image =
-      'https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/e564cf92-7719-43db-9803-100bd6cf23f6-1753344498261.jpg';
+      'https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/e564cf92-7719-43db-9803-100bd6cf23f6-1753344498261.jpg';
     let imageUrl: string | null = null;
 
     if (!file) {
@@ -134,7 +134,7 @@ function BackgroundEdit({
       }
 
       // 파일 URL 생성
-      imageUrl = `https://zugionbtbljfyuybihxk.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/${fileName}`;
+      imageUrl = `https://tgpjaysqzywmgztzavxe.supabase.co/storage/v1/object/public/backgroundimages/profile-backgrounds/${fileName}`;
     }
 
     // 업로드된 이미지 URL을 DB에 저장
