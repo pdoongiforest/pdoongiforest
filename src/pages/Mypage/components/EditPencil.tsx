@@ -1,5 +1,5 @@
 import Pencil from '/icons/edit_pencil.svg';
-import S from './editPencil.module.css';
+import S from './EditPencil.module.css';
 import { useCallback } from 'react';
 
 interface Props {
