@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import S from './ThreadReplyComponent.module.css';
 import type { Tables } from '@/supabase/database.types';
 import { commentTime } from './utills/commentTime';
 import supabase from '@/supabase/supabase';
 import { useIsMine } from '@/components/context/useIsMine';
 import { showConfirmAlert } from '@/utils/sweetAlert';
+import LikeBtn from '@/components/LikeBtn';
 
 type ThreadReply = Tables<'thread_reply'>;
 interface Prop {
@@ -21,32 +22,7 @@ function ThreadReplyComponent({ reply, onDelete, userName, userImage }: Prop) {
   const [isEditing, setIsEditing] = useState(false);
   const [editReply, setEditReply] = useState(contents);
   const [content, setContent] = useState(contents);
-  const [isPress, setIsPress] = useState(false);
-  const [like, setLike] = useState<number>(likes ?? 0);
   const commentTimeCheck = commentTime(created_at);
-
-  useEffect(() => {
-    const storedPress = JSON.parse(localStorage.getItem(`like-${reply_id}`) ?? 'false');
-    setIsPress(storedPress);
-  }, [reply_id]);
-
-  const handleLikeToggle = async () => {
-    const pressState = isPress ? like - 1 : like + 1;
-    const nextState = !isPress;
-    setLike(pressState);
-    setIsPress(nextState);
-    localStorage.setItem(`like-${reply_id}`, JSON.stringify(nextState));
-
-    const { error } = await supabase
-      .from('thread_reply')
-      .update({
-        likes: pressState,
-      })
-      .eq('reply_id', reply_id)
-      .select()
-      .single();
-    if (error) console.log(error.message);
-  };
 
   const handleSave = async () => {
     const { error } = await supabase
@@ -134,14 +110,10 @@ function ThreadReplyComponent({ reply, onDelete, userName, userImage }: Prop) {
 
         <div className={S.actions}>
           <div className={S.likeBtn}>
-            <button type="button" onClick={handleLikeToggle}>
-              {isPress ? (
-                <img src="/icons/likeActive.png" alt="좋아요 활성화" />
-              ) : (
-                <img src="/icons/like.svg" alt="" />
-              )}
-            </button>
-            <span>{like}</span>
+            {
+
+              <LikeBtn likes={likes} columnId='reply_id' targetId={reply_id} table='thread_reply' />
+            }
           </div>
         </div>
       </div>

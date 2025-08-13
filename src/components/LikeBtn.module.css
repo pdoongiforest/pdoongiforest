@@ -1,0 +1,13 @@
+
+.likeBtn {
+  display: flex;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+
+  img {
+    object-fit: contain;
+    width: 20px;
+    height: 18px;
+  }
+}

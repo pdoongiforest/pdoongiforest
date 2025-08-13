@@ -9,6 +9,7 @@ import gsap from 'gsap';
 import { useIsMine } from '@/components/context/useIsMine';
 import { IsMineProvider } from '@/components/context/isMine';
 import { showConfirmAlert } from '@/utils/sweetAlert';
+import LikeBtn from '@/components/LikeBtn';
 
 type User = Tables<'user_profile'> & {
   user_base: Tables<'user_base'>;
@@ -32,8 +33,6 @@ function ThreadList({ data, onDelete, userName, userImage, replyData }: Props) {
   const { isMine } = useIsMine();
   const { profileId } = useAuth();
   const { contents, likes, create_at, thread_id } = data;
-  const [isPress, setIsPress] = useState(false);
-  const [like, setLike] = useState(likes);
   const [isEditing, setIsEditing] = useState(false);
   const [isReplyPress, setIsReplyPress] = useState(false);
   const [content, setContent] = useState(contents);
@@ -42,11 +41,6 @@ function ThreadList({ data, onDelete, userName, userImage, replyData }: Props) {
   const [reply, setReply] = useState<ReplyWithUser[]>([]);
   const timeStamp = commentTime(create_at);
   const threadRef = useRef<HTMLLIElement>(null);
-
-  useEffect(() => {
-    const storedPress = JSON.parse(localStorage.getItem(`like-${thread_id}`) ?? 'false');
-    setIsPress(storedPress);
-  }, [thread_id]);
 
   useEffect(() => {
     if (threadRef.current) {
@@ -67,26 +61,6 @@ function ThreadList({ data, onDelete, userName, userImage, replyData }: Props) {
     if (!replyData) return;
     setReply(replyData);
   }, [replyData]);
-
-  const handleLike = async () => {
-    const likeState = isPress ? like - 1 : like + 1;
-    const nextState = !isPress;
-
-    setLike(likeState);
-    setIsPress(nextState);
-    localStorage.setItem(`like-${data.thread_id}`, JSON.stringify(nextState));
-
-    const { error } = await supabase
-      .from('thread')
-      .update({
-        likes: likeState,
-      })
-      .eq('thread_id', thread_id)
-      .select()
-      .single();
-
-    if (error) console.error();
-  };
 
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent
@@ -225,14 +199,7 @@ function ThreadList({ data, onDelete, userName, userImage, replyData }: Props) {
       </div>
       <div className={S.iconWrap}>
         <div className={S.likeBtn}>
-          <button type="button" className={S.like} onClick={handleLike}>
-            {isPress ? (
-              <img src="/icons/likeActive.png" alt="좋아요 활성화" />
-            ) : (
-              <img src="/icons/like.svg" alt="" />
-            )}
-            {like}
-          </button>
+          <LikeBtn likes={ likes } targetId={thread_id} table='thread' columnId='thread_id' />
         </div>
         <div className={S.reply} onClick={handleReply}>
           <button type="button" className={S.comment}>
