@@ -4,7 +4,7 @@ import E from './MypageEdit.module.css';
 import BackgroundEdit from './components/BackgroundEdit';
 import { useState } from 'react';
 import ProfileEdit from './components/ProfileEdit';
-import EditPencil from './components/editPencil';
+import EditPencil from './components/EditPencil';
 
 interface Props {
   user: User | null;
