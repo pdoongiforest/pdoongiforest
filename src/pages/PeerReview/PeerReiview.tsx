@@ -1,14 +1,7 @@
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import S from './PeerReveiw.module.css';
 import supabase from '@/supabase/supabase';
-import {
-  useNavigate,
-  useParams,
-} from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
 import { useToast } from '@/utils/useToast';
 import { useAuth } from '@/auth/AuthProvider';
@@ -25,13 +18,9 @@ function PeerReiview() {
   const { profileId } = useAuth();
   const { success } = useToast();
   const { id } = useParams();
-  const [users, setUsers] = useState<
-    User[] | null
-  >([]);
-  const [currentIndex, setCurrentIndex] =
-    useState(0);
-  const [reviewContent, setReviewContent] =
-    useState('');
+  const [users, setUsers] = useState<User[] | null>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [reviewContent, setReviewContent] = useState('');
   const [q1, setQ1] = useState(0);
   const [q2, setQ2] = useState(0);
   const [q3, setQ3] = useState(0);
@@ -48,11 +37,7 @@ function PeerReiview() {
       if (error) console.error(error.message);
       if (!data) return;
 
-      const filterMine = data.filter(
-        (item) =>
-          item.user_profile.profile_id !==
-          profileId
-      );
+      const filterMine = data.filter((item) => item.user_profile.profile_id !== profileId);
       setUsers(filterMine);
     };
     userData();
@@ -66,38 +51,30 @@ function PeerReiview() {
   }, [currentIndex]);
 
   const getAverageScore = () => {
-    const currentAvarage = Number(
-      ((q1 + q2 + q3) / 3).toFixed(2)
-    );
+    const currentAvarage = Number(((q1 + q2 + q3) / 3).toFixed(2));
 
     return currentAvarage;
   };
 
   const handleSubmit = async (user: User) => {
     const averageScore = getAverageScore();
-    const { error } = await supabase
-      .from('peer_review')
-      .insert([
-        {
-          profile_id:
-            user.user_profile.profile_id,
-          writer_id: profileId,
-          board_id: id,
-          review_contents: reviewContent,
-          create_at: new Date(),
-          review_score: averageScore,
-        },
-      ]);
+    const { error } = await supabase.from('peer_review').insert([
+      {
+        profile_id: user.user_profile.profile_id,
+        writer_id: profileId,
+        board_id: id,
+        review_contents: reviewContent,
+        create_at: new Date(),
+        review_score: averageScore,
+      },
+    ]);
     if (error) console.error();
     if (!users) return;
     if (currentIndex < users.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
       await success('모든 리뷰를 제출했습니다.');
-      setTimeout(
-        () => navigate(`/channel/${id}`),
-        2000
-      );
+      setTimeout(() => navigate(`/channel/${id}`), 2000);
     }
   };
 
@@ -123,36 +100,19 @@ function PeerReiview() {
           const base = profile.user_base;
           return (
             <>
-              <div
-                className={S.userWrap}
-                key={`${user.user_profile.profile_id}-${index}`}
-              >
+              <div className={S.userWrap} key={`${user.user_profile.profile_id}-${index}`}>
                 <div className={S.userInfo}>
-                  <img
-                    src={profile.profile_images}
-                    alt="유저 프로필 이미지"
-                  />
+                  <img src={profile.profile_images} alt="유저 프로필 이미지" />
                   <div className={S.username}>
                     <h4>{base.nickname}</h4>
                     <p>{base.role}</p>
                   </div>
                 </div>
               </div>
-              <form
-                className={S.peerReviewWrap}
-                ref={formRef}
-              >
+              <form className={S.peerReviewWrap} ref={formRef}>
                 <ul className={S.peerReviewForm}>
-                  <li
-                    className={
-                      S.peerReviewScoreWrap
-                    }
-                  >
-                    <p>
-                      이 팀원이 프로젝트에 기여한
-                      기술적 지식이 얼마나
-                      도움되었나요?
-                    </p>
+                  <li className={S.peerReviewScoreWrap}>
+                    <p>이 팀원이 프로젝트에 기여한 기술적 지식이 얼마나 도움되었나요?</p>
                     <div className={S.scoreForm}>
                       <input
                         type="radio"
@@ -162,60 +122,19 @@ function PeerReiview() {
                         onChange={() => setQ1(1)}
                         required
                       />
-                      <label htmlFor="q1-1">
-                        매우 도움이 되지 않았음
-                      </label>
-                      <input
-                        type="radio"
-                        name="q1"
-                        id="q1-2"
-                        value="2"
-                        onChange={() => setQ1(2)}
-                      />
-                      <label htmlFor="q1-2">
-                        도움이 되지 않았음
-                      </label>
-                      <input
-                        type="radio"
-                        name="q1"
-                        id="q1-3"
-                        value="3"
-                        onChange={() => setQ1(3)}
-                      />
-                      <label htmlFor="q1-3">
-                        보통
-                      </label>
-                      <input
-                        type="radio"
-                        name="q1"
-                        id="q1-4"
-                        value="4"
-                        onChange={() => setQ1(4)}
-                      />
-                      <label htmlFor="q1-4">
-                        도움이 되었음
-                      </label>
-                      <input
-                        type="radio"
-                        name="q1"
-                        id="q1-5"
-                        value="5"
-                        onChange={() => setQ1(5)}
-                      />
-                      <label htmlFor="q1-5">
-                        매우 도움이 되었음
-                      </label>
+                      <label htmlFor="q1-1">매우 도움이 되지 않았음</label>
+                      <input type="radio" name="q1" id="q1-2" value="2" onChange={() => setQ1(2)} />
+                      <label htmlFor="q1-2">도움이 되지 않았음</label>
+                      <input type="radio" name="q1" id="q1-3" value="3" onChange={() => setQ1(3)} />
+                      <label htmlFor="q1-3">보통</label>
+                      <input type="radio" name="q1" id="q1-4" value="4" onChange={() => setQ1(4)} />
+                      <label htmlFor="q1-4">도움이 되었음</label>
+                      <input type="radio" name="q1" id="q1-5" value="5" onChange={() => setQ1(5)} />
+                      <label htmlFor="q1-5">매우 도움이 되었음</label>
                     </div>
                   </li>
-                  <li
-                    className={
-                      S.peerReviewScoreWrap
-                    }
-                  >
-                    <p>
-                      이 팀원과 의사소통이
-                      원활하셨나요?
-                    </p>
+                  <li className={S.peerReviewScoreWrap}>
+                    <p>이 팀원과 의사소통이 원활하셨나요?</p>
                     <div className={S.scoreForm}>
                       <input
                         type="radio"
@@ -225,60 +144,19 @@ function PeerReiview() {
                         onChange={() => setQ2(1)}
                         required
                       />
-                      <label htmlFor="q2-1">
-                        매우 원활치 않음
-                      </label>
-                      <input
-                        type="radio"
-                        name="q2"
-                        id="q2-2"
-                        value="2"
-                        onChange={() => setQ2(2)}
-                      />
-                      <label htmlFor="q2-2">
-                        원활하지 않았음
-                      </label>
-                      <input
-                        type="radio"
-                        name="q2"
-                        id="q2-3"
-                        value="3"
-                        onChange={() => setQ2(3)}
-                      />
-                      <label htmlFor="q2-3">
-                        보통
-                      </label>
-                      <input
-                        type="radio"
-                        name="q2"
-                        id="q2-4"
-                        value="4"
-                        onChange={() => setQ2(4)}
-                      />
-                      <label htmlFor="q2-4">
-                        원활함
-                      </label>
-                      <input
-                        type="radio"
-                        name="q2"
-                        id="q2-5"
-                        value="5"
-                        onChange={() => setQ2(5)}
-                      />
-                      <label htmlFor="q2-5">
-                        매우 원할함
-                      </label>
+                      <label htmlFor="q2-1">매우 원활치 않음</label>
+                      <input type="radio" name="q2" id="q2-2" value="2" onChange={() => setQ2(2)} />
+                      <label htmlFor="q2-2">원활하지 않았음</label>
+                      <input type="radio" name="q2" id="q2-3" value="3" onChange={() => setQ2(3)} />
+                      <label htmlFor="q2-3">보통</label>
+                      <input type="radio" name="q2" id="q2-4" value="4" onChange={() => setQ2(4)} />
+                      <label htmlFor="q2-4">원활함</label>
+                      <input type="radio" name="q2" id="q2-5" value="5" onChange={() => setQ2(5)} />
+                      <label htmlFor="q2-5">매우 원할함</label>
                     </div>
                   </li>
-                  <li
-                    className={
-                      S.peerReviewScoreWrap
-                    }
-                  >
-                    <p>
-                      이 팀원은 프로젝트에
-                      적극적으로 임하였나요?
-                    </p>
+                  <li className={S.peerReviewScoreWrap}>
+                    <p>이 팀원은 프로젝트에 적극적으로 임하였나요?</p>
                     <div className={S.scoreForm}>
                       <input
                         type="radio"
@@ -288,95 +166,34 @@ function PeerReiview() {
                         onChange={() => setQ3(1)}
                         required
                       />
-                      <label htmlFor="q3-1">
-                        매우 부정적
-                      </label>
-                      <input
-                        type="radio"
-                        name="q3"
-                        id="q3-2"
-                        value="2"
-                        onChange={() => setQ3(2)}
-                      />
-                      <label htmlFor="q3-2">
-                        부정적
-                      </label>
-                      <input
-                        type="radio"
-                        name="q3"
-                        id="q3-3"
-                        value="3"
-                        onChange={() => setQ3(3)}
-                      />
-                      <label htmlFor="q3-3">
-                        보통
-                      </label>
-                      <input
-                        type="radio"
-                        name="q3"
-                        id="q3-4"
-                        value="4"
-                        onChange={() => setQ3(4)}
-                      />
-                      <label htmlFor="q3-4">
-                        긍정적
-                      </label>
-                      <input
-                        type="radio"
-                        name="q3"
-                        id="q3-5"
-                        value="5"
-                        onChange={() => setQ3(5)}
-                      />
-                      <label htmlFor="q3-5">
-                        매우 긍정적
-                      </label>
+                      <label htmlFor="q3-1">매우 부정적</label>
+                      <input type="radio" name="q3" id="q3-2" value="2" onChange={() => setQ3(2)} />
+                      <label htmlFor="q3-2">부정적</label>
+                      <input type="radio" name="q3" id="q3-3" value="3" onChange={() => setQ3(3)} />
+                      <label htmlFor="q3-3">보통</label>
+                      <input type="radio" name="q3" id="q3-4" value="4" onChange={() => setQ3(4)} />
+                      <label htmlFor="q3-4">긍정적</label>
+                      <input type="radio" name="q3" id="q3-5" value="5" onChange={() => setQ3(5)} />
+                      <label htmlFor="q3-5">매우 긍정적</label>
                     </div>
                   </li>
-                  <li
-                    className={
-                      S.peerReviewScoreWrap
-                    }
-                  >
-                    <p>
-                      그 외 이 팀원에 대하 추가로
-                      남기고 싶은 말이 있다면
-                      자유롭게 적어주세요
-                    </p>
+                  <li className={S.peerReviewScoreWrap}>
+                    <p>그 외 이 팀원에 대하 추가로 남기고 싶은 말이 있다면 자유롭게 적어주세요</p>
                     <textarea
                       placeholder="50글자 이내로 간략히 작성해주세요"
                       className={S.etc}
                       maxLength={50}
-                      onChange={(e) =>
-                        setReviewContent(
-                          e.target.value
-                        )
-                      }
+                      onChange={(e) => setReviewContent(e.target.value)}
                     ></textarea>
                   </li>
                 </ul>
               </form>
               <div className={S.btnWrap}>
-                <button
-                  type="button"
-                  onClick={prev}
-                  className={
-                    currentIndex > 0
-                      ? ''
-                      : S.disable
-                  }
-                >
+                <button type="button" onClick={prev} className={currentIndex > 0 ? '' : S.disable}>
                   이전
                 </button>
-                <button
-                  type="button"
-                  onClick={next}
-                >
-                  {users &&
-                  currentIndex ===
-                    users?.length - 1
-                    ? '제촐'
-                    : '다음'}
+                <button type="button" onClick={next}>
+                  {users && currentIndex === users?.length - 1 ? '제촐' : '다음'}
                 </button>
               </div>
             </>

@@ -1,10 +1,7 @@
 import Swal from 'sweetalert2';
 
 /* success */
-export const showSuccessAlert = (
-  title: string,
-  text?: string
-) => {
+export const showSuccessAlert = (title: string, text?: string) => {
   return Swal.fire({
     icon: 'success',
     title,
@@ -26,10 +23,7 @@ export const showSuccessAlert = (
 };
 
 /* error */
-export const showErrorAlert = (
-  title: string,
-  text?: string
-) => {
+export const showErrorAlert = (title: string, text?: string) => {
   return Swal.fire({
     icon: 'error',
     title,
@@ -45,10 +39,7 @@ export const showErrorAlert = (
 };
 
 /* info */
-export const showInfoAlert = (
-  title: string,
-  text?: string
-) => {
+export const showInfoAlert = (title: string, text?: string) => {
   return Swal.fire({
     icon: 'info',
     title,
@@ -61,9 +52,7 @@ export const showInfoAlert = (
       icon: 'custom-icon-background',
     },
     didOpen: () => {
-      const iconContent = document.querySelector(
-        '.swal2-icon.swal2-info .swal2-icon-content'
-      );
+      const iconContent = document.querySelector('.swal2-icon.swal2-info .swal2-icon-content');
       if (iconContent instanceof HTMLElement) {
         iconContent.style.color = '#7FC8D6';
       }
@@ -72,10 +61,7 @@ export const showInfoAlert = (
 };
 
 /* warning */
-export const showWarningAlert = (
-  title: string,
-  text?: string
-) => {
+export const showWarningAlert = (title: string, text?: string) => {
   return Swal.fire({
     icon: 'warning',
     title,
@@ -88,9 +74,7 @@ export const showWarningAlert = (
       icon: 'custom-icon-background',
     },
     didOpen: () => {
-      const iconContent = document.querySelector(
-        '.swal2-icon.swal2-warning .swal2-icon-content'
-      );
+      const iconContent = document.querySelector('.swal2-icon.swal2-warning .swal2-icon-content');
       if (iconContent instanceof HTMLElement) {
         iconContent.style.color = '#b99470';
       }
@@ -99,10 +83,7 @@ export const showWarningAlert = (
 };
 
 /* confirm */
-export const showConfirmAlert = (
-  title: string,
-  text?: string
-) => {
+export const showConfirmAlert = (title: string, text?: string) => {
   return Swal.fire({
     icon: 'question',
     title,
@@ -119,9 +100,7 @@ export const showConfirmAlert = (
       icon: 'custom-icon-background',
     },
     didOpen: () => {
-      const iconContent = document.querySelector(
-        '.swal2-icon.swal2-question .swal2-icon-content'
-      );
+      const iconContent = document.querySelector('.swal2-icon.swal2-question .swal2-icon-content');
       if (iconContent instanceof HTMLElement) {
         iconContent.style.color = '#A6B37D';
       }

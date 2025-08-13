@@ -1,8 +1,5 @@
 import React from 'react';
-import {
-  toast,
-  ToastContainer,
-} from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './ToastOverride.css';
 // import T from './ToastProvider.module.css'
@@ -15,30 +12,16 @@ export interface ToastContextValue {
   warning: (message: string) => void;
 }
 
-function ToastProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const success = (message: string) =>
-    toast.success(message);
-  const error = (message: string) =>
-    toast.error(message);
-  const info = (message: string) =>
-    toast.info(message);
-  const warning = (message: string) =>
-    toast.warning(message);
+function ToastProvider({ children }: { children: React.ReactNode }) {
+  const success = (message: string) => toast.success(message);
+  const error = (message: string) => toast.error(message);
+  const info = (message: string) => toast.info(message);
+  const warning = (message: string) => toast.warning(message);
 
   return (
-    <ToastContext.Provider
-      value={{ success, error, info, warning }}
-    >
+    <ToastContext.Provider value={{ success, error, info, warning }}>
       {children}
-      <ToastContainer
-        autoClose={2000}
-        position="top-center"
-        hideProgressBar={true}
-      />
+      <ToastContainer autoClose={2000} position="top-center" hideProgressBar={true} />
     </ToastContext.Provider>
   );
 }

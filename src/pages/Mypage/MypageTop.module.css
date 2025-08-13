@@ -198,8 +198,7 @@
     border: 2px solid #a6b37d;
     border-radius: 32px;
 
-    box-shadow: 0 4px 12px
-      rgba(166, 179, 125, 0.4);
+    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4);
     color: #a6b37d;
     background-color: #f0f8e0;
   }

@@ -2,11 +2,7 @@ import MypageSocialConvert from './components/MypageSocialConvert';
 import type { User } from './Mypage';
 import S from './MypageTop.module.css';
 import E from './MypageEdit.module.css';
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import compareUserId from '@/utils/compareUserId';
 import type { Tables } from '@/supabase/database.types';
 
@@ -28,42 +24,22 @@ import { toast } from 'react-toastify';
 interface Props {
   user: User | null;
   editMode: boolean;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 type Social = Tables<'user_social'>;
 
-function MypageSocial({
-  user,
-  editMode,
-  setUserData,
-}: Props) {
-  const profileId =
-    user?.profile?.[0]?.profile_id;
+function MypageSocial({ user, editMode, setUserData }: Props) {
+  const profileId = user?.profile?.[0]?.profile_id;
 
-  const [socialArray, setSocialArray] = useState<
-    Social[] | null
-  >(null);
-  const [isClicked, setIsClicked] = useState<
-    boolean[]
-  >([]);
-  const [inputValues, setInputValues] = useState<
-    string[]
-  >([]);
-  const [pendingIcon, setPendingIcon] = useState<
-    string[]
-  >([]);
-  const [addClicked, setAddClicked] =
-    useState(false);
+  const [socialArray, setSocialArray] = useState<Social[] | null>(null);
+  const [isClicked, setIsClicked] = useState<boolean[]>([]);
+  const [inputValues, setInputValues] = useState<string[]>([]);
+  const [pendingIcon, setPendingIcon] = useState<string[]>([]);
+  const [addClicked, setAddClicked] = useState(false);
 
-  const liRef = useRef<HTMLDivElement | null>(
-    null
-  );
-  const inputRefs = useRef<HTMLInputElement[]>(
-    []
-  );
+  const liRef = useRef<HTMLDivElement | null>(null);
+  const inputRefs = useRef<HTMLInputElement[]>([]);
 
   const { error } = useToast();
 
@@ -71,10 +47,7 @@ function MypageSocial({
     const fetchSocial = async () => {
       if (!profileId) return;
       if (!editMode && profileId) {
-        const result = await compareUserId(
-          profileId,
-          'user_social'
-        );
+        const result = await compareUserId(profileId, 'user_social');
         setSocialArray(result || []);
       }
     };
@@ -94,23 +67,15 @@ function MypageSocial({
 
   useEffect(() => {
     if (!socialArray) return;
-    const links = socialArray.map(
-      (s) => s.social_link
-    );
+    const links = socialArray.map((s) => s.social_link);
     setInputValues(links);
-    const socials = socialArray.map(
-      (s) => s.social
-    );
+    const socials = socialArray.map((s) => s.social);
     setPendingIcon(socials);
 
     setIsClicked((prev) => {
-      const diff =
-        socialArray.length - prev.length;
+      const diff = socialArray.length - prev.length;
       if (diff > 0) {
-        return [
-          ...prev,
-          ...Array(diff).fill(false),
-        ];
+        return [...prev, ...Array(diff).fill(false)];
       } else if (diff < 0) {
         // 줄어든 항목만큼 제거
         return prev.slice(0, socialArray.length);
@@ -121,48 +86,33 @@ function MypageSocial({
 
   useEffect(() => {
     if (!editMode) {
-      setIsClicked((prev) =>
-        prev.map(() => false)
-      );
+      setIsClicked((prev) => prev.map(() => false));
     }
 
     const cleanUpEmptySocialLinks = async () => {
-      if (
-        !socialArray ||
-        !Array.isArray(socialArray)
-      )
-        return;
+      if (!socialArray || !Array.isArray(socialArray)) return;
 
-      const emptySocials = socialArray.filter(
-        (s) => s.social_link === ''
-      );
+      const emptySocials = socialArray.filter((s) => s.social_link === '');
 
       if (emptySocials.length === 0) return;
 
       // 삭제할 social id 목록 수집
-      const idsToDelete = emptySocials.map(
-        (s) => s.social_id
-      ); // id가 있다고 가정
+      const idsToDelete = emptySocials.map((s) => s.social_id); // id가 있다고 가정
 
-      const { error: deleteError } =
-        await supabase
-          .from('user_social')
-          .delete()
-          .in('social_id', idsToDelete);
+      const { error: deleteError } = await supabase
+        .from('user_social')
+        .delete()
+        .in('social_id', idsToDelete);
 
       if (deleteError) {
-        toast.error(
-          '빈 링크 삭제 중 오류가 발생했어요.'
-        );
+        toast.error('빈 링크 삭제 중 오류가 발생했어요.');
         return;
       }
 
       // state 업데이트
       setSocialArray((prev) => {
         if (!prev) return prev;
-        return prev.filter(
-          (item) => item.social_link !== ''
-        );
+        return prev.filter((item) => item.social_link !== '');
       });
     };
     cleanUpEmptySocialLinks();
@@ -179,25 +129,19 @@ function MypageSocial({
     };
 
     const fetchNewSocial = async () => {
-      const { data, error: insertError } =
-        await supabase
-          .from('user_social')
-          .insert([newItem])
-          .select()
-          .single();
+      const { data, error: insertError } = await supabase
+        .from('user_social')
+        .insert([newItem])
+        .select()
+        .single();
 
       if (insertError) {
         error('새 링크 추가 실패!');
         return;
       }
 
-      setSocialArray((prev) =>
-        prev ? [...prev, data] : [data]
-      );
-      toast.info(
-        '새 링크를 추가할 수 있습니다.',
-        { autoClose: 1500 }
-      );
+      setSocialArray((prev) => (prev ? [...prev, data] : [data]));
+      toast.info('새 링크를 추가할 수 있습니다.', { autoClose: 1500 });
       setAddClicked(false);
     };
     fetchNewSocial();
@@ -242,17 +186,10 @@ function MypageSocial({
   }, [isClicked]);
 
   if (!profileId) {
-    return (
-      <div className={S.mypageSocial}>
-        Loading...
-      </div>
-    );
+    return <div className={S.mypageSocial}>Loading...</div>;
   }
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    index: number
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const newInputValue = e.currentTarget.value;
 
     setInputValues((prev) => {
@@ -263,16 +200,11 @@ function MypageSocial({
 
     setPendingIcon((prev) => {
       const newArr = [...prev];
-      if (newInputValue.includes('instagram'))
-        newArr[index] = 'instagram';
-      else if (newInputValue.includes('github'))
-        newArr[index] = 'github';
-      else if (newInputValue.includes('facebook'))
-        newArr[index] = 'facebook';
-      else if (newInputValue.includes('youtube'))
-        newArr[index] = 'youtube';
-      else if (newInputValue.includes('linkedin'))
-        newArr[index] = 'linkedin';
+      if (newInputValue.includes('instagram')) newArr[index] = 'instagram';
+      else if (newInputValue.includes('github')) newArr[index] = 'github';
+      else if (newInputValue.includes('facebook')) newArr[index] = 'facebook';
+      else if (newInputValue.includes('youtube')) newArr[index] = 'youtube';
+      else if (newInputValue.includes('linkedin')) newArr[index] = 'linkedin';
 
       return newArr;
     });
@@ -280,16 +212,11 @@ function MypageSocial({
 
   const handleIconList = (i: number) => {
     setIsClicked((prev) => {
-      return prev.map((clicked, index) =>
-        index === i ? !clicked : false
-      );
+      return prev.map((clicked, index) => (index === i ? !clicked : false));
     });
   };
 
-  const handleClickedIcon = (
-    e: React.MouseEvent<HTMLImageElement>,
-    index: number
-  ) => {
+  const handleClickedIcon = (e: React.MouseEvent<HTMLImageElement>, index: number) => {
     const newSocial = e.currentTarget.alt;
     setPendingIcon((prev) => {
       const newArr = [...prev];
@@ -300,15 +227,8 @@ function MypageSocial({
     setIsClicked((prev) => prev.map(() => false));
   };
 
-  const handleSocialUpdate = async (
-    index: number
-  ) => {
-    if (
-      !profileId ||
-      !socialArray ||
-      !socialArray[index]
-    )
-      return;
+  const handleSocialUpdate = async (index: number) => {
+    if (!profileId || !socialArray || !socialArray[index]) return;
 
     const { social_id } = socialArray[index];
     const newSocial = pendingIcon[index];
@@ -354,8 +274,7 @@ function MypageSocial({
     setUserData((prev) => {
       if (!prev) return prev;
 
-      const prevSocial =
-        prev.profile[0].social?.[0] || {};
+      const prevSocial = prev.profile[0].social?.[0] || {};
 
       return {
         ...prev,
@@ -399,27 +318,20 @@ function MypageSocial({
                     : DefaultIcon;
   };
 
-  const handleSocialDelete = async (
-    index: number
-  ) => {
+  const handleSocialDelete = async (index: number) => {
     if (!profileId || !socialArray) return;
 
     const { social_id } = socialArray[index];
 
     setSocialArray((prev) => {
       if (!prev) return prev;
-      return prev.filter(
-        (_, i) => !(i === index)
-      );
+      return prev.filter((_, i) => !(i === index));
     });
 
-    const { error: minusError } = await supabase
-      .from('user_social')
-      .delete()
-      .match({
-        profile_id: profileId,
-        social_id: social_id,
-      });
+    const { error: minusError } = await supabase.from('user_social').delete().match({
+      profile_id: profileId,
+      social_id: social_id,
+    });
 
     if (minusError) {
       error('삭제 실패!');
@@ -429,10 +341,7 @@ function MypageSocial({
     setUserData((prev) => {
       if (!prev) return prev;
 
-      const filteredSocial =
-        prev.profile[0].social?.filter(
-          (i) => i.social_id !== social_id
-        ) || [];
+      const filteredSocial = prev.profile[0].social?.filter((i) => i.social_id !== social_id) || [];
 
       return {
         ...prev,
@@ -461,39 +370,19 @@ function MypageSocial({
         {editMode ? (
           socialArray &&
           socialArray.map((s, i) => (
-            <div
-              key={s.social_id}
-              className={E.editSocialWrapper}
-              id="newDiv"
-            >
+            <div key={s.social_id} className={E.editSocialWrapper} id="newDiv">
               <div className={E.socialContent}>
                 <div className={E.chooseSocial}>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      handleIconList(i)
-                    }
-                  >
-                    <img
-                      key={i}
-                      src={iconSrc(i)}
-                      alt={`${pendingIcon[i]} icon`}
-                    />
+                  <button type="button" onClick={() => handleIconList(i)}>
+                    <img key={i} src={iconSrc(i)} alt={`${pendingIcon[i]} icon`} />
                   </button>
                   {isClicked[i] && (
-                    <div
-                      id="iconBox"
-                      ref={liRef}
-                      className={E.editIconList}
-                    >
+                    <div id="iconBox" ref={liRef} className={E.editIconList}>
                       <ul>
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Instagram}
                             alt="instagram"
@@ -502,10 +391,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Github}
                             alt="github"
@@ -514,10 +400,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Discord}
                             alt="discord"
@@ -526,10 +409,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Slack}
                             alt="slack"
@@ -538,10 +418,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Facebook}
                             alt="facebook"
@@ -550,10 +427,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Line}
                             alt="line"
@@ -562,10 +436,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Linkedin}
                             alt="linkedin"
@@ -574,10 +445,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={Youtube}
                             alt="youtube"
@@ -586,10 +454,7 @@ function MypageSocial({
                         <li>
                           <img
                             onClick={(e) => {
-                              handleClickedIcon(
-                                e,
-                                i
-                              );
+                              handleClickedIcon(e, i);
                             }}
                             src={DefaultIcon}
                             alt="personal website"
@@ -599,48 +464,27 @@ function MypageSocial({
                     </div>
                   )}
                 </div>
-                <div
-                  className={E.editSocialInput}
-                >
+                <div className={E.editSocialInput}>
                   <input
                     ref={(el) => {
-                      if (el)
-                        inputRefs.current[i] = el;
+                      if (el) inputRefs.current[i] = el;
                     }}
-                    onChange={(e) =>
-                      handleInputChange(e, i)
-                    }
+                    onChange={(e) => handleInputChange(e, i)}
                     defaultValue={s.social_link}
                   />
                 </div>
               </div>
-              <div
-                className={E.editSocialSaveBtn}
-              >
-                <button
-                  onClick={() =>
-                    handleSocialUpdate(i)
-                  }
-                >
-                  저장
-                </button>
-                <button
-                  onClick={() =>
-                    handleSocialDelete(i)
-                  }
-                >
-                  삭제
-                </button>
+              <div className={E.editSocialSaveBtn}>
+                <button onClick={() => handleSocialUpdate(i)}>저장</button>
+                <button onClick={() => handleSocialDelete(i)}>삭제</button>
               </div>
             </div>
           ))
-        ) : socialArray &&
-          socialArray.length === 0 ? (
+        ) : socialArray && socialArray.length === 0 ? (
           <div className={S.noSocial}>
             <p>
               추가한 소셜링크가 없습니다 <br />
-              나를 알려줄 수 있는 소셜링크를
-              추가해보세요!
+              나를 알려줄 수 있는 소셜링크를 추가해보세요!
               <br />
             </p>
           </div>
@@ -652,10 +496,7 @@ function MypageSocial({
           />
         )}
         {editMode && (
-          <div
-            className={E.editSocialAdd}
-            onClick={() => addSocialLink()}
-          >
+          <div className={E.editSocialAdd} onClick={() => addSocialLink()}>
             <img src={AddIcon} />
           </div>
         )}

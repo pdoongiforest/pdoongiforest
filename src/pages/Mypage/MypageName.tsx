@@ -1,9 +1,4 @@
-import {
-  useEffect,
-  useState,
-  type ChangeEvent,
-  type MutableRefObject,
-} from 'react';
+import { useEffect, useState, type ChangeEvent, type MutableRefObject } from 'react';
 import type { User } from './Mypage';
 import S from './MypageTop.module.css';
 import E from './MypageEdit.module.css';
@@ -17,20 +12,11 @@ import EditPencil from './components/editPencil';
 interface Props {
   user: User | null;
   editMode: boolean;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
-  canExitEditModeRef?: MutableRefObject<
-    () => boolean
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
+  canExitEditModeRef?: MutableRefObject<() => boolean>;
 }
 
-function MypageName({
-  user,
-  editMode,
-  setUserData,
-  canExitEditModeRef,
-}: Props) {
+function MypageName({ user, editMode, setUserData, canExitEditModeRef }: Props) {
   const { error } = useToast();
 
   const [userName, setUserName] = useState({
@@ -66,13 +52,8 @@ function MypageName({
         .single();
 
       if (userData) {
-        const nickname = (
-          userData.nickname ?? ''
-        ).trim();
-        const original =
-          nickname.length > 0
-            ? nickname
-            : '프둥이';
+        const nickname = (userData.nickname ?? '').trim();
+        const original = nickname.length > 0 ? nickname : '프둥이';
 
         const role = (userData.role ?? '').trim();
 
@@ -90,13 +71,9 @@ function MypageName({
   useEffect(() => {
     if (canExitEditModeRef) {
       canExitEditModeRef.current = () => {
-        const trimmedCurrent =
-          userName.current.trim();
-        const trimmedOriginal =
-          userName.original.trim();
-        return !!(
-          trimmedCurrent || trimmedOriginal
-        ); // 둘 다 없으면 false
+        const trimmedCurrent = userName.current.trim();
+        const trimmedOriginal = userName.original.trim();
+        return !!(trimmedCurrent || trimmedOriginal); // 둘 다 없으면 false
       };
     }
   }, [userName]);
@@ -106,12 +83,9 @@ function MypageName({
   };
 
   const handleSaveBtn = async () => {
-    const trimmedCurrent =
-      userName.current.trim();
-    const trimmedOriginal =
-      userName.original.trim();
-    const nameToSave =
-      trimmedCurrent || trimmedOriginal;
+    const trimmedCurrent = userName.current.trim();
+    const trimmedOriginal = userName.original.trim();
+    const nameToSave = trimmedCurrent || trimmedOriginal;
 
     if (!nameToSave) {
       error('이름을 입력해주세요.');
@@ -123,20 +97,12 @@ function MypageName({
       return;
     }
 
-    const { data } = await supabase
-      .from('user_base')
-      .select('nickname, id');
+    const { data } = await supabase.from('user_base').select('nickname, id');
 
     if (
       data
-        ?.filter(
-          (item) =>
-            item.nickname !== '프둥이' &&
-            item.id !== user?.id
-        )
-        .some(
-          (item) => item.nickname === nameToSave
-        )
+        ?.filter((item) => item.nickname !== '프둥이' && item.id !== user?.id)
+        .some((item) => item.nickname === nameToSave)
     ) {
       toast.error('중복되는 닉네임입니다.', {
         autoClose: 1000,
@@ -188,9 +154,7 @@ function MypageName({
     setShowEdit(false);
   };
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.currentTarget.value;
     setUserName((prev) => ({
       ...prev,
@@ -198,21 +162,15 @@ function MypageName({
     }));
   };
 
-  const handleSelectChange = (
-    e: ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>) => {
     setRole(e.currentTarget.value);
   };
 
   const handleCancelBtn = async () => {
-    const result = await showConfirmAlert(
-      '변경하지 않고 나가시겠습니까?'
-    );
+    const result = await showConfirmAlert('변경하지 않고 나가시겠습니까?');
     if (!result.isConfirmed) return;
 
-    const safeName =
-      userName.current.trim() ||
-      userName.original.trim();
+    const safeName = userName.current.trim() || userName.original.trim();
 
     if (!safeName) {
       toast.error('이름이 없습니다.');
@@ -240,68 +198,36 @@ function MypageName({
           <input
             type="text"
             value={userName.current}
-            placeholder={
-              userName.original || '프둥이'
-            }
+            placeholder={userName.original || '프둥이'}
             onChange={handleInputChange}
             onClick={handleEmptyValue}
           />
-          <select
-            onChange={handleSelectChange}
-            defaultValue={role}
-          >
-            <option value="">
-              분야를 선택해주세요.
-            </option>
-            <option value="프론트엔드">
-              프론트엔드
-            </option>
+          <select onChange={handleSelectChange} defaultValue={role}>
+            <option value="">분야를 선택해주세요.</option>
+            <option value="프론트엔드">프론트엔드</option>
             <option value="백엔드">백엔드</option>
-            <option value="데이터 엔지니어">
-              데이터 엔지니어
-            </option>
-            <option value="생성형 AI 백엔드">
-              생성형 AI 백엔드
-            </option>
-            <option value="데이터 분석">
-              데이터 분석
-            </option>
+            <option value="데이터 엔지니어">데이터 엔지니어</option>
+            <option value="생성형 AI 백엔드">생성형 AI 백엔드</option>
+            <option value="데이터 분석">데이터 분석</option>
           </select>
         </div>
       ) : (
         <div className={S.mypageNameRole}>
           <span className={S.mypageName}>
-            {(userName.original?.trim().length ??
-              0) > 0
-              ? userName.original
-              : '프둥이'}
+            {(userName.original?.trim().length ?? 0) > 0 ? userName.original : '프둥이'}
           </span>
-          <span className={S.mypageRole}>
-            {role}
-          </span>
+          <span className={S.mypageRole}>{role}</span>
         </div>
       )}
 
       {editMode &&
         (showEdit ? (
           <div className={E.editNameBtn}>
-            <button onClick={handleSaveBtn}>
-              저장
-            </button>
-            <button onClick={handleCancelBtn}>
-              취소
-            </button>
+            <button onClick={handleSaveBtn}>저장</button>
+            <button onClick={handleCancelBtn}>취소</button>
           </div>
         ) : (
           <EditPencil onClick={handleEditName} />
-          // <div className={S.mypageNameEdit}>
-          //   <button
-          //     type="button"
-          //     onClick={handleEditName}
-          //   >
-          //     <img src="/icons/edit_pencil.svg" />
-          //   </button>
-          // </div>
         ))}
     </div>
   );

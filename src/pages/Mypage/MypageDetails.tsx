@@ -15,9 +15,7 @@ import EditPencil from './components/editPencil';
 interface Props {
   user: User | null;
   editMode: boolean;
-  setUserData: React.Dispatch<
-    React.SetStateAction<User | null>
-  >;
+  setUserData: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 interface DaumPostcodeData {
@@ -42,23 +40,16 @@ type Visibility = {
   gender: boolean;
 };
 
-function MypageDetails({
-  user,
-  editMode,
-  setUserData,
-}: Props) {
+function MypageDetails({ user, editMode, setUserData }: Props) {
   const [showEdit, setShowEdit] = useState(false);
   const [hide, setHide] = useState<Visibility>({
     address: false,
     age: false,
     gender: false,
   });
-  const [address, setAddress] = useState(
-    user?.profile[0].address
-  );
+  const [address, setAddress] = useState(user?.profile[0].address);
   const [gender, setGender] = useState('');
-  const [isClicked, setIsClicked] =
-    useState(false);
+  const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
 
   const today = new Date();
@@ -76,13 +67,8 @@ function MypageDetails({
 
   useEffect(() => {
     if (!user) return;
-    const visibilityValue =
-      user.profile[0].visibility;
-    setHide(
-      typeof visibilityValue === 'string'
-        ? JSON.parse(visibilityValue)
-        : visibilityValue
-    );
+    const visibilityValue = user.profile[0].visibility;
+    setHide(typeof visibilityValue === 'string' ? JSON.parse(visibilityValue) : visibilityValue);
   }, [user]);
 
   useEffect(() => {
@@ -103,11 +89,7 @@ function MypageDetails({
   const userData = user && user.profile[0];
 
   if (!userData) {
-    return (
-      <div className={S.mypageDetailsContainer}>
-        Loading...
-      </div>
-    );
+    return <div className={S.mypageDetailsContainer}>Loading...</div>;
   }
 
   const handleEditDetail = () => {
@@ -115,9 +97,7 @@ function MypageDetails({
   };
 
   const handleCloseDetail = async () => {
-    const result = await showConfirmAlert(
-      '변경하지 않고 나가시겠습니까?'
-    );
+    const result = await showConfirmAlert('변경하지 않고 나가시겠습니까?');
 
     if (!result.isConfirmed) return;
     if (result) {
@@ -134,18 +114,12 @@ function MypageDetails({
     const d = Number(day);
 
     if (!y || y < 1900 || y >= yearNow) {
-      toast.error(
-        '정확한 출생연도를 입력해주세요.',
-        { autoClose: 1500 }
-      );
+      toast.error('정확한 출생연도를 입력해주세요.', { autoClose: 1500 });
       return;
     }
 
     if (!m || !d) {
-      toast.error(
-        '생년월일을 모두 입력해주세요.',
-        { autoClose: 1500 }
-      );
+      toast.error('생년월일을 모두 입력해주세요.', { autoClose: 1500 });
       return;
     }
 
@@ -192,9 +166,7 @@ function MypageDetails({
 
     toast.info('성공적으로 저장되었습니다.', {
       onClose() {
-        navigate(
-          `/mypage/${user.profile[0]?.profile_id}`
-        );
+        navigate(`/mypage/${user.profile[0]?.profile_id}`);
       },
       autoClose: 1500,
     });
@@ -203,38 +175,26 @@ function MypageDetails({
     setIsClicked(false);
   };
 
-  const handleHideToggle = (
-    key: keyof Visibility
-  ) => {
+  const handleHideToggle = (key: keyof Visibility) => {
     setHide((prev) => ({
       ...prev,
       [key]: !prev[key],
     }));
   };
 
-  const handleGender = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleGender = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setGender(e.currentTarget.value);
   };
 
-  const handleYear = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setYear(
-      e.currentTarget.value.replace(/[^0-9]/g, '')
-    );
+  const handleYear = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setYear(e.currentTarget.value.replace(/[^0-9]/g, ''));
   };
 
-  const handleMonth = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleMonth = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setMonth(e.currentTarget.value);
   };
 
-  const handleDay = (
-    e: React.ChangeEvent<HTMLSelectElement>
-  ) => {
+  const handleDay = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setDay(e.currentTarget.value);
   };
 
@@ -243,33 +203,20 @@ function MypageDetails({
     const m = Number(month);
     if (!y || !m) return [];
     const lastDay = new Date(y, m, 0).getDate();
-    return Array.from(
-      { length: lastDay },
-      (_, i) => i + 1
-    );
+    return Array.from({ length: lastDay }, (_, i) => i + 1);
   };
 
-  const calculateAge = (
-    birthYear: number,
-    birthMonth: number,
-    birthDay: number
-  ) => {
+  const calculateAge = (birthYear: number, birthMonth: number, birthDay: number) => {
     let age = yearNow - birthYear;
     const nowMonth = today.getMonth() + 1;
     const nowDay = today.getDate();
-    if (
-      birthMonth > nowMonth ||
-      (birthMonth === nowMonth &&
-        birthDay > nowDay)
-    ) {
+    if (birthMonth > nowMonth || (birthMonth === nowMonth && birthDay > nowDay)) {
       age--;
     }
     return age;
   };
 
-  const handleComplete = (
-    data: DaumPostcodeData
-  ) => {
+  const handleComplete = (data: DaumPostcodeData) => {
     const { address } = data;
     setAddress(address);
   };
@@ -290,30 +237,16 @@ function MypageDetails({
             <h3>주소</h3>
             <div className={E.editDetailAddress}>
               <div>
-                <span className={E.editAdress}>
-                  {address}
-                </span>
+                <span className={E.editAdress}>{address}</span>
                 <button
-                  onClick={() =>
-                    setIsClicked((prev) => !prev)
-                  }
-                  className={
-                    E.editDetailAddressBtn
-                  }
+                  onClick={() => setIsClicked((prev) => !prev)}
+                  className={E.editDetailAddressBtn}
                 >
                   주소찾기
                 </button>
               </div>
-              <button
-                onClick={() =>
-                  handleHideToggle('address')
-                }
-              >
-                {hide.address ? (
-                  <img src={Closed} />
-                ) : (
-                  <img src={Eye} />
-                )}
+              <button onClick={() => handleHideToggle('address')}>
+                {hide.address ? <img src={Closed} /> : <img src={Eye} />}
               </button>
               {isClicked && (
                 <div className={E.postContainer}>
@@ -330,24 +263,12 @@ function MypageDetails({
             <h3>성별</h3>
             <div className={E.editDetailGender}>
               <select onChange={handleGender}>
-                <option value="선택">
-                  성별을 선택해주세요.
-                </option>
-                <option value="female">
-                  여성
-                </option>
+                <option value="선택">성별을 선택해주세요.</option>
+                <option value="female">여성</option>
                 <option value="male">남성</option>
               </select>
-              <button
-                onClick={() =>
-                  handleHideToggle('gender')
-                }
-              >
-                {hide.gender ? (
-                  <img src={Closed} />
-                ) : (
-                  <img src={Eye} />
-                )}
+              <button onClick={() => handleHideToggle('gender')}>
+                {hide.gender ? <img src={Closed} /> : <img src={Eye} />}
               </button>
             </div>
           </li>
@@ -367,22 +288,14 @@ function MypageDetails({
                   <option value="" key="0">
                     태어난 달을 선택해주세요.
                   </option>
-                  {Array.from(
-                    { length: 12 },
-                    (_, i) => (
-                      <option
-                        key={i + 1}
-                        value={i + 1}
-                      >
-                        {i + 1}
-                      </option>
-                    )
-                  )}
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={i + 1}>
+                      {i + 1}
+                    </option>
+                  ))}
                 </select>
                 <select onChange={handleDay}>
-                  <option>
-                    태어난 날을 선택해주세요.
-                  </option>
+                  <option>태어난 날을 선택해주세요.</option>
                   {addDayOption().map((d) => (
                     <option key={d} value={d}>
                       {d}
@@ -390,16 +303,8 @@ function MypageDetails({
                   ))}
                 </select>
               </div>
-              <button
-                onClick={() =>
-                  handleHideToggle('age')
-                }
-              >
-                {hide.age ? (
-                  <img src={Closed} />
-                ) : (
-                  <img src={Eye} />
-                )}
+              <button onClick={() => handleHideToggle('age')}>
+                {hide.age ? <img src={Closed} /> : <img src={Eye} />}
               </button>
             </div>
           </li>
@@ -408,39 +313,23 @@ function MypageDetails({
         <ul>
           <li>
             <h3>주소</h3>
-            {hide.address ? (
-              <p>비밀</p>
-            ) : (
-              <p>{userData.address}</p>
-            )}
+            {hide.address ? <p>비밀</p> : <p>{userData.address}</p>}
           </li>
           <li>
             <h3>성별</h3>
-            {hide.gender ? (
-              <p>비밀</p>
-            ) : (
-              <p>{userData.gender}</p>
-            )}
+            {hide.gender ? <p>비밀</p> : <p>{userData.gender}</p>}
           </li>
           <li>
             <h3>나이</h3>
-            {hide.age ? (
-              <p>비밀</p>
-            ) : (
-              <p>{userData.age}</p>
-            )}
+            {hide.age ? <p>비밀</p> : <p>{userData.age}</p>}
           </li>
         </ul>
       )}
       {editMode ? (
         showEdit ? (
           <div className={E.editDetailSaveClose}>
-            <button onClick={handleSaveDetail}>
-              저장
-            </button>
-            <button onClick={handleCloseDetail}>
-              취소
-            </button>
+            <button onClick={handleSaveDetail}>저장</button>
+            <button onClick={handleCloseDetail}>취소</button>
           </div>
         ) : (
           <div className={S.mypageDetailEdit}>
