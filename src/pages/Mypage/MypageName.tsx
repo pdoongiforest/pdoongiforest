@@ -7,7 +7,7 @@ import { useToast } from '@/utils/useToast';
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { showConfirmAlert } from '@/utils/sweetAlert';
-import EditPencil from './components/editPencil';
+import EditPencil from './components/EditPencil';
 
 interface Props {
   user: User | null;
