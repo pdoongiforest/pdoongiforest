@@ -33,7 +33,6 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
   const [content, setContent] = useState(contents);
   const commentTimeCheck = commentTime(create_at);
 
-
   useEffect(() => {
     const comment_reply = async () => {
       const { data } = await supabase
@@ -48,7 +47,6 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
     };
     comment_reply();
   }, [comment_id]);
-
 
   const handleReply = () => {
     setIsReplyPrss(!isReplyPress);
@@ -176,9 +174,8 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
         )}
 
         <div className={S.actions}>
-          <div className={S.likeBtn}>
-            <LikeBtn likes={likes} targetId={comment_id} table='comment' columnId='comment_id' />
-          </div>
+          <LikeBtn likes={likes} targetId={comment_id} table="comment" columnId="comment_id" />
+
           <div className={S.recomment} onClick={handleReply}>
             <button type="button">↪ Reply</button>
             <span>{reply.length}</span>

@@ -199,7 +199,7 @@ function ThreadList({ data, onDelete, userName, userImage, replyData }: Props) {
       </div>
       <div className={S.iconWrap}>
         <div className={S.likeBtn}>
-          <LikeBtn likes={ likes } targetId={thread_id} table='thread' columnId='thread_id' />
+          <LikeBtn likes={likes} targetId={thread_id} table="thread" columnId="thread_id" />
         </div>
         <div className={S.reply} onClick={handleReply}>
           <button type="button" className={S.comment}>

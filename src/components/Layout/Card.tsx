@@ -76,7 +76,6 @@ function Card({ card }: Props) {
     }
   };
 
-
   const handleRoute = (e: React.MouseEvent<HTMLElement, MouseEvent>, card: CardProps) => {
     e.preventDefault();
     if (
@@ -105,7 +104,7 @@ function Card({ card }: Props) {
               <img src="/icons/scraplittle.svg" alt="스크랩 비 활성화" />
             )}
           </button>
-          <LikeBtn likes={likes} targetId={board_id} table='board' columnId='board_id' />
+          <LikeBtn likes={likes} targetId={board_id} table="board" columnId="board_id" />
         </div>
       </div>
       <div className={S.titleBox}>

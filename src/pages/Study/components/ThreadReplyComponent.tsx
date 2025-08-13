@@ -110,10 +110,7 @@ function ThreadReplyComponent({ reply, onDelete, userName, userImage }: Prop) {
 
         <div className={S.actions}>
           <div className={S.likeBtn}>
-            {
-
-              <LikeBtn likes={likes} columnId='reply_id' targetId={reply_id} table='thread_reply' />
-            }
+            {<LikeBtn likes={likes} columnId="reply_id" targetId={reply_id} table="thread_reply" />}
           </div>
         </div>
       </div>

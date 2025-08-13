@@ -106,7 +106,7 @@ function Recomment({ reply, onDelete, userName, userImage }: Props) {
 
         <div className={S.actions}>
           <div className={S.likeBtn}>
-            <LikeBtn likes={likes} targetId={reply_id} table='comment_reply' columnId='reply_id'/>
+            <LikeBtn likes={likes} targetId={reply_id} table="comment_reply" columnId="reply_id" />
           </div>
         </div>
       </div>
