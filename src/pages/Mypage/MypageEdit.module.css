@@ -75,7 +75,7 @@
   }
 }
 
-.editNamecontainer {
+.editNameContainer {
   width: 100%;
   height: 80%;
   border: 1px solid #a6b37d;
@@ -138,42 +138,6 @@
   }
 }
 
-.editNameBtn {
-  flex: 1;
-
-  display: flex;
-  gap: 4px;
-
-  button {
-    width: 100%;
-    height: 3.2rem;
-    border-radius: 50%;
-    background-color: #a6b37d;
-    color: white;
-    font-size: 1.1rem;
-
-    transition: all 0.4s;
-
-    &:hover {
-      background-color: #ffffff;
-      color: #a6b37d;
-      border: 1px solid #a6b37d;
-    }
-  }
-}
-
-.editDetailBtn {
-  width: 3rem;
-
-  position: absolute;
-  right: 1.8rem;
-  bottom: 1.5rem;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .editDetailGender {
   display: flex;
   justify-content: space-between;
@@ -224,30 +188,6 @@
   }
 }
 
-.editDetailSaveClose {
-  height: 100%;
-
-  display: flex;
-  align-items: end;
-  gap: 3px;
-
-  button {
-    width: 3rem;
-    height: 3rem;
-    border: 1px solid #a6b37d;
-    border-radius: 50%;
-    background-color: #ffffff;
-    color: #a6b37d;
-
-    transition: all 0.5;
-
-    &:hover {
-      background-color: #a6b37d;
-      color: white;
-    }
-  }
-}
-
 .editDetailAddress {
   display: flex;
   justify-content: space-between;
@@ -283,10 +223,12 @@
       }
     }
   }
+}
 
+.eyeBtn {
   img {
-    width: 2rem;
-    height: 2rem;
+    width: 1.2rem;
+    height: 1.2rem;
   }
 }
 

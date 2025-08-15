@@ -11,6 +11,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { showConfirmAlert } from '@/utils/sweetAlert';
 import EditPencil from './components/EditPencil';
+import SaveCancel from './components/SaveCancel';
 
 interface Props {
   user: User | null;
@@ -234,6 +235,9 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
       {showEdit ? (
         <ul id="ulBox" style={{ zIndex: '4' }}>
           <li className={E.ulBoxList}>
+            <button onClick={() => handleHideToggle('address')} className={E.eyeBtn}>
+              {hide.address ? <img src={Closed} /> : <img src={Eye} />}
+            </button>
             <h3>주소</h3>
             <div className={E.editDetailAddress}>
               <div>
@@ -245,9 +249,6 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
                   주소찾기
                 </button>
               </div>
-              <button onClick={() => handleHideToggle('address')}>
-                {hide.address ? <img src={Closed} /> : <img src={Eye} />}
-              </button>
               {isClicked && (
                 <div className={E.postContainer}>
                   <DaumPostcodeEmbed
@@ -260,6 +261,9 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
             </div>
           </li>
           <li className={E.ulBoxList}>
+            <button onClick={() => handleHideToggle('gender')} className={E.eyeBtn}>
+              {hide.gender ? <img src={Closed} /> : <img src={Eye} />}
+            </button>
             <h3>성별</h3>
             <div className={E.editDetailGender}>
               <select onChange={handleGender}>
@@ -267,12 +271,12 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
                 <option value="female">여성</option>
                 <option value="male">남성</option>
               </select>
-              <button onClick={() => handleHideToggle('gender')}>
-                {hide.gender ? <img src={Closed} /> : <img src={Eye} />}
-              </button>
             </div>
           </li>
           <li className={E.ulBoxList}>
+            <button onClick={() => handleHideToggle('age')} className={E.eyeBtn}>
+              {hide.age ? <img src={Closed} /> : <img src={Eye} />}
+            </button>
             <h3>나이</h3>
             <div className={E.editDetailAge}>
               <div className={E.editDetailAgeYMD}>
@@ -303,9 +307,6 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
                   ))}
                 </select>
               </div>
-              <button onClick={() => handleHideToggle('age')}>
-                {hide.age ? <img src={Closed} /> : <img src={Eye} />}
-              </button>
             </div>
           </li>
         </ul>
@@ -327,14 +328,14 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
       )}
       {editMode ? (
         showEdit ? (
-          <div className={E.editDetailSaveClose}>
-            <button onClick={handleSaveDetail}>저장</button>
-            <button onClick={handleCloseDetail}>취소</button>
-          </div>
+          <SaveCancel
+            save="저장"
+            cancel="취소"
+            onSaveClick={handleSaveDetail}
+            onCancelClick={handleCloseDetail}
+          />
         ) : (
-          <div className={S.mypageDetailEdit}>
-            <EditPencil onClick={handleEditDetail} />
-          </div>
+          <EditPencil onClick={handleEditDetail} />
         )
       ) : (
         <div className={S.mypageDetailEdit}></div>

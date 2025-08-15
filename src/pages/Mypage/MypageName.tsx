@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
 import { showConfirmAlert } from '@/utils/sweetAlert';
 import EditPencil from './components/EditPencil';
+import SaveCancel from './components/SaveCancel';
 
 interface Props {
   user: User | null;
@@ -194,7 +195,7 @@ function MypageName({ user, editMode, setUserData, canExitEditModeRef }: Props) 
   return (
     <div className={S.mypageNameContainer}>
       {editMode && showEdit ? (
-        <div className={E.editNamecontainer}>
+        <div className={E.editNameContainer}>
           <input
             type="text"
             value={userName.current}
@@ -222,10 +223,12 @@ function MypageName({ user, editMode, setUserData, canExitEditModeRef }: Props) 
 
       {editMode &&
         (showEdit ? (
-          <div className={E.editNameBtn}>
-            <button onClick={handleSaveBtn}>저장</button>
-            <button onClick={handleCancelBtn}>취소</button>
-          </div>
+          <SaveCancel
+            save="저장"
+            cancel="취소"
+            onSaveClick={handleSaveBtn}
+            onCancelClick={handleCancelBtn}
+          />
         ) : (
           <EditPencil onClick={handleEditName} />
         ))}
