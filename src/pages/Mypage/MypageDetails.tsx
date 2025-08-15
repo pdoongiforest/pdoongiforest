@@ -328,12 +328,7 @@ function MypageDetails({ user, editMode, setUserData }: Props) {
       )}
       {editMode ? (
         showEdit ? (
-          <SaveCancel
-            save="저장"
-            cancel="취소"
-            onSaveClick={handleSaveDetail}
-            onCancelClick={handleCloseDetail}
-          />
+          <SaveCancel onSaveClick={handleSaveDetail} onCancelClick={handleCloseDetail} />
         ) : (
           <EditPencil onClick={handleEditDetail} />
         )

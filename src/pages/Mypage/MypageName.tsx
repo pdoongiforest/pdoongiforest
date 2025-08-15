@@ -223,12 +223,7 @@ function MypageName({ user, editMode, setUserData, canExitEditModeRef }: Props) 
 
       {editMode &&
         (showEdit ? (
-          <SaveCancel
-            save="저장"
-            cancel="취소"
-            onSaveClick={handleSaveBtn}
-            onCancelClick={handleCancelBtn}
-          />
+          <SaveCancel onSaveClick={handleSaveBtn} onCancelClick={handleCancelBtn} />
         ) : (
           <EditPencil onClick={handleEditName} />
         ))}

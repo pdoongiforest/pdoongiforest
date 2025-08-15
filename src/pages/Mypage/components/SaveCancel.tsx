@@ -2,13 +2,11 @@ import { useCallback } from 'react';
 import S from './SaveCancel.module.css';
 
 interface Props {
-  save: string;
-  cancel: string;
   onSaveClick: () => void;
   onCancelClick: () => void;
 }
 
-function SaveCancel({ save, cancel, onSaveClick, onCancelClick }: Props) {
+function SaveCancel({ onSaveClick, onCancelClick }: Props) {
   const handleSave = useCallback(() => {
     onSaveClick();
   }, [onSaveClick]);
@@ -19,8 +17,8 @@ function SaveCancel({ save, cancel, onSaveClick, onCancelClick }: Props) {
 
   return (
     <div className={S.buttons}>
-      <button onClick={handleSave}>{save}</button>
-      <button onClick={handleCancel}>{cancel}</button>
+      <button onClick={handleSave}>저장</button>
+      <button onClick={handleCancel}>취소</button>
     </div>
   );
 }
