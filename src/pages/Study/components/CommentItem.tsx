@@ -7,6 +7,7 @@ import { commentTime } from './utills/commentTime';
 import { useIsMine } from '@/components/context/useIsMine';
 import { IsMineProvider } from '@/components/context/isMine';
 import { showConfirmAlert } from '@/utils/sweetAlert';
+import LikeBtn from '@/components/LikeBtn';
 
 interface Props {
   comment: Tables<'comment'>;
@@ -24,8 +25,6 @@ type Reply = Tables<'comment_reply'> & {
 function CommentItem({ comment, onDelete, userImage, userName, profileId }: Props) {
   const { isMine } = useIsMine();
   const { contents, likes, create_at, comment_id } = comment;
-  const [like, setLike] = useState(likes);
-  const [isPress, setIsPress] = useState(false);
   const [isReplyPress, setIsReplyPrss] = useState(false);
   const [reply, setReply] = useState<Reply[]>([]);
   const [createReply, setCreateReply] = useState('');
@@ -33,11 +32,6 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
   const [editContent, setEditContent] = useState(contents);
   const [content, setContent] = useState(contents);
   const commentTimeCheck = commentTime(create_at);
-
-  useEffect(() => {
-    const storedPress = JSON.parse(localStorage.getItem(`like-${comment_id}`) ?? 'false');
-    setIsPress(storedPress);
-  }, [comment_id]);
 
   useEffect(() => {
     const comment_reply = async () => {
@@ -53,23 +47,6 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
     };
     comment_reply();
   }, [comment_id]);
-
-  const handleLikeToggle = async (comment_id: string) => {
-    const pressState = isPress ? like - 1 : like + 1;
-    const nextState = !isPress;
-
-    setLike(pressState);
-    setIsPress(nextState);
-    localStorage.setItem(`like-${comment_id}`, JSON.stringify(nextState));
-
-    const { error } = await supabase
-      .from('comment')
-      .update({ likes: pressState })
-      .eq('comment_id', comment_id)
-      .select()
-      .single();
-    if (error) console.error();
-  };
 
   const handleReply = () => {
     setIsReplyPrss(!isReplyPress);
@@ -197,16 +174,8 @@ function CommentItem({ comment, onDelete, userImage, userName, profileId }: Prop
         )}
 
         <div className={S.actions}>
-          <div className={S.likeBtn}>
-            <button type="button" onClick={() => handleLikeToggle(comment_id)}>
-              {isPress ? (
-                <img src="/icons/likeActive.png" alt="좋아요 활성화" />
-              ) : (
-                <img src="/icons/like.svg" alt="" />
-              )}
-            </button>
-            <span>{like}</span>
-          </div>
+          <LikeBtn likes={likes} targetId={comment_id} table="comment" columnId="comment_id" />
+
           <div className={S.recomment} onClick={handleReply}>
             <button type="button">↪ Reply</button>
             <span>{reply.length}</span>

@@ -55,6 +55,7 @@
     border-radius: 10px;
     margin-top: 1.4rem;
     overflow: hidden;
+    position: relative;
 
     .mypageBgImg {
       width: 100%;
@@ -91,6 +92,8 @@
   justify-content: space-between;
   gap: 1.5rem;
   margin-bottom: 0.5rem;
+
+  position: relative;
 
   .mypageNameRole {
     display: flex;
@@ -144,6 +147,8 @@
   padding: 1rem;
   margin-bottom: 6rem;
 
+  position: relative;
+
   ul {
     width: 100%;
     display: flex;
@@ -169,28 +174,6 @@
     }
     div {
       flex: 8;
-    }
-  }
-  .mypageDetailEdit {
-    width: 5rem;
-    height: 100%;
-    margin-bottom: 1rem;
-    margin-left: 2rem;
-    display: flex;
-    align-items: end;
-    justify-content: center;
-    transition: border 0.2s;
-    button {
-      width: 2.9rem;
-      height: 2.9rem;
-      img {
-        width: 1.2rem;
-        height: 1.2rem;
-      }
-      &:hover {
-        border: 1px dotted #a6b37d;
-        border-radius: 50%;
-      }
     }
   }
 }

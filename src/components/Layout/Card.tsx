@@ -1,5 +1,4 @@
 import S from './card.module.css';
-
 import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +6,7 @@ import type { Tables } from '@/supabase/database.types';
 import HashTag from '../HashTag';
 import gsap from 'gsap';
 import { useAuth } from '@/auth/AuthProvider';
+import LikeBtn from '../LikeBtn';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {
@@ -20,20 +20,13 @@ interface Props {
 function Card({ card }: Props) {
   const { contents, title, likes, board_id, board_tag } = card;
   const [tagList, setTagList] = useState<string[]>([]);
-
-  const [cardLike, setCardLike] = useState(likes);
-  const [isPressed, setIsPressed] = useState(false);
   const [isScrap, setIsScrap] = useState(false);
   const navigate = useNavigate();
-  const likeBtnRef = useRef<HTMLButtonElement>(null);
   const scrapBtnRef = useRef<HTMLButtonElement>(null);
-
   const { profileId } = useAuth();
 
   useEffect(() => {
-    const storedLike = JSON.parse(localStorage.getItem(`like-${board_id}`) ?? 'false');
     const storedScrap = JSON.parse(localStorage.getItem(`scrap-${board_id}`) ?? 'false');
-    setIsPressed(storedLike);
     setIsScrap(storedScrap);
 
     const tagList = board_tag
@@ -83,39 +76,6 @@ function Card({ card }: Props) {
     }
   };
 
-  const handleLike = async () => {
-    if (likeBtnRef.current) {
-      gsap.fromTo(
-        likeBtnRef.current,
-        { scale: 1 },
-        {
-          scale: 1.3,
-          duration: 0.2,
-          yoyo: true,
-          repeat: 1,
-          ease: 'power1.out',
-        }
-      );
-    }
-    const pressState = isPressed ? cardLike - 1 : cardLike + 1;
-    const nextState = !isPressed;
-
-    setCardLike(pressState);
-    setIsPressed(!isPressed);
-    localStorage.setItem(`like-${board_id}`, JSON.stringify(nextState));
-    const { error } = await supabase
-      .from('board')
-      .update({ likes: pressState })
-      .eq('board_id', board_id);
-
-    if (error) {
-      console.error('좋아요 업데이트 실패', error.message);
-      setCardLike(isPressed ? cardLike - 1 : cardLike + 1);
-      setIsPressed(!isPressed);
-      localStorage.setItem(`like-${board_id}`, JSON.stringify(nextState));
-    }
-  };
-
   const handleRoute = (e: React.MouseEvent<HTMLElement, MouseEvent>, card: CardProps) => {
     e.preventDefault();
     if (
@@ -144,14 +104,7 @@ function Card({ card }: Props) {
               <img src="/icons/scraplittle.svg" alt="스크랩 비 활성화" />
             )}
           </button>
-          <button className={S.likeBtn} onClick={handleLike} ref={likeBtnRef}>
-            {isPressed ? (
-              <img src="/icons/likeActive.png" alt="" />
-            ) : (
-              <img src="/icons/like.svg" alt="" />
-            )}
-            {cardLike}
-          </button>
+          <LikeBtn likes={likes} targetId={board_id} table="board" columnId="board_id" />
         </div>
       </div>
       <div className={S.titleBox}>
