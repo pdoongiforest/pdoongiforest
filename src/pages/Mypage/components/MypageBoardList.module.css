@@ -9,7 +9,7 @@
   margin-bottom: 1.7rem;
 }
 
-.postContainer {
+.container {
   width: 100%;
   padding: 2.3rem 3.8rem;
   margin-bottom: 4rem;
@@ -23,13 +23,13 @@
   background: #fff;
 }
 
-.postList {
+.list {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.post a {
+.linkList a {
   min-height: 45px;
   padding: 0 1rem;
 
@@ -44,7 +44,7 @@
     margin-bottom: 1rem;
   }
 
-  .postTitle {
+  .title {
     display: block;
     width: 35%;
 
@@ -60,7 +60,7 @@
     line-height: normal;
   }
 
-  .postContent {
+  .content{
     display: block;
     width: 65%;
 
@@ -118,34 +118,34 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .postContainer {
+  .container {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
 
-  .postList > .post {
-    .postTitle {
+  .list > .linkList {
+    .title {
       width: 100%;
     }
 
-    .postContent {
+    .content {
       display: none;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
-  .postContainer {
+  .container {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
 
-  .postList > .post {
-    .postTitle {
+  .list > .linkList {
+    .title {
       width: 35%;
     }
 
-    .postContent {
+    .content {
       display: block;
       width: 65%;
     }
