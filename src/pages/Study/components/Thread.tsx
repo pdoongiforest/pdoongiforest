@@ -6,6 +6,8 @@ import type { Tables } from '@/supabase/database.types';
 import { useParams } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthProvider';
 import { IsMineProvider } from '@/components/context/isMine';
+import UserProfile from '@/components/UserProfile';
+import type UserProfileProp from '@/@types/user';
 
 type ThreadWithUser = Tables<'thread'> & {
   user_profile: Tables<'user_profile'> & {
@@ -220,7 +222,16 @@ function Thread() {
       [thread_id]: data as ReplyWithUser[],
     }));
   };
-
+  const profileData = (user: Member): UserProfileProp => {
+    return {
+      profileImage: user.user_profile.profile_images,
+      nickName: user.user_profile.user_base.nickname,
+      status: user.user_profile.user_base.status,
+      profileId: user.profile_id,
+      role: user.user_profile.user_base.role,
+      age: user.user_profile.age,
+    };
+  };
   return (
     <>
       <div className={S.layout}>
@@ -274,16 +285,11 @@ function Thread() {
         <div className={S.member}>
           <div className={S.recentlyUserTitle}>Channel Member</div>
           <ul className={S.recentlyProfileWrap}>
-            {member.map((user) => {
-              return (
-                <li key={user.id}>
-                  <div className={S.recentlyProfile}>
-                    <img src={user.user_profile?.profile_images} alt="유저 프로필 이미지" />
-                    <p>{user.user_profile.user_base.nickname}</p>
-                  </div>
-                </li>
-              );
-            })}
+            {member.map((user) => (
+              <li key={user.id}>
+                <UserProfile user={profileData(user)} />
+              </li>
+            ))}
           </ul>
         </div>
       </div>

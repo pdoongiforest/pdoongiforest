@@ -66,57 +66,6 @@
     cursor: pointer;
   }
 }
-.enterUser {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-  transition: 0.3s;
-
-  .profileImage {
-    width: 36px;
-    height: 36px;
-    position: relative;
-    img {
-      border-radius: 50%;
-      width: 36px;
-      height: 36px;
-    }
-  }
-
-  .enterUser:hover {
-    background-color: #55555518;
-    width: 204px;
-    border-radius: 4px;
-  }
-
-  .profileImage {
-    .statusDot {
-      position: absolute;
-      bottom: -3px;
-      right: -5px;
-      width: 14px;
-      height: 14px;
-      border-radius: 50%;
-      border: 1px solid white;
-
-      &.online {
-        background-color: greenyellow;
-      }
-
-      &.offline {
-        background-color: gray;
-      }
-
-      &.dnd {
-        background-color: red;
-      }
-
-      &.away {
-        background-color: yellow;
-      }
-    }
-  }
-}
 
 .recentEnterUserWrap {
   display: flex;
@@ -126,32 +75,4 @@
   height: 20rem;
   width: 13.5rem;
   flex-direction: column;
-}
-
-.recentEnterUser {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: scroll;
-  height: 20rem;
-  padding-top: 1rem;
-  overflow-x: hidden;
-  margin-bottom: 1.2rem;
-
-  p {
-    margin-left: 8px;
-    font-size: 1rem;
-  }
-
-  &::-webkit-scrollbar {
-    width: 8px;
-    background-color: #ced9d9;
-    cursor: pointer;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #c4a98f;
-    border-radius: 20px;
-    cursor: pointer;
-  }
 }

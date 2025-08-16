@@ -1,0 +1,51 @@
+.enterUser {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  transition: 0.3s;
+
+  .profileImage {
+    width: 36px;
+    height: 36px;
+    position: relative;
+    img {
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+    }
+  }
+
+  .enterUser:hover {
+    background-color: #55555518;
+    width: 204px;
+    border-radius: 4px;
+  }
+
+  .profileImage {
+    .statusDot {
+      position: absolute;
+      bottom: -3px;
+      right: -5px;
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      border: 1px solid white;
+
+      &.online {
+        background-color: greenyellow;
+      }
+
+      &.offline {
+        background-color: gray;
+      }
+
+      &.dnd {
+        background-color: red;
+      }
+
+      &.away {
+        background-color: yellow;
+      }
+    }
+  }
+}

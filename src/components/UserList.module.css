@@ -1,29 +1,27 @@
-.popup {
-  width: 9rem;
-  background-color: white;
-  font-family: 'pretendard variable';
+.recentEnterUser {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: scroll;
+  height: 20rem;
+  padding-top: 1rem;
+  overflow-x: hidden;
+  margin-bottom: 1.2rem;
 
-  position: absolute;
-  top: 1rem;
-  left: 3rem;
-  border-radius: 15px;
-  padding: 1rem;
-  z-index: 10;
+  p {
+    margin-left: 8px;
+    font-size: 1rem;
+  }
 
-  ul {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
+  &::-webkit-scrollbar {
+    width: 8px;
+    background-color: #ced9d9;
+    cursor: pointer;
+  }
 
-    li {
-      cursor: pointer;
-      padding: 0.2rem 0.3rem;
-      margin-top: 0.2rem;
-
-      &:hover {
-        background-color: #55555518;
-        border-radius: 3px;
-      }
-    }
+  &::-webkit-scrollbar-thumb {
+    background-color: #c4a98f;
+    border-radius: 20px;
+    cursor: pointer;
   }
 }
