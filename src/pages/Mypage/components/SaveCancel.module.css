@@ -1,0 +1,25 @@
+.buttons {
+  height: 100%;
+
+  display: flex;
+  gap: 4px;
+  justify-content: end;
+  align-items: end;
+
+  button {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 50%;
+    background-color: #a6b37d;
+    color: white;
+    font-size: 0.9rem;
+
+    transition: all 0.4s;
+
+    &:hover {
+      background-color: #ffffff;
+      color: #a6b37d;
+      border: 1px solid #a6b37d;
+    }
+  }
+}
