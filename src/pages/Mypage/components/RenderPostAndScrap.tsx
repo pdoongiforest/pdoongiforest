@@ -1,5 +1,5 @@
 import type { Database } from '@/supabase/database.types';
-import S from './MypageBoardList.module.css';
+import S from './MypagePostAndScrap.module.css';
 import { Link } from 'react-router-dom';
 
 type Board = Pick<Database['public']['Tables']['board']['Row'], 'board_id'|'title'|'contents'>;

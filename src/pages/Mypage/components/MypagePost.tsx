@@ -1,5 +1,5 @@
 import useFetchUserData from '../hooks/useFetchUserData';
-import RenderBoardList from './RenderBoardList';
+import RenderPostAndScrap from './RenderPostAndScrap';
 
 interface Props {
   profileId: string;
@@ -9,7 +9,7 @@ function MypagePost({ profileId }: Props) {
   const posts = useFetchUserData('board',profileId);
 
   return (
-      <RenderBoardList category='post' data={posts}/>
+      <RenderPostAndScrap category='post' data={posts}/>
   );
 }
 export default MypagePost;

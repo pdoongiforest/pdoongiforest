@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Tables } from 'src/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import useFetchUserData from '../hooks/useFetchUserData';
-import RenderBoardList from './RenderBoardList';
+import RenderPostAndScrap from './RenderPostAndScrap';
 
 
 type Board = Tables<'board'>;
@@ -39,7 +39,7 @@ function MypageScrap({ profileId }: Props) {
   }, [scraps]);
 
   return (
-      <RenderBoardList category='scrap' data={boards}/>
+      <RenderPostAndScrap category='scrap' data={boards}/>
   );
 }
 export default MypageScrap;
