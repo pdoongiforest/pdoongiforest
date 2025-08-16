@@ -34,7 +34,6 @@ function StudyChannel() {
     };
     boardTable();
   }, []);
-
   useEffect(() => {
     setrecentlyCardData([...cardData]);
   }, [cardData]);
@@ -86,7 +85,12 @@ function StudyChannel() {
             </button>
           ))}
         </div>
-        <SearchBar cardData={cardData} setCardData={setCardData} originData={originData} />
+        <SearchBar
+          cardData={cardData}
+          setCardData={setCardData}
+          originData={originData}
+          varient="primary"
+        />
         <Link to="/write">
           <button type="button" className={S.postBtn}>
             글쓰기

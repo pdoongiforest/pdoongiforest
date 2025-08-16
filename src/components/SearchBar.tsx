@@ -1,20 +1,29 @@
-import S from './SearchBar.module.css';
 import { debounce } from '@/utils/debounce';
 import type { Tables } from '@/supabase/database.types';
+import primary from './SearchBar.module.css';
+import mainVarient from './SearchBarMain.module.css';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {
   board_tag: Tables<'board_tag'>[];
 };
 
+type Varient = 'primary' | 'mainVarient';
+
 interface Props {
   cardData: CardProps[];
   originData: CardProps[];
   setCardData: (v: CardProps[]) => void;
+  varient: Varient;
 }
 
-function SearchBar({ cardData, setCardData, originData }: Props) {
-  console.log(cardData);
+const stylesMap = {
+  primary,
+  mainVarient,
+};
+
+function SearchBar({ cardData, setCardData, originData, varient }: Props) {
+  const S = stylesMap[varient];
   const debouncedSearch = debounce((value: string) => {
     if (!value) setCardData(cardData);
     const lowerValue = value.toLowerCase().trim();

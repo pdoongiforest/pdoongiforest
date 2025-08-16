@@ -9,9 +9,55 @@
   flex-direction: column;
   align-items: center;
   overflow-x: hidden;
-
   scrollbar-width: none;
   -ms-overflow-style: none;
+}
+
+.bannerImage {
+  position: relative;
+  width: 100%;
+  max-width: 450px;
+  img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 74px;
+  }
+}
+
+.mainStudyCard {
+  width: 100%;
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: repeat(3, 360px);
+}
+
+.nothing {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+  animation: fadeIn 0.7s ease-in-out;
+  gap: 12px;
+
+  p {
+    color: #a6b37d;
+    background-color: #f0f8e0;
+    border: 2px solid #a6b37d;
+    padding: 16px 24px;
+    border-radius: 32px;
+    font-weight: 600;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4);
+    font-size: 1.25rem;
+  }
+
+  img {
+    width: 100px;
+    margin-top: 20px;
+  }
 }
 
 .mainContent::-webkit-scrollbar {
@@ -34,18 +80,20 @@
   background: transparent;
 }
 
-.bannerSection,
-.mainStudyCard {
-  width: 100%;
-}
-
 .newsSection {
   width: auto;
 }
 
-@media screen and (max-width: 1024px) {
-  .mainWrapper {
-    width: 100%;
-    margin: 0;
+@media screen and (max-width: 1660px) {
+  .mainStudyCard {
+    justify-content: center;
+    grid-template-columns: repeat(2, 360px);
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .mainStudyCard {
+    justify-content: center;
+    grid-template-columns: repeat(1, 360px);
   }
 }
