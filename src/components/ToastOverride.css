@@ -1,42 +1,46 @@
-.Toastify__toast--success {
-  background: #e8bacb;
-  background: radial-gradient(circle, rgba(232, 186, 203, 0.87) 0%, rgba(199, 214, 237, 0.93) 100%);
-  color: white;
-  line-height: 20px;
+/* toastStyles.module.css */
 
-  .Toastify__toast-icon svg {
-    fill: white;
-    color: black;
-  }
+/* 공통 아이콘 스타일 */
+.toastIconWhite svg {
+  fill: white !important;
+  color: white !important;
 }
 
+.toastIconBrown svg {
+  fill: #b99470 !important;
+  color: #b99470 !important;
+}
+
+/* 성공 메시지 */
+.Toastify__toast--success {
+  background-color: #a6b37d !important;
+  color: white !important;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+/* 정보 메시지 */
 .Toastify__toast--info {
-  background: #f1fbea;
-  border-left: 6px solid #b99470;
-  color: #4c4c4c;
+  background-color: white !important;
+  border-left: 6px solid #b99470 !important;
+  color: black !important;
   font-weight: 500;
   font-size: 0.95rem;
-
-  .Toastify__toast-icon svg {
-    fill: #b99470;
-    color: black;
-  }
 }
 
+/* 경고 메시지 */
 .Toastify__toast--warning {
+  background-color: #b99470 !important;
+  color: white !important;
 }
 
+/* 에러 메시지 */
 .Toastify__toast--error {
-  background: #b99470;
-  background: radial-gradient(circle, rgba(185, 148, 112, 0.87) 0%, rgba(237, 231, 199, 0.93) 100%);
-  color: rgb(22, 22, 22);
-
-  .Toastify__toast-icon svg {
-    fill: #b99470;
-    color: white;
-  }
+  background-color: black !important;
+  color: white !important;
 }
 
+/* 닫기 버튼 */
 .Toastify__close-button {
-  color: black;
+  color: white !important;
 }
