@@ -7,6 +7,11 @@ import supabase from '@/supabase/supabase';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import Calender from '@/components/Calender';
+import {
+  showSuccessAlert,
+  showSuccessDeleteAlert,
+  showWarningDeleteAlert,
+} from '@/utils/sweetAlert';
 
 type Board = Tables<'board'>;
 type PickBoard = Pick<Board, 'member' | 'board_cls' | 'address' | 'meeting_time' | 'active'>;
@@ -143,17 +148,10 @@ function MangementChannel() {
   }, [isActive]);
 
   const handleDeleteChannel = () => {
-    // 정말 삭제할것인지 여부 묻기
-    // 삭제 진행
-    Swal.fire({
-      title: '정말 삭제하시겠습니까?',
-      text: '채널의 데이터가 모두 삭제됩니다 되돌릴 수 없습니다',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonText: '채널 삭제',
-      cancelButtonText: '취소',
-      confirmButtonColor: '#F00',
-    }).then((result) => {
+    showWarningDeleteAlert(
+      '정말 삭제하시겠습니까?',
+      '채널의 데이터가 모두 삭제됩니다 되돌릴 수 없습니다'
+    ).then((result) => {
       if (result.isConfirmed) {
         const deleteChannel = async () => {
           const { error } = await supabase.from('board').delete().eq('board_id', board_id);
@@ -162,14 +160,10 @@ function MangementChannel() {
             console.error('채널 삭제 실패 : ', error.message);
           }
 
-          Swal.fire({
-            title: '삭제가 완료되었습니다.',
-            text: '잠시후 메인으로 이동합니다',
-            icon: 'success',
-            timer: 3000,
-            timerProgressBar: true,
-          });
-          navigate('/');
+          showSuccessDeleteAlert('삭제가 완료되었습니다', '잠시후 메인으로 이동합니다');
+          setTimeout(() => {
+            navigate('/');
+          }, 500);
         };
         deleteChannel();
       }
