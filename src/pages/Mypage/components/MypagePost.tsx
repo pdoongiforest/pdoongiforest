@@ -6,10 +6,8 @@ interface Props {
 }
 
 function MypagePost({ profileId }: Props) {
-  const posts = useFetchUserData('board',profileId);
+  const posts = useFetchUserData('board', profileId);
 
-  return (
-      <RenderPostAndScrap category='post' data={posts}/>
-  );
+  return <RenderPostAndScrap category="post" data={posts} />;
 }
 export default MypagePost;

@@ -4,7 +4,6 @@ import supabase from '@/supabase/supabase';
 import useFetchUserData from '../hooks/useFetchUserData';
 import RenderPostAndScrap from './RenderPostAndScrap';
 
-
 type Board = Tables<'board'>;
 
 interface Props {
@@ -13,7 +12,7 @@ interface Props {
 
 function MypageScrap({ profileId }: Props) {
   const [boards, setBoards] = useState<Board[] | null>(null);
-  const scraps = useFetchUserData('scrap',profileId);
+  const scraps = useFetchUserData('scrap', profileId);
 
   useEffect(() => {
     const fetchBoards = async () => {
@@ -38,8 +37,6 @@ function MypageScrap({ profileId }: Props) {
     fetchBoards();
   }, [scraps]);
 
-  return (
-      <RenderPostAndScrap category='scrap' data={boards}/>
-  );
+  return <RenderPostAndScrap category="scrap" data={boards} />;
 }
 export default MypageScrap;
