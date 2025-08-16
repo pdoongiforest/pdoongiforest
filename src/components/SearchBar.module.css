@@ -1,0 +1,27 @@
+.searchBox {
+  height: 20px;
+  width: 400px;
+  display: flex;
+  position: relative;
+
+  .studySearch {
+    border: 0;
+    border-bottom: 1px solid rgba(85, 85, 85, 0.2);
+    background-color: transparent;
+    outline: none;
+    width: 100%;
+
+    transition: 0.3s;
+
+    &:focus {
+      border-bottom: 1px solid rgba(185, 148, 112, 0.7);
+    }
+  }
+
+  .searchBtn {
+    position: absolute;
+    right: 0px;
+    top: -4px;
+    background-color: transparent;
+  }
+}
