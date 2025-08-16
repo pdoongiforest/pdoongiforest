@@ -9,10 +9,9 @@
   margin-bottom: 1.7rem;
 }
 
-.scrapContainer {
+.container {
   width: 100%;
   padding: 2.3rem 3.8rem;
-  background-color: #fff;
   margin-bottom: 4rem;
 
   display: flex;
@@ -24,13 +23,13 @@
   background: #fff;
 }
 
-.scrapList {
+.list {
   width: 100%;
   display: flex;
   flex-direction: column;
 }
 
-.scrap a {
+.linkList a {
   min-height: 45px;
   padding: 0 1rem;
 
@@ -45,7 +44,7 @@
     margin-bottom: 1rem;
   }
 
-  .scrapTitle {
+  .title {
     display: block;
     width: 35%;
 
@@ -58,10 +57,10 @@
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-    line-height: 24px;
+    line-height: normal;
   }
 
-  .scrapContent {
+  .content {
     display: block;
     width: 65%;
 
@@ -119,34 +118,34 @@
 }
 
 @media screen and (max-width: 1024px) {
-  .scrapContainer {
+  .container {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
 
-  .scrapList > .scrap {
-    .scrapTitle {
+  .list > .linkList {
+    .title {
       width: 100%;
     }
 
-    .scrapContent {
+    .content {
       display: none;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
-  .scrapContainer {
+  .container {
     padding: 1.5rem 2rem;
     font-size: 14px;
   }
 
-  .scrapList > .scrap {
-    .scrapTitle {
+  .list > .linkList {
+    .title {
       width: 35%;
     }
 
-    .scrapContent {
+    .content {
       display: block;
       width: 65%;
     }
