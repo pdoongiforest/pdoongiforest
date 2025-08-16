@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import S from './ManagementChannel.module.css';
 import DaumPostcodeEmbed from 'react-daum-postcode';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
-import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
 import Calender from '@/components/Calender';
-import {
-  showSuccessAlert,
-  showSuccessDeleteAlert,
-  showWarningDeleteAlert,
-} from '@/utils/sweetAlert';
+import ActiveChannel from './ActiveChannel';
+import DeleteChannel from './DeleteChannel';
 
 type Board = Tables<'board'>;
 type PickBoard = Pick<Board, 'member' | 'board_cls' | 'address' | 'meeting_time' | 'active'>;
@@ -26,6 +22,9 @@ function MangementChannel() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isActive, setIsActive] = useState<boolean>(true);
   const [projectData, setProjectData] = useState<PickBoard | null>(null);
+
+  const addressRef = useRef<HTMLDivElement | null>(null);
+
   const { id: board_id } = useParams();
   const navigate = useNavigate();
 
@@ -67,6 +66,18 @@ function MangementChannel() {
     // 얘를 클릭했을때
     return isOffline ? true : false;
   };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (!addressRef.current?.contains(e.target as Node)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   const handleAddAdress = ({ address }: { address: string }) => {
     setAddress(address);
@@ -121,52 +132,6 @@ function MangementChannel() {
     navigate(`/channel/${id}`);
     toast.success('저장되었습니다', {
       autoClose: 1500,
-    });
-  };
-
-  const handleActive = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.id === 'active') {
-      toast.success('채널이 활성화되었습니다.', {
-        autoClose: 1500,
-      });
-    } else {
-      toast.success('채널이 비활성화되었습니다.', { autoClose: 1500 });
-    }
-    setIsActive((prev) => !prev);
-  };
-
-  useEffect(() => {
-    const updateActive = async () => {
-      const { error } = await supabase
-        .from('board')
-        .update({ active: isActive })
-        .eq('board_id', board_id);
-
-      if (error) console.error(error);
-    };
-    updateActive();
-  }, [isActive]);
-
-  const handleDeleteChannel = () => {
-    showWarningDeleteAlert(
-      '정말 삭제하시겠습니까?',
-      '채널의 데이터가 모두 삭제됩니다 되돌릴 수 없습니다'
-    ).then((result) => {
-      if (result.isConfirmed) {
-        const deleteChannel = async () => {
-          const { error } = await supabase.from('board').delete().eq('board_id', board_id);
-
-          if (error) {
-            console.error('채널 삭제 실패 : ', error.message);
-          }
-
-          showSuccessDeleteAlert('삭제가 완료되었습니다', '잠시후 메인으로 이동합니다');
-          setTimeout(() => {
-            navigate('/');
-          }, 500);
-        };
-        deleteChannel();
-      }
     });
   };
 
@@ -272,7 +237,7 @@ function MangementChannel() {
             </div>
           </div>
           {isOffline && (
-            <div className={S.locationWrapper}>
+            <div className={S.locationWrapper} ref={addressRef}>
               <button
                 className={S.locationButton}
                 type="button"
@@ -295,32 +260,12 @@ function MangementChannel() {
         </button>
       </form>
       <div className={S.controlSection}>
-        <h1>채널 관리</h1>
-        <section className={S.activeGroup}>
-          <h2 className={S.sectionHeader}>모집 활성화</h2>
-          <section className={S.isActive}>
-            <div className={S.active}>
-              <input
-                type="radio"
-                name="isActive"
-                id="active"
-                defaultChecked
-                onChange={handleActive}
-              />
-              <label htmlFor="active">활성화</label>
-            </div>
-            <div className={S.inactive}>
-              <input type="radio" name="isActive" id="inactive" onChange={handleActive} />
-              <label htmlFor="inactive">비활성화</label>
-            </div>
-          </section>
-        </section>
-        <section className={S.deleteSection}>
-          <h2 className={S.sectionHeader}>채널 제거</h2>
-          <button className={S.deleteButton} type="button" onClick={handleDeleteChannel}>
-            채널 삭제하기
-          </button>
-        </section>
+        {board_id && (
+          <>
+            <ActiveChannel board_id={board_id} isActive={isActive} setIsActive={setIsActive} />
+            <DeleteChannel board_id={board_id} />
+          </>
+        )}
       </div>
     </main>
   );
