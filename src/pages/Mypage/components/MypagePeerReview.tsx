@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import type { Tables } from 'src/supabase/database.types';
 import compareUserId from '../../../utils/compareUserId';
 import S from './MypagePeerReview.module.css';
 
@@ -9,9 +8,8 @@ import './MypageSwiper.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
-import supabase from '@/supabase/supabase';
+import useFetchUserData from '../hooks/useFetchUserData';
 
-type PeerReview = Tables<'peer_review'>;
 type PeerReviewsList = {
   review_id: string;
   writer_id: string;
@@ -24,24 +22,12 @@ interface Props {
   profileId: string;
 }
 function MypagePeerReview({ profileId }: Props) {
-  const [rawPeerReviews, setRawPeerReviews] = useState<PeerReview[] | null>(null);
   const [peerReviews, setPeerReviews] = useState<PeerReviewsList[] | null>(null);
   const [swiper, setSwiper] = useState<SwiperClass>();
   const [swiperIndex, setSwiperIndex] = useState<number>(0);
   const swiperWrappedRef = useRef<HTMLElement | null>(null);
 
-  useEffect(() => {
-    if (!profileId) return;
-    const fetchPeerReviews = async () => {
-      const { data, error } = await supabase
-        .from('peer_review')
-        .select('*')
-        .eq('profile_id', profileId);
-      if (error) return console.error('피어리뷰 불러오기 실패');
-      setRawPeerReviews(data);
-    };
-    fetchPeerReviews();
-  }, [profileId]);
+  const rawPeerReviews = useFetchUserData('peer_review', profileId);
 
   useEffect(() => {
     const refinedPeerReviews = async () => {
