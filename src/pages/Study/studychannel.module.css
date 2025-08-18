@@ -202,7 +202,9 @@
 
 @media screen and (max-width: 768px) {
   .channelHeader {
-    flex-direction: row;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 
     .searchBox {
       width: 400px;
@@ -214,9 +216,10 @@
 
     .filterTab {
       gap: 1.75rem;
+      justify-content: space-between;
 
       .filterBtn {
-        width: 105px;
+        max-width: 250px;
       }
     }
 
@@ -224,12 +227,12 @@
       width: fit-content;
     }
     .postBtn {
-      width: 105px;
+      width: 400px;
     }
   }
   .cardGrid {
     justify-items: center;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     gap: 24px;
   }
 }
