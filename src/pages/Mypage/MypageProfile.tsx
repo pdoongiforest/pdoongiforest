@@ -1,10 +1,9 @@
 import type { User } from './Mypage';
 import S from './MypageTop.module.css';
 import E from './MypageEdit.module.css';
-import BackgroundEdit from './components/BackgroundEdit';
 import { useState } from 'react';
-import ProfileEdit from './components/ProfileEdit';
 import EditPencil from './components/EditPencil';
+import Popup from './components/Popup';
 
 interface Props {
   user: User | null;
@@ -43,11 +42,12 @@ function MypageProfile({ user, editMode, setUserData }: Props) {
               <img src={profileData.background_images} className={E.edit_mypageBg} />
               <EditPencil onClick={handleEditBackground} />
               {showDropdown && (
-                <BackgroundEdit
+                <Popup
+                  type="profile-backgrounds"
                   prevImage={prevImage}
                   setPrevImage={setPrevImage}
-                  showDropdown={showDropdown}
-                  setShowDropdown={setShowDropdown}
+                  setPopup={setShowDropdown}
+                  popup={showDropdown}
                   profileData={profileData}
                   setUserData={setUserData}
                 />
@@ -68,13 +68,14 @@ function MypageProfile({ user, editMode, setUserData }: Props) {
                 <img src={profileData.profile_images} className={E.editProfileImg} />
               </button>
               {showProfileDrop && (
-                <ProfileEdit
-                  prevProfileImage={prevProfileImage}
-                  setPrevProfileImage={setPrevProfileImage}
-                  setShowProfileDrop={setShowProfileDrop}
+                <Popup
+                  type="profile"
+                  prevImage={prevProfileImage}
+                  setPrevImage={setPrevProfileImage}
+                  setPopup={setShowProfileDrop}
+                  popup={showProfileDrop}
                   profileData={profileData}
                   setUserData={setUserData}
-                  showProfileDrop={showProfileDrop}
                 />
               )}
             </>
