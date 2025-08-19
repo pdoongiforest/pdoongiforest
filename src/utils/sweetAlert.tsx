@@ -82,6 +82,55 @@ export const showWarningAlert = (title: string, text?: string) => {
   });
 };
 
+/* warning */
+export const showWarningDeleteAlert = (title: string, text?: string) => {
+  return Swal.fire({
+    icon: 'warning',
+    title,
+    text,
+    showCancelButton: true,
+    confirmButtonText: '삭제',
+    cancelButtonText: '취소',
+    confirmButtonColor: '#b99470',
+    cancelButtonColor: '#cccccc',
+    customClass: {
+      popup: 'my-swal-popup',
+      confirmButton: 'my-confirm-button',
+      cancelButton: 'my-cancel-button',
+      icon: 'custom-icon-background',
+    },
+    didOpen: () => {
+      const iconContent = document.querySelector('.swal2-icon.swal2-warning .swal2-icon-content');
+      if (iconContent instanceof HTMLElement) {
+        iconContent.style.color = '#b99470';
+      }
+    },
+  });
+};
+
+export const showSuccessDeleteAlert = (title: string, text?: string) => {
+  return Swal.fire({
+    icon: 'success',
+    title,
+    text,
+    confirmButtonColor: '#A8D5BA',
+    iconColor: '#A8D5BA',
+    timer: 1300,
+    showConfirmButton: false,
+    customClass: {
+      popup: 'my-swal-popup',
+      confirmButton: 'my-confirm-button',
+      icon: 'custom-icon-background',
+    },
+    didOpen: () => {
+      const iconContent = document.querySelector('.swal2-icon.swal2-success .swal2-icon-content');
+      if (iconContent instanceof HTMLElement) {
+        iconContent.style.color = '#7FC8D6';
+      }
+    },
+  });
+};
+
 /* confirm */
 export const showConfirmAlert = (title: string, text?: string) => {
   return Swal.fire({
