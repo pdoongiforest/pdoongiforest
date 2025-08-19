@@ -1,0 +1,163 @@
+/* 공통 배경 오버레이 */
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  backdrop-filter: blur(4px);
+  background-color: rgba(192, 191, 191, 0.5);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 5;
+}
+
+/* 공통 컨테이너 베이스 */
+.container {
+  background-color: white;
+  width: 30rem;
+  height: 32rem;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  .profileImg {
+    width: 18rem;
+    height: 18rem;
+    border-radius: 50%;
+    margin: 0 auto 2rem;
+  }
+}
+
+/* .backgroundEditContainer 전용 스타일 (배경) */
+.backgroundEditContainer {
+  background-color: white;
+  width: 60rem;
+  height: 24rem;
+
+  position: absolute;
+  top: 20%;
+  left: 50%;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  img {
+    width: 100%;
+    height: 65%;
+  }
+
+  .bgEditCloseBtn {
+    width: 1.3rem;
+    height: 1.9rem;
+    margin-right: 4px;
+    border-radius: 2px;
+    border: none;
+    background-color: transparent;
+
+    transition: background-color 0.4s;
+  }
+}
+
+/* 공통 자식 요소 스타일 */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem;
+  margin-top: 0.2rem;
+
+  h1 {
+    padding-left: 0.5rem;
+  }
+
+  .closeBtn,
+  .bgEditCloseBtn {
+    width: 1.9rem;
+    height: 1.9rem;
+    border-radius: 2px;
+    border: none;
+    background-color: transparent;
+
+    img {
+      transition: all 0.1s;
+    }
+
+    &:hover img {
+      width: 1.8rem;
+      height: 1.8rem;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+
+  button {
+    width: 5.7rem;
+    height: 2.7rem;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+    background-color: #b99470;
+    color: #ffffff;
+    cursor: pointer;
+    font-size: 1.1rem;
+
+    transition: all 0.6s;
+
+    &:hover {
+      background-color: #ffffff;
+      color: #b99470;
+    }
+  }
+}
+
+/* 반응형 */
+@media (max-width: 1750px) {
+  .container {
+    width: 28rem !important;
+  }
+
+  .backgroundEditContainer {
+    width: 55rem !important;
+  }
+}
+
+@media (max-width: 1400px) {
+  .container {
+    width: 25rem !important;
+
+    .buttons {
+      gap: 1.5rem;
+
+      button {
+        width: 5rem;
+      }
+    }
+  }
+
+  .backgroundEditContainer {
+    width: 45rem !important;
+  }
+}
+
+@media (max-width: 1250px) {
+  .container {
+    width: 20rem !important;
+  }
+
+  .backgroundEditContainer {
+    width: 35rem !important;
+  }
+}

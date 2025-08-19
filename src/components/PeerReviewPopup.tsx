@@ -1,12 +1,13 @@
 import { createPortal } from 'react-dom';
 import S from './PeerReviewPopup.module.css';
-import type { User } from '@/pages/Mypage/Mypage';
+
 import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import gsap from 'gsap';
+import type UserProfileProp from '@/@types/user';
 
 interface Props {
-  user: User;
+  user: UserProfileProp;
   onClose: () => void;
 }
 
@@ -23,7 +24,7 @@ function PeerReviewPopup({ user, onClose }: Props) {
           count: 'exact',
         })
         .match({
-          profile_id: user.profile[0].profile_id,
+          profile_id: user.profileId,
         });
 
       if (error) {
@@ -77,11 +78,11 @@ function PeerReviewPopup({ user, onClose }: Props) {
         </div>
         <div className={S.middle}>
           <div className={S.image}>
-            <img src={user.profile[0]?.profile_images} />
+            <img src={user.profileImage} />
           </div>
           <div className={S.details}>
-            <span>{user.nickname || '프둥이'}, </span>
-            <span>{user.profile[0]?.age || '0'}</span>
+            <span>{user.nickName || '프둥이'}, </span>
+            <span>{user.age || '0'}</span>
           </div>
           <div className={S.role}>
             <span>{user.role || '프론트엔드'}</span>
