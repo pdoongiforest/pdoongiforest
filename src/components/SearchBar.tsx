@@ -1,20 +1,14 @@
 import { debounce } from '@/utils/debounce';
-import type { Tables } from '@/supabase/database.types';
 import primary from './SearchBar.module.css';
 import mainVarient from './SearchBarMain.module.css';
-
-type Board = Tables<'board'>;
-type CardProps = Board & {
-  board_tag: Tables<'board_tag'>[];
-};
+import { useMemo } from 'react';
 
 type Varient = 'primary' | 'mainVarient';
 
 interface Props {
-  cardData: CardProps[];
-  originData: CardProps[];
-  setCardData: (v: CardProps[]) => void;
   varient: Varient;
+  onChange: (v: string) => void;
+  delay?: number;
 }
 
 const stylesMap = {
@@ -22,20 +16,15 @@ const stylesMap = {
   mainVarient,
 };
 
-function SearchBar({ cardData, setCardData, originData, varient }: Props) {
+function SearchBar({ onChange, varient, delay = 400 }: Props) {
   const S = stylesMap[varient];
-  const debouncedSearch = debounce((value: string) => {
-    if (!value) setCardData(cardData);
-    const lowerValue = value.toLowerCase().trim();
-    const filtered = [...originData].filter(
-      (card) =>
-        card.title.toLowerCase().includes(lowerValue) ||
-        card.contents.toLowerCase().includes(lowerValue) ||
-        card.address?.toLowerCase().includes(lowerValue) ||
-        card.board_tag.some((tag) => tag.hash_tag?.toLowerCase().includes(lowerValue))
-    );
-    setCardData(filtered);
-  }, 400);
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((value: string) => {
+        onChange(value);
+      }, delay),
+    [onChange]
+  );
 
   return (
     <form className={S.searchBox}>

@@ -1,36 +1,12 @@
-import { useState, useEffect } from 'react';
 import NewsSection from './NewsSection';
 import S from './MainContent.module.css';
 import SearchBar from '@/components/SearchBar';
-import type { Tables } from '@/supabase/database.types';
-import supabase from '@/supabase/supabase';
 import Card from '@/components/Layout/Card';
-
-type Board = Tables<'board'>;
-type CardProps = Board & {
-  board_tag: Tables<'board_tag'>[];
-};
+import { useSearch } from '@/components/context/useSearch';
 
 function MainContent() {
-  const [cardData, setCardData] = useState<CardProps[]>([]);
-  const [originData, setOriginData] = useState<CardProps[]>([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from('board')
-        .select('*,board_tag(*)')
-        .eq('active', true);
-      if (error) console.error();
-      if (data) {
-        setCardData(data);
-        setOriginData(data);
-      }
-    };
-    fetchData();
-  }, []);
-
-  const shuffledCard = [...cardData].sort(() => Math.random() - 0.5).slice(0, 6);
+  const { data, setKeyword } = useSearch();
+  const shuffledCard = [...data].sort(() => Math.random() - 0.5).slice(0, 6);
 
   return (
     <section className={S.mainContent}>
@@ -38,12 +14,7 @@ function MainContent() {
         <img src="images/banner2.png" alt="모여봐요 프둥이숲" />
       </div>
 
-      <SearchBar
-        cardData={cardData}
-        setCardData={setCardData}
-        originData={originData}
-        varient="mainVarient"
-      />
+      <SearchBar onChange={setKeyword} varient="mainVarient" />
 
       {shuffledCard.length > 0 ? (
         <div className={S.mainStudyCard}>

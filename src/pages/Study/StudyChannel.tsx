@@ -1,63 +1,44 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import Card from '@/components/Layout/Card';
 import S from './studychannel.module.css';
-import supabase from '@/supabase/supabase';
 import type { Tables } from '@/supabase/database.types';
 import { Link } from 'react-router-dom';
 import SearchBar from '@/components/SearchBar';
+import { useSearch } from '@/components/context/useSearch';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {
   board_tag: Tables<'board_tag'>[];
 };
+type FilteredTab = 'recent' | 'likes';
 
 function StudyChannel() {
+  const { data, setKeyword } = useSearch();
+  const [sortTab, setSortTab] = useState<FilteredTab>('recent');
   const cardPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardData, setCardData] = useState<CardProps[]>([]);
-  const [originData, setOriginData] = useState<CardProps[]>([]);
-  const filterTab = ['최신순', '좋아요순'];
-  const filterRef = useRef<(HTMLButtonElement | null)[]>([]);
-  const [recentlyCardData, setrecentlyCardData] = useState<CardProps[]>([]);
 
-  useEffect(() => {
-    const boardTable = async () => {
-      const { data } = await supabase
-        .from('board')
-        .select(' *, board_tag(*)')
-        .eq('active', true)
-        .order('create_at', { ascending: false });
-      if (data) {
-        setCardData(data);
-        setOriginData(data);
-      }
-    };
-    boardTable();
-  }, []);
-  useEffect(() => {
-    setrecentlyCardData([...cardData]);
-  }, [cardData]);
-
-  function handleFilter(e: React.MouseEvent) {
-    if (filterRef.current == null) return;
-    if (e.currentTarget === filterRef.current[0]) {
-      const sorted = [...cardData].sort(
-        (a, b) => new Date(b.create_at).getTime() - new Date(a.create_at).getTime()
+  const sorted = useMemo(() => {
+    const arr = [...data];
+    if (sortTab === 'recent') {
+      // created_at 컬럼명 확인 필요: 스키마에 따라 create_at vs created_at
+      return arr.sort(
+        (a, b) => new Date(b.create_at ?? 0).getTime() - new Date(a.create_at ?? 0).getTime()
       );
-
-      setCardData(sorted);
-    } else if (e.currentTarget === filterRef.current[1]) {
-      const sorted = [...cardData].sort((a, b) => b.likes - a.likes);
-
-      setCardData(sorted);
     }
-  }
+    // likes 기준 (nullable 방지)
+    return arr.sort((a, b) => (b.likes ?? 0) - (a.likes ?? 0));
+  }, [data, sortTab]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [sortTab, data]);
 
   const startIdx = (currentPage - 1) * cardPerPage;
   const endIdx = startIdx + cardPerPage;
-  const paginatedCards = recentlyCardData.slice(startIdx, endIdx);
+  const paginatedCards = sorted.slice(startIdx, endIdx);
 
-  const totalPages = Math.ceil(cardData.length / cardPerPage);
+  const totalPages = Math.ceil(sorted.length / cardPerPage);
   const maxVisible = 5;
   const startPage = Math.max(1, currentPage - 2);
   const endPage = Math.min(totalPages, startPage + maxVisible - 1);
@@ -71,26 +52,22 @@ function StudyChannel() {
     <main className={S.container}>
       <div className={S.channelHeader}>
         <div className={S.filterTab}>
-          {filterTab.map((tab, i) => (
-            <button
-              type="button"
-              className={S.filterBtn}
-              key={i}
-              ref={(el) => {
-                if (el) filterRef.current[i] = el;
-              }}
-              onClick={(e) => handleFilter(e)}
-            >
-              {tab}
-            </button>
-          ))}
+          <button
+            type="button"
+            className={`${S.filterBtn} ${sortTab === 'recent' ? S.active : ''}`}
+            onClick={() => setSortTab('recent')}
+          >
+            최신순
+          </button>
+          <button
+            type="button"
+            className={`${S.filterBtn} ${sortTab === 'likes' ? S.active : ''}`}
+            onClick={() => setSortTab('likes')}
+          >
+            좋아요순
+          </button>
         </div>
-        <SearchBar
-          cardData={cardData}
-          setCardData={setCardData}
-          originData={originData}
-          varient="primary"
-        />
+        <SearchBar onChange={setKeyword} varient="primary" />
         <Link to="/write">
           <button type="button" className={S.postBtn}>
             글쓰기
