@@ -9,7 +9,7 @@ interface Props {
   data: Board[] | null;
 }
 
-function RenderBoardList({ category, data }: Props) {
+function RenderPostAndScrap({ category, data }: Props) {
   const translate = category === 'post' ? '포스트' : '스크랩';
   return (
     <>
@@ -46,4 +46,4 @@ function RenderBoardList({ category, data }: Props) {
     </>
   );
 }
-export default RenderBoardList;
+export default RenderPostAndScrap;
