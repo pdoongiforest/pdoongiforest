@@ -5,6 +5,7 @@ import type { Tables } from '@/supabase/database.types';
 import { Link } from 'react-router-dom';
 import SearchBar from '@/components/SearchBar';
 import { useSearch } from '@/components/context/useSearch';
+import fetchBoardData from '@/components/context/fetchBoardData';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {
@@ -13,7 +14,8 @@ type CardProps = Board & {
 type FilteredTab = 'recent' | 'likes';
 
 function StudyChannel() {
-  const { data, setKeyword } = useSearch();
+  const { setKeyword } = useSearch();
+  const data = fetchBoardData();
   const [sortTab, setSortTab] = useState<FilteredTab>('recent');
   const cardPerPage = 9;
   const [currentPage, setCurrentPage] = useState(1);

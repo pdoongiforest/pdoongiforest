@@ -3,9 +3,11 @@ import S from './MainContent.module.css';
 import SearchBar from '@/components/SearchBar';
 import Card from '@/components/Layout/Card';
 import { useSearch } from '@/components/context/useSearch';
+import fetchBoardData from '@/components/context/fetchBoardData';
 
 function MainContent() {
-  const { data, setKeyword } = useSearch();
+  const { setKeyword } = useSearch();
+  const data = fetchBoardData();
   const shuffledCard = [...data].sort(() => Math.random() - 0.5).slice(0, 6);
 
   return (
