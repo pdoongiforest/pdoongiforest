@@ -1,0 +1,12 @@
+@theme {
+  /* breakpoint */
+  /* mo 0 ~ 767 */
+  /* tablet 768 ~ 1023 */
+  /* pc 1024~ */
+
+  --color-primary: #61744a;
+  --color-secondary: #b99470;
+  --color-text-primary: #222222;
+  --color-bgc: #f5f5f5;
+  --color-gray: #555555;
+}

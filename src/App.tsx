@@ -1,5 +1,6 @@
 import './App.css';
-import '@/shared/style/reset.css';
+// import '@/shared/style/reset.css';
+
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import StudyChannel from './pages/Study/StudyChannel';
@@ -8,7 +9,6 @@ import Thread from './pages/Study/components/Thread';
 import Mypage from './pages/Mypage/Mypage';
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
 
-import MainContent from './pages/Mainpage/MainContent';
 import Footer from './pages/Mainpage/Footer';
 import Register from './pages/Register';
 import Login from './pages/Login/login';
@@ -30,6 +30,7 @@ import { AdminProvider } from './shared/context/useAdmin';
 import BoardWrite from './pages/BoardWrite/BoardWrite';
 import LeftSidebar from './shared/components/Layout/LeftSidebar';
 import RightSidebar from './shared/components/Layout/RightSidebar';
+import Main from './pages/Mainpage/Main';
 
 function App() {
   const location = useLocation();
@@ -82,27 +83,13 @@ function App() {
             }}
           ></div>
         )}
-        {!isAuthPage && !isNotFoundPage && (
-          <>
-            <button id="leftSidebar" onClick={toggleLeftSidebar} ref={leftSidebarButton}>
-              <img
-                src={isLeftSidebarOpen ? '/images/close.png' : '/images/leftSidebar.png'}
-                title={isLeftSidebarOpen ? '닫기' : '좌측 사이드바 열기'}
-                alt="left Sidebar Toggle"
-              />
-            </button>
-            <nav className="leftcontainer" ref={leftSidebarRef}>
-              {isOverlay && <div className="overlay" onClick={() => setIsOverlay(false)}></div>}
-              <LeftSidebar />
-            </nav>
-          </>
-        )}
+
         <div
           className={`mainWrapper ${isAuthPage || isNotFoundPage ? 'fullWidth' : ''}`}
           id="standard-container"
         >
           <Routes>
-            <Route path="/" element={<MainContent />} />
+            <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/study" element={<StudyChannel />} />
@@ -134,29 +121,7 @@ function App() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
-
-          {!isAuthPage && !isNotFoundPage && <Footer />}
         </div>
-
-        {!isAuthPage && !isNotFoundPage && (
-          <>
-            <button id="rightSidebar" onClick={toggleRightSidebar} ref={rightSidebarButton}>
-              <img
-                src={isRightSidebarOpen ? '/images/close.png' : '/images/rightSidebar.png'}
-                title={isRightSidebarOpen ? '닫기' : '우측 사이드바 열기'}
-                alt="right Sidebar Toggle"
-              />
-            </button>
-            <nav className="rightcontainer" ref={rightSidebarRef}>
-              <RightSidebar
-                isOverlay={isOverlay}
-                setIsOverlay={setIsOverlay}
-                isNotification={isNotification}
-                setIsNotification={setIsNotification}
-              />
-            </nav>
-          </>
-        )}
       </div>
     </NotificationProvider>
   );

@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.52.0",
+    "@tailwindcss/vite": "^4.1.16",
     "@types/swiper": "^5.4.3",
     "@types/yaireo__tagify": "^4.27.0",
     "@yaireo/tagify": "^4.35.3",
@@ -29,6 +30,7 @@
     "remark-gfm": "^4.0.1",
     "sweetalert2": "^11.22.2",
     "swiper": "^11.2.10",
+    "tailwindcss": "^4.1.16",
     "toastify": "^2.0.1"
   },
   "devDependencies": {
