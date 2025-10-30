@@ -5,14 +5,13 @@ import { useEffect } from 'react';
 import { format } from 'date-fns';
 
 import supabase from '@/supabase/supabase';
-import { useBoardContext } from '@/components/context/useBoardContext';
 
-import { useToast } from '@/utils/useToast';
-import { useHashTagContext } from '@/components/context/useHashTag';
-
-import { useProfileImageContext } from '@/components/context/useProfileImage';
 import { useNavigate } from 'react-router-dom';
-import { showConfirmAlert } from '@/utils/sweetAlert';
+import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useHashTagContext } from '@/shared/context/useHashTag';
+import { useProfileImageContext } from '@/shared/context/useProfileImage';
+import { useToast } from '@/shared/utils/useToast';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
 
 interface boardData {
   profile_id: string;

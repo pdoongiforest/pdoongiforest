@@ -1,4 +1,4 @@
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { AdminContext } from '@/pages/Study/context/AdminContext';
 import supabase from '@/supabase/supabase';
 import { useEffect, useState, type ReactNode } from 'react';

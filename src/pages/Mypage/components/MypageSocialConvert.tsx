@@ -1,5 +1,5 @@
 import type { Tables } from '@/supabase/database.types';
-import compareUserId from '@/utils/compareUserId';
+
 import { useEffect } from 'react';
 import S from './MypageSocialConvert.module.css';
 import { useCopyToClipboard } from '@uidotdev/usehooks';
@@ -7,15 +7,16 @@ import type { User } from '../Mypage';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
-import Instagram from '@/assets/instagram.svg';
-import Github from '@/assets/github.svg';
-import Discord from '@/assets/discord.svg';
-import Slack from '@/assets/slack.svg';
-import Linkedin from '@/assets/linkedin.png';
-import Facebook from '@/assets/facebook.png';
-import Line from '@/assets/line.png';
-import Youtube from '@/assets/youtube.png';
+import Instagram from '@/shared/assets/instagram.svg';
+import Github from '@/shared/assets/github.svg';
+import Discord from '@/shared/assets/discord.svg';
+import Slack from '@/shared/assets/slack.svg';
+import Linkedin from '@/shared/assets/linkedin.png';
+import Facebook from '@/shared/assets/facebook.png';
+import Line from '@/shared/assets/line.png';
+import Youtube from '@/shared/assets/youtube.png';
 import DefaultIcon from '/images/너굴.png';
+import compareUserId from '@/shared/utils/compareUserId';
 
 interface Props {
   user: User | null;

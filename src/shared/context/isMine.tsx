@@ -1,4 +1,4 @@
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
 import { createContext, useEffect, useState, type ReactNode } from 'react';
 
 interface IsMineContextType {

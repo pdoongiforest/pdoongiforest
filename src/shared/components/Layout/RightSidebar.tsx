@@ -1,7 +1,7 @@
 import S from './RghtSidebar.module.css';
 import '../../style/reset.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '@/auth/AuthProvider';
+
 import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import Notification from './Notification';
@@ -11,7 +11,8 @@ import Offline from '/icons/offline.svg';
 import Away from '/icons/away.svg';
 import Dnd from '/icons/dnd.svg';
 import gsap from 'gsap';
-import { showConfirmAlert, showInfoAlert } from '@/utils/sweetAlert';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showConfirmAlert, showInfoAlert } from '@/shared/utils/sweetAlert';
 
 type CurrentUser = {
   profileId: string;

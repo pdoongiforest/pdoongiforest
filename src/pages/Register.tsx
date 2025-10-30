@@ -2,9 +2,9 @@ import { useId, useState } from 'react';
 import S from './Register.module.css';
 import supabase from '@/supabase/supabase';
 import { Link, useNavigate } from 'react-router-dom';
-import PasswordInput from '@/components/PasswordInput';
-import { showErrorAlert, showInfoAlert, showSuccessAlert } from '@/utils/sweetAlert';
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showErrorAlert, showInfoAlert, showSuccessAlert } from '@/shared/utils/sweetAlert';
+import PasswordInput from '@/shared/components/PasswordInput';
 
 function Register() {
   const nameId = useId();

@@ -1,12 +1,14 @@
-import { ProfileImageProvider } from '@/components/context/useProfileImage';
 import BoardForm from './BoardForm';
-import { BoardProvider } from '@/components/context/useBoardContext';
-import { HashTagProvider } from '@/components/context/useHashTag';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useAuth } from '@/auth/AuthProvider';
+
 import BoardUpdate from './BoardUpdate';
-import { showErrorAlert } from '@/utils/sweetAlert';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showErrorAlert } from '@/shared/utils/sweetAlert';
+import { ProfileImageProvider } from '@/shared/context/useProfileImage';
+import { BoardProvider } from '@/shared/context/useBoardContext';
+import { HashTagProvider } from '@/shared/context/useHashTag';
 
 function BoardWrite() {
   const { id: boardId } = useParams();

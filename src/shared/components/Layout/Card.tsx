@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
 import HashTag from '../HashTag';
 import gsap from 'gsap';
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {

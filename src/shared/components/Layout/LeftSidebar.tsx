@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import S from './LeftSidebar.module.css';
 import { useState } from 'react';
 import UserList from '../UserList';
-import { showInfoAlert } from '@/utils/sweetAlert';
+import { showInfoAlert } from '@/shared/utils/sweetAlert';
 
 function LeftSidebar() {
   const [CommunityReady, setCommunityReady] = useState(false);

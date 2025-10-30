@@ -1,11 +1,12 @@
 import { NavLink, Outlet, useParams } from 'react-router-dom';
 import S from './StudyMemberChannel.module.css';
 import supabase from '@/supabase/supabase';
-import { useToast } from '@/utils/useToast';
-import { useAuth } from '@/auth/AuthProvider';
+
 import { useAdmin } from './context/useAdmin';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
+import { useToast } from '@/shared/utils/useToast';
+import { useAuth } from '@/features/auth/AuthProvider';
 
 function StudyMemberChannel() {
   const { id } = useParams();

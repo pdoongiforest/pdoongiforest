@@ -1,10 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
-import Card from '@/components/Layout/Card';
+
 import S from './studychannel.module.css';
 import supabase from '@/supabase/supabase';
-import { debounce } from '@/utils/debounce';
+
 import type { Tables } from '@/supabase/database.types';
 import { Link } from 'react-router-dom';
+import { debounce } from '@/shared/utils/debounce';
+import Card from '@/shared/components/Layout/Card';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {

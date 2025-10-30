@@ -4,11 +4,12 @@ import { commentTime } from './utills/commentTime';
 import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import ThreadReplyComponent from './ThreadReplyComponent';
-import { useAuth } from '@/auth/AuthProvider';
+
 import gsap from 'gsap';
-import { useIsMine } from '@/components/context/useIsMine';
-import { IsMineProvider } from '@/components/context/isMine';
-import { showConfirmAlert } from '@/utils/sweetAlert';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
+import { IsMineProvider } from '@/shared/context/isMine';
 
 type User = Tables<'user_profile'> & {
   user_base: Tables<'user_base'>;

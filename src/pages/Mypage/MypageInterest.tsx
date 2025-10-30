@@ -7,11 +7,12 @@ import { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import InterestDropdown from './components/InterestDropdown';
 import supabase from '@/supabase/supabase';
-import { useToast } from '@/utils/useToast';
-import compareUserId from '@/utils/compareUserId';
+
 import type { Tables } from '@/supabase/database.types';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useToast } from '@/shared/utils/useToast';
+import compareUserId from '@/shared/utils/compareUserId';
 
 interface Props {
   user: User | null;

@@ -6,7 +6,7 @@
  * 5. 일차하는 row가 있다면 해당 데이터 통째로 반환
  */
 
-import supabase from '../supabase/supabase';
+import supabase from '@/supabase/supabase';
 import type { Database } from 'src/supabase/database.types';
 
 type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row'];
