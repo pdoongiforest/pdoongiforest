@@ -1,0 +1,51 @@
+.mainContent {
+  box-sizing: border-box;
+  flex: 1;
+  padding: 20px 24px;
+  background-color: #f5f5f5;
+  overflow-y: auto;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mainContent::-webkit-scrollbar {
+  display: none;
+}
+
+.mainContent:hover {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: rgba(0, 0, 0, 0.3) transparent;
+}
+.mainContent:hover::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+}
+.mainContent:hover::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+.mainContent:hover::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.bannerSection,
+.mainStudyCard {
+  width: 100%;
+}
+
+.newsSection {
+  width: auto;
+}
+
+@media screen and (max-width: 1024px) {
+  .mainWrapper {
+    width: 100%;
+    margin: 0;
+  }
+}
