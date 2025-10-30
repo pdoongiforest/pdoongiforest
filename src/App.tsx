@@ -1,5 +1,6 @@
 import './App.css';
 // import '@/shared/style/reset.css';
+import '@/shared/style/global.css';
 
 import { Route, Routes, useLocation } from 'react-router-dom';
 
@@ -9,7 +10,6 @@ import Thread from './pages/Study/components/Thread';
 import Mypage from './pages/Mypage/Mypage';
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
 
-import Footer from './pages/Mainpage/Footer';
 import Register from './pages/Register';
 import Login from './pages/Login/login';
 import Management from './pages/Study/components/management/Management';
@@ -17,7 +17,7 @@ import Approve from './pages/Study/components/management/Approve';
 import ManagementMembers from './pages/Study/components/management/ManagementMembers';
 import MangementChannel from './pages/Study/components/management/ManagementChannel';
 
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 
 import PeerReiview from './pages/PeerReview/PeerReiview';
 import Team from './pages/team/Team';
@@ -28,9 +28,9 @@ import { useAuth } from './features/auth/AuthProvider';
 import { NotificationProvider } from './shared/context/NotificationContext';
 import { AdminProvider } from './shared/context/useAdmin';
 import BoardWrite from './pages/BoardWrite/BoardWrite';
-import LeftSidebar from './shared/components/Layout/LeftSidebar';
-import RightSidebar from './shared/components/Layout/RightSidebar';
+
 import Main from './pages/Mainpage/Main';
+import Header from './shared/components/Layout/header/Header';
 
 function App() {
   const location = useLocation();
@@ -48,32 +48,12 @@ function App() {
   );
   const [isOverlay, setIsOverlay] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
-  const [isLeftSidebarOpen, setIsLeftSidebarOpen] = useState(false);
-  const [isRightSidebarOpen, setIsRightSidebarOpen] = useState(false);
+
   const { profileId } = useAuth();
-
-  const leftSidebarRef = useRef<HTMLElement>(null);
-  const leftSidebarButton = useRef<HTMLButtonElement>(null);
-  const rightSidebarRef = useRef<HTMLElement>(null);
-  const rightSidebarButton = useRef<HTMLButtonElement>(null);
-
-  const toggleLeftSidebar = () => {
-    if (!leftSidebarRef.current || !leftSidebarButton.current) return;
-    leftSidebarRef.current.classList.toggle('active');
-    leftSidebarButton.current.classList.toggle('isOpen');
-    setIsLeftSidebarOpen((prev) => !prev);
-  };
-
-  const toggleRightSidebar = () => {
-    if (!rightSidebarRef.current || !rightSidebarButton.current) return;
-    rightSidebarRef.current.classList.toggle('active');
-    rightSidebarButton.current.classList.toggle('isOpen');
-    setIsRightSidebarOpen((prev) => !prev);
-  };
 
   return (
     <NotificationProvider profileId={profileId}>
-      <div className="container">
+      <div className="">
         {isOverlay && (
           <div
             className="overlay"
@@ -83,11 +63,8 @@ function App() {
             }}
           ></div>
         )}
-
-        <div
-          className={`mainWrapper ${isAuthPage || isNotFoundPage ? 'fullWidth' : ''}`}
-          id="standard-container"
-        >
+        {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
+        <main className="flex flex-1 mt-[80px] h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
@@ -121,7 +98,7 @@ function App() {
 
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </NotificationProvider>
   );

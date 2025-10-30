@@ -1,5 +1,5 @@
 import S from './RghtSidebar.module.css';
-import '../../style/reset.css';
+// import '../../style/reset.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/auth/AuthProvider';
 import { useEffect, useRef, useState } from 'react';
