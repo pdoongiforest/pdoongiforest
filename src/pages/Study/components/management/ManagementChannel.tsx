@@ -6,7 +6,7 @@ import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import Swal from 'sweetalert2';
 import { toast } from 'react-toastify';
-import Calender from '@/components/Calender';
+import Calender from '@/shared/components/Calender';
 
 type Board = Tables<'board'>;
 type PickBoard = Pick<Board, 'member' | 'board_cls' | 'address' | 'meeting_time' | 'active'>;

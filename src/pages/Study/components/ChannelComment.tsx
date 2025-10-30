@@ -3,8 +3,8 @@ import S from './ChannelComment.module.css';
 import supabase from '@/supabase/supabase';
 import type { Tables } from '@/supabase/database.types';
 import CommentItem from './CommentItem';
-import { useAuth } from '@/auth/AuthProvider';
-import { IsMineProvider } from '@/components/context/isMine';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { IsMineProvider } from '@/shared/context/isMine';
 
 type Props = Tables<'board'>;
 type Comment = Tables<'comment'>;

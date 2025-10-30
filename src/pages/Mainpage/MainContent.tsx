@@ -3,7 +3,7 @@ import BannerSection from './BannerSection';
 import NewsSection from './NewsSection';
 import MainStudyCard from './MainStudyCard';
 import S from './MainContent.module.css';
-import { debounce } from '@/utils/debounce';
+import { debounce } from '@/shared/utils/debounce';
 
 function MainContent() {
   const [search, setSearch] = useState('');

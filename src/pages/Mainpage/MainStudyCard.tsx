@@ -2,8 +2,8 @@ import { useEffect, useState, startTransition } from 'react';
 import type { Tables } from '../../supabase/database.types';
 import supabase from '../../supabase/supabase';
 import S from './MainStudyCard.module.css';
-import Card from '../../components/Layout/Card';
-import { debounce } from '@/utils/debounce';
+import { debounce } from '@/shared/utils/debounce';
+import Card from '@/shared/components/Layout/Card';
 
 type Board = Tables<'board'>;
 type BoardTag = Tables<'board_tag'>;

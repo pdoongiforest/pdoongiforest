@@ -3,8 +3,8 @@ import S from './PeerReveiw.module.css';
 import supabase from '@/supabase/supabase';
 import { useNavigate, useParams } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
-import { useToast } from '@/utils/useToast';
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { useToast } from '@/shared/utils/useToast';
 
 type User = Tables<'board'> & {
   user_profile: Tables<'user_profile'> & {

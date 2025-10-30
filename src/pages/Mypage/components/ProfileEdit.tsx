@@ -5,11 +5,12 @@ import type { User } from '../Mypage';
 import { useEffect, useRef, useState } from 'react';
 import Default_profile from '/images/애플.png';
 import supabase from '../../../supabase/supabase';
-import { useToast } from '@/utils/useToast';
+
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
 import { createPortal } from 'react-dom';
+import { useToast } from '@/shared/utils/useToast';
 
 interface Props {
   prevProfileImage: string;

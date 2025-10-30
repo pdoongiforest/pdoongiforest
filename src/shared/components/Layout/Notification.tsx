@@ -2,8 +2,8 @@ import S from './Notification.module.css';
 import type { Tables } from '@/supabase/database.types';
 import { commentTime } from '@/pages/Study/components/utills/commentTime';
 
-import { useNotification } from '../context/useNotification';
 import { useNavigate } from 'react-router-dom';
+import { useNotification } from '@/shared/context/useNotification';
 
 type Notification = Tables<'notification'>;
 

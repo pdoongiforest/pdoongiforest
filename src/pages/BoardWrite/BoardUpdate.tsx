@@ -4,14 +4,12 @@ import BoardEdit from './components/BoardEdit';
 import { useEffect } from 'react';
 
 import supabase from '@/supabase/supabase';
-import { useBoardContext } from '@/components/context/useBoardContext';
-
-import { useToast } from '@/utils/useToast';
-import { useHashTagContext } from '@/components/context/useHashTag';
-
-import { useProfileImageContext } from '@/components/context/useProfileImage';
 
 import { useNavigate } from 'react-router-dom';
+import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useHashTagContext } from '@/shared/context/useHashTag';
+import { useProfileImageContext } from '@/shared/context/useProfileImage';
+import { useToast } from '@/shared/utils/useToast';
 
 interface boardData {
   profile_id: string;

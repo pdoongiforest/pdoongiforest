@@ -3,8 +3,8 @@ import S from './ManagementMembers.module.css';
 import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import { Link, useParams } from 'react-router-dom';
-import { useToast } from '@/utils/useToast';
-import { useAuth } from '@/auth/AuthProvider';
+import { useToast } from '@/shared/utils/useToast';
+import { useAuth } from '@/features/auth/AuthProvider';
 
 type User = Tables<'user_profile'> & {
   user_base: Tables<'user_base'>;

@@ -4,9 +4,9 @@ import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import Recomment from './Recomment';
 import { commentTime } from './utills/commentTime';
-import { useIsMine } from '@/components/context/useIsMine';
-import { IsMineProvider } from '@/components/context/isMine';
-import { showConfirmAlert } from '@/utils/sweetAlert';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
+import { IsMineProvider } from '@/shared/context/isMine';
 
 interface Props {
   comment: Tables<'comment'>;

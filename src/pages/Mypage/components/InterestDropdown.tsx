@@ -1,15 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import S from './InterestDropdown.module.css';
 import back from '/icons/back.svg';
-import interestData from '@/components/data/interestData.json';
+import interestData from '@/shared/data/interestData.json';
 import type { User } from '../Mypage';
 import type { Tables } from '@/supabase/database.types';
-import { useToast } from '@/utils/useToast';
+
 import supabase from '@/supabase/supabase';
-import compareUserId from '@/utils/compareUserId';
+
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import gsap from 'gsap';
+import { useToast } from '@/shared/utils/useToast';
+import compareUserId from '@/shared/utils/compareUserId';
 
 interface Props {
   plusClicked: boolean;

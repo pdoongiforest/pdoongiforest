@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import type { Tables } from 'src/supabase/database.types';
-import compareUserId from '../../../utils/compareUserId';
+
 import S from './MypagePeerReview.module.css';
 
 import { Swiper, SwiperSlide, type SwiperClass } from 'swiper/react';
@@ -10,6 +10,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import supabase from '@/supabase/supabase';
+import compareUserId from '@/shared/utils/compareUserId';
 
 type PeerReview = Tables<'peer_review'>;
 type PeerReviewsList = {

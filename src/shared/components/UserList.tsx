@@ -1,4 +1,4 @@
-import S from '@/components/Layout/LeftSidebar.module.css';
+import S from '@/shared/components/Layout/LeftSidebar.module.css';
 import E from './UserList.module.css';
 import { useEffect, useRef, useState } from 'react';
 import supabase from '@/supabase/supabase';

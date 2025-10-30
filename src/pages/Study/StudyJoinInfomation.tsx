@@ -5,11 +5,12 @@ import Project from './components/Project';
 import ChannelComment from './components/ChannelComment';
 import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
-import MarkDownConvert from '@/components/MarkDownConvert';
+
 import { useAdmin } from './context/useAdmin';
-import { chooseRegion } from '@/utils/chooseRegion';
-import HashTag from '@/components/HashTag';
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { chooseRegion } from '@/shared/utils/chooseRegion';
+import HashTag from '@/shared/components/HashTag';
+import MarkDownConvert from '@/shared/components/MarkDownConvert';
 
 type Board = Tables<'board'>;
 type CardProps = Board & {

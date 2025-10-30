@@ -1,7 +1,8 @@
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
-import { useToast } from '@/utils/useToast';
+
 import { useEffect, useState, createContext } from 'react';
+import { useToast } from '../utils/useToast';
 
 type Notification = Tables<'notification'>;
 
