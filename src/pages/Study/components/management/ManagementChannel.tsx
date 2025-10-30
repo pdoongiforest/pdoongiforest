@@ -5,9 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import { toast } from 'react-toastify';
-import Calender from '@/components/Calender';
-import ActiveChannel from './ActiveChannel';
-import DeleteChannel from './DeleteChannel';
+import Calender from '@/shared/components/Calender';
 
 type Board = Tables<'board'>;
 type PickBoard = Pick<Board, 'member' | 'board_cls' | 'address' | 'meeting_time' | 'active'>;

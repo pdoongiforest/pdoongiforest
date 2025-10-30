@@ -3,12 +3,11 @@ import type { User } from './Mypage';
 import S from './MypageTop.module.css';
 import E from './MypageEdit.module.css';
 import supabase from '../../supabase/supabase';
-import { useToast } from '@/utils/useToast';
+
 import { toast } from 'react-toastify';
 import { useParams } from 'react-router-dom';
-import { showConfirmAlert } from '@/utils/sweetAlert';
-import EditPencil from './components/EditPencil';
-import SaveCancel from './components/SaveCancel';
+import { useToast } from '@/shared/utils/useToast';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
 
 interface Props {
   user: User | null;

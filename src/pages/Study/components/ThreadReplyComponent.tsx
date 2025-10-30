@@ -3,9 +3,8 @@ import S from './ThreadReplyComponent.module.css';
 import type { Tables } from '@/supabase/database.types';
 import { commentTime } from './utills/commentTime';
 import supabase from '@/supabase/supabase';
-import { useIsMine } from '@/components/context/useIsMine';
-import { showConfirmAlert } from '@/utils/sweetAlert';
-import LikeBtn from '@/components/LikeBtn';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
 
 type ThreadReply = Tables<'thread_reply'>;
 interface Prop {

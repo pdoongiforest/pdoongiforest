@@ -1,10 +1,11 @@
 import S from './Team.module.css';
 import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
-import { useAuth } from '@/auth/AuthProvider';
+
 import type { Tables } from '@/supabase/database.types';
 import { useNavigate } from 'react-router-dom';
 import { DdayCounter } from '../Study/components/utills/DdayCounter';
+import { useAuth } from '@/features/auth/AuthProvider';
 
 type Board = Tables<'approve_member'> & {
   board: Tables<'board'> & {

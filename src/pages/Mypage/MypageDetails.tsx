@@ -9,9 +9,7 @@ import supabase from '@/supabase/supabase';
 import gsap from 'gsap';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-import { showConfirmAlert } from '@/utils/sweetAlert';
-import EditPencil from './components/EditPencil';
-import SaveCancel from './components/SaveCancel';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
 
 interface Props {
   user: User | null;

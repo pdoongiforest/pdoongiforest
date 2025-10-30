@@ -3,9 +3,9 @@ import S from './Login.module.css';
 import supabase from '@/supabase/supabase';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import PasswordInput from '@/components/PasswordInput';
-import { showErrorAlert, showSuccessAlert, showInfoAlert } from '@/utils/sweetAlert';
-import { useAuth } from '@/auth/AuthProvider';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showErrorAlert, showInfoAlert, showSuccessAlert } from '@/shared/utils/sweetAlert';
+import PasswordInput from '@/shared/components/PasswordInput';
 
 function Login() {
   const [email, setEmail] = useState('');

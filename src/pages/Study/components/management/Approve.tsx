@@ -4,8 +4,9 @@ import supabase from '@/supabase/supabase';
 
 import { Link, useParams } from 'react-router-dom';
 import type { Tables } from '@/supabase/database.types';
-import { useToast } from '@/utils/useToast';
+
 import { toast } from 'react-toastify';
+import { useToast } from '@/shared/utils/useToast';
 
 type User = Tables<'user_profile'> & {
   user_base: Tables<'user_base'>;

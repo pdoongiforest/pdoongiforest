@@ -1,10 +1,11 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
-import '@/style/main.css';
+import '@/shared/style/main.css';
 import App from './App.tsx';
-import ToastProvider from './components/ToastProvider.tsx';
-import { AuthProvider } from './auth/AuthProvider.tsx';
-import { KakaoLoaderProvider } from './components/context/useKakaoLoaderProvider.tsx';
+
+import { KakaoLoaderProvider } from './shared/context/useKakaoLoaderProvider.tsx';
+import ToastProvider from './shared/components/ToastProvider.tsx';
+import { AuthProvider } from './features/auth/AuthProvider.tsx';
 
 createRoot(document.getElementById('root')!).render(
   <ToastProvider>

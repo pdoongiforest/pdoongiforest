@@ -12,10 +12,12 @@ import MypagePeerReview from './components/MypagePeerReview';
 import MypagePost from './components/MypagePost';
 import MypageScrap from './components/MypageScrap';
 import MoveToTop from './components/MoveToTop';
-import { useAuth } from '@/auth/AuthProvider';
+
 import { useNavigate, useParams } from 'react-router-dom';
-import { showErrorAlert } from '@/utils/sweetAlert';
+
 import { toast } from 'react-toastify';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { showErrorAlert } from '@/shared/utils/sweetAlert';
 
 type UserProfileWithJoins = Tables<'user_profile'> & {
   interest: Tables<'user_interest'>[];

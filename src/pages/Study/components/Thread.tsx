@@ -4,10 +4,8 @@ import ThreadList from './ThreadList';
 import { useEffect, useRef, useState } from 'react';
 import type { Tables } from '@/supabase/database.types';
 import { useParams } from 'react-router-dom';
-import { useAuth } from '@/auth/AuthProvider';
-import { IsMineProvider } from '@/components/context/isMine';
-import UserProfile from '@/components/UserProfile';
-import type UserProfileProp from '@/@types/user';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { IsMineProvider } from '@/shared/context/isMine';
 
 type ThreadWithUser = Tables<'thread'> & {
   user_profile: Tables<'user_profile'> & {

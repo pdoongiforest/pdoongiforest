@@ -1,8 +1,7 @@
 import './App.css';
-import './style/reset.css';
+import '@/shared/style/reset.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
-import RightSidebar from './components/Layout/RightSidebar';
-import LeftSidebar from './components/Layout/LeftSidebar';
+
 import StudyChannel from './pages/Study/StudyChannel';
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
 import Thread from './pages/Study/components/Thread';
@@ -17,16 +16,20 @@ import Management from './pages/Study/components/management/Management';
 import Approve from './pages/Study/components/management/Approve';
 import ManagementMembers from './pages/Study/components/management/ManagementMembers';
 import MangementChannel from './pages/Study/components/management/ManagementChannel';
-import BoardWrite from './pages/BoardForm/BoardWrite';
+
 import { useRef, useState } from 'react';
-import { AdminProvider } from './components/context/useAdmin';
-import { NotificationProvider } from './components/context/NotificationContext';
-import { useAuth } from './auth/AuthProvider';
+
 import PeerReiview from './pages/PeerReview/PeerReiview';
 import Team from './pages/team/Team';
 
 import NotFound from './pages/NotFound';
 import Admin from './pages/Admin/Admin';
+import { useAuth } from './features/auth/AuthProvider';
+import { NotificationProvider } from './shared/context/NotificationContext';
+import { AdminProvider } from './shared/context/useAdmin';
+import BoardWrite from './pages/BoardWrite/BoardWrite';
+import LeftSidebar from './shared/components/Layout/LeftSidebar';
+import RightSidebar from './shared/components/Layout/RightSidebar';
 
 function App() {
   const location = useLocation();

@@ -3,9 +3,8 @@ import S from './Recomment.module.css';
 import { commentTime } from './utills/commentTime';
 import { useState } from 'react';
 import supabase from '@/supabase/supabase';
-import { useIsMine } from '@/components/context/useIsMine';
-import { showConfirmAlert } from '@/utils/sweetAlert';
-import LikeBtn from '@/components/LikeBtn';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
 
 type Props = {
   reply: Tables<'comment_reply'>;
