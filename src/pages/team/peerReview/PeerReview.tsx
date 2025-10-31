@@ -1,4 +1,5 @@
 import AdjustMember from '@/features/team/components/peerReview/AdjustMember';
+import Button from '@/shared/components/button/Button';
 
 function PeerReview() {
   return (
@@ -65,10 +66,17 @@ function PeerReview() {
       <main className="mt-9">
         <AdjustMember />
       </main>
-      <footer className="mt-9">
+      <footer className="mt-9 flex justify-between">
         <span>1/7</span>
 
-        {/* 버튼 컴포넌트 자리 */}
+        <Button
+          type="submit"
+          size="lg"
+          disabled={true}
+          title="모든 피어리뷰가 제출되면 활성화됩니다."
+        >
+          제출
+        </Button>
       </footer>
     </section>
   );
