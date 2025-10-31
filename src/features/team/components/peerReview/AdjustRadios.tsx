@@ -36,9 +36,9 @@ function AdjustRadios({ name }: Props) {
       role="radiogroup"
       aria-labelledby="question-label"
     >
-      {RADIO_OPTION.map(({ id, name, label }) => (
-        <span className="flex gap-1">
-          <input type="radio" name={name} id={`${name}-${id}`} value={id} />
+      {RADIO_OPTION.map(({ id, name, label }, i) => (
+        <span className="flex gap-1" key={i}>
+          <input type="radio" name={name} id={`${name}-${id}`} value={id} required />
           <label htmlFor={`${name}-${id}`}>{label}</label>
         </span>
       ))}

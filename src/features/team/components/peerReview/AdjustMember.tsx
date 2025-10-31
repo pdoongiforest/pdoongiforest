@@ -24,11 +24,21 @@ function AdjustMember() {
     },
   ];
   return (
-    <form className="flex justify-center">
+    <form
+      className="flex justify-center"
+      aria-label="
+          아래 항목은 함께 프로젝트를 진행한 팀원들의 평가항목입니다.
+    "
+    >
+      <fieldset>
+        <legend className="sr-only">
+          아래 항목은 함께 프로젝트를 진행한 팀원들의 평가항목입니다.
+        </legend>
+      </fieldset>
+
       <ol className="flex flex-col gap-10">
-        <span className="sr-only">아래 항목은 함께 프로젝트를 진행한 팀원들의 평가항목입니다.</span>
         {PEER_REVIEW_QUESTION.map(({ id, question, name }) => (
-          <li key={id} className="flex flex-col xl:flex-row gap-3">
+          <li key={id} className="flex flex-col xl:flex-row     gap-3">
             <p>{question}</p>
             <AdjustRadios name={name} />
           </li>
@@ -36,9 +46,10 @@ function AdjustMember() {
         <li>
           <textarea
             className="w-full h-32 bg-white px-2 py-3 rounded-sm border border-gray-400 resize-none placeholder:text-xs"
+            aria-label="이곳에 평가를 남겨주세요"
             name=""
             id=""
-            placeholder='예) "이번 프로젝트에서 인상 깊었던 점: 빠른 응답과 꼼꼼한 코드 리뷰.  
+            placeholder='예시) "이번 프로젝트에서 인상 깊었던 점: 빠른 응답과 꼼꼼한 코드 리뷰.  
 다음에 더 좋을 것 같은 점: 회의에서 의견을 좀 더 적극적으로 나눠주시면 좋겠습니다."'
           ></textarea>
         </li>

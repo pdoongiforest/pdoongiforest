@@ -4,8 +4,9 @@ function PeerReview() {
   return (
     <section className="mt-8">
       <header className="flex justify-between items-center">
-        <button type="button" className="flex flex-col">
+        <button type="button" className="flex flex-col" aria-label="이전">
           <svg
+            aria-hidden="true"
             width="30"
             height="24"
             viewBox="0 0 30 24"
@@ -32,8 +33,9 @@ function PeerReview() {
           이전
         </button>
         <p>유저</p>
-        <button type="button" className="flex flex-col">
+        <button type="button" className="flex flex-col" aria-label="다음">
           <svg
+            aria-hidden="true"
             width="30"
             height="24"
             viewBox="0 0 30 24"
