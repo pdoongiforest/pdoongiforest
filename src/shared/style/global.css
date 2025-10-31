@@ -3,3 +3,30 @@
 @import './_base.css';
 @import './_utilities.css';
 @import './_theme.css';
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Medium.woff2')
+    format('woff2');
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/pretendard@1.0/Pretendard-Bold.woff2')
+    format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+
+:root {
+  color: #222222;
+  line-height: 1.5;
+  font-weight: 500;
+  font-family:
+    'Pretendard',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
+}
