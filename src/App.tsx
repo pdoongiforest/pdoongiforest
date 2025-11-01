@@ -19,7 +19,7 @@ import MangementChannel from './pages/Study/components/management/ManagementChan
 
 import { useState } from 'react';
 
-import PeerReiview from './pages/PeerReview/PeerReiview';
+import PeerReiview from './pages/team/peerReview/PeerReview';
 import Team from './pages/team/Team';
 
 import NotFound from './pages/NotFound';

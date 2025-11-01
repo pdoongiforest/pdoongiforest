@@ -1,13 +1,13 @@
 import tw from '@/shared/utils/tw';
 import { cva } from 'class-variance-authority';
-import type { Ref } from 'react';
+import type { ButtonHTMLAttributes, Ref } from 'react';
 
-interface Props {
+interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: 'primary' | 'sub';
   size?: 'lg' | 'sm';
   type?: 'submit' | 'button';
-  disable?: boolean;
+  disabled?: boolean;
   className?: string;
   ref?: Ref<HTMLButtonElement | null>;
   onClick?: () => void;
@@ -39,7 +39,7 @@ function Button({
   size,
   type = 'submit',
   ref,
-  disable,
+  disabled,
   className,
   onClick,
   ...rest
@@ -49,7 +49,7 @@ function Button({
       className={tw(ButtonClass({ variant, size, className }))}
       type={type}
       ref={ref}
-      disabled={disable}
+      disabled={disabled}
       onClick={onClick}
       {...rest}
     >
