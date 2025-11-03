@@ -31,6 +31,8 @@ import BoardWrite from './pages/BoardWrite/BoardWrite';
 
 import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
+import TeamDetail from './pages/team/detail/TeamDetail';
+import Setting from './pages/team/setting/Setting';
 
 function App() {
   const location = useLocation();
@@ -71,6 +73,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/study" element={<StudyChannel />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/team/:id" element={<TeamDetail />}>
+              <Route path="peerreview" element={<PeerReiview />}></Route>
+              <Route path="settings" element={<Setting />}></Route>
+            </Route>
+
             <Route
               path="/channel/:id"
               element={

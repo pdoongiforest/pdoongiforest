@@ -1,11 +1,7 @@
-import Setting from '../team/setting/Setting';
-
 function Main() {
   return (
     <>
-      <div className="page-layout max-w-1200">
-        <Setting></Setting>
-      </div>
+      <div className="page-layout max-w-1200"></div>
     </>
   );
 }
