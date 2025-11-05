@@ -1,0 +1,51 @@
+import KeywordTag from './KeywordTag';
+import Scrap from './Scrap';
+
+function BoardCard() {
+  return (
+    <article className="w-[280px] h-80 bg-white rounded-[30px] shadow-[2px_4px_15px_0_rgba(0,0,0,0.15)]">
+      <div className="h-80 p-6 flex flex-col justify-between">
+        <div className="flex justify-between items-center">
+          <div className="flex gap-2 ">
+            <KeywordTag label="프로젝트" />
+            <KeywordTag label="자유가입" />
+          </div>
+          <Scrap />
+        </div>
+        <div className="flex flex-col justify-between">
+          <div className="text-sm font-light text-[#8E8E8E]">🔥 마감일 | 2025-10-28</div>
+          <div className="text-[24px]">
+            <p>제목</p>
+          </div>
+          <div className="text-[#888888] text-[20px] flex-1">
+            <p>내용</p>
+          </div>
+        </div>
+        <div className="flex flex-col gap-1">
+          <div className="rounded-[30px] bg-[#F5F5F5] p-4">
+            <p>해시태그 영역</p>
+          </div>
+          <div className="flex justify-between">
+            <div className="flex gap-1 items-center">
+              <div className="rounded-lg shadow-[2px_2px_4px_0_rgba(0,0,0,0.25)] p-1">
+                <img src="/images/너굴.png" alt="" />
+              </div>
+              <p>프둥이</p>
+            </div>
+            <div className="flex gap-1 text-xs font-light text-[#8E8E8E]">
+              <div className="flex items-center gap-1">
+                <img src="/icons/commentCount.svg" alt="" className="w-4 h-4" />
+                <p>(125)</p>
+              </div>
+              <div className="flex items-center gap-1">
+                <img src="/icons/person.svg" alt="" className="w-4 h-4" />
+                <p>4</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+export default BoardCard;

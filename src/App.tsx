@@ -4,7 +4,6 @@ import '@/shared/style/global.css';
 
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-import StudyChannel from './pages/Study/StudyChannel';
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
 import Thread from './pages/Study/components/Thread';
 import Mypage from './pages/Mypage/Mypage';
@@ -31,6 +30,7 @@ import BoardWrite from './pages/BoardWrite/BoardWrite';
 
 import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
+import Board from './pages/Board/Board';
 
 function App() {
   const location = useLocation();
@@ -40,7 +40,7 @@ function App() {
     path === '/' ||
     path.startsWith('/login') ||
     path.startsWith('/register') ||
-    path.startsWith('/study') ||
+    path.startsWith('/board') ||
     path.startsWith('/channel') ||
     path.startsWith('/write') ||
     path.startsWith('/mypage/') ||
@@ -64,12 +64,12 @@ function App() {
           ></div>
         )}
         {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
-        <main className="flex flex-1 mt-20 w-s h-screen">
+        <main className="flex flex-1 mt-20 w-s h-screen justify-center">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/study" element={<StudyChannel />} />
+            <Route path="/board" element={<Board />} />
             <Route path="/team" element={<Team />} />
             <Route
               path="/channel/:id"
