@@ -13,7 +13,6 @@ function MobileHeaderNav({ showMobileNav, setShowMobileNav }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   const [visible, setVisible] = useState(false);
-  const tweenRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     if (!menuRef.current) return;
