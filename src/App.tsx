@@ -18,7 +18,7 @@ import MangementChannel from './pages/Study/components/management/ManagementChan
 
 import { useState } from 'react';
 
-import PeerReiview from './pages/PeerReview/PeerReiview';
+import PeerReiview from './pages/team/peerReview/PeerReview';
 import Team from './pages/team/Team';
 
 import NotFound from './pages/NotFound';
@@ -30,6 +30,8 @@ import BoardWrite from './pages/BoardWrite/BoardWrite';
 
 import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
+import TeamDetail from './pages/team/detail/TeamDetail';
+import Setting from './pages/team/setting/Setting';
 import Board from './pages/Board/Board';
 
 function App() {
@@ -71,6 +73,11 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/board" element={<Board />} />
             <Route path="/team" element={<Team />} />
+            <Route path="/team/:id" element={<TeamDetail />}>
+              <Route path="peerreview" element={<PeerReiview />}></Route>
+              <Route path="settings" element={<Setting />}></Route>
+            </Route>
+
             <Route
               path="/channel/:id"
               element={
