@@ -1,10 +1,12 @@
 import ChangeStatusBtn from './ChangeStatusBtn';
 import LogoutBtn from './LogoutBtn';
 import ProfileBtn from './ProfileBtn';
+import type { ProfileData } from '../ProfileModal';
 
 interface Props {
   profileId: string | null;
   showProfileModal: boolean;
+  profileData: ProfileData | null;
 }
 
 function ButtonGroup({ profileId, showProfileModal }: Props) {

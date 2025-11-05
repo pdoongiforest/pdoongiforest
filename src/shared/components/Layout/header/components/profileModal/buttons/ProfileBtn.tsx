@@ -9,6 +9,7 @@ function ProfileBtn({ profileId }: { profileId: string | null }) {
 
   return (
     <button
+      type="button"
       className="w-full h-10 border-primary border text-primary text-right px-2 rounded-lg hover:bg-primary/20 hover:text-white transition-colors"
       onClick={handleProfile}
     >

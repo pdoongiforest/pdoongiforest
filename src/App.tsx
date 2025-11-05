@@ -7,7 +7,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import StudyChannel from './pages/Study/StudyChannel';
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
 import Thread from './pages/Study/components/Thread';
-import Mypage from './pages/Mypage/Mypage';
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
 
 import Register from './pages/Register';
@@ -33,6 +32,7 @@ import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
 import TeamDetail from './pages/team/detail/TeamDetail';
 import Setting from './pages/team/setting/Setting';
+import Mypage2 from './pages/Mypage/Mypage2';
 
 function App() {
   const location = useLocation();
@@ -66,7 +66,7 @@ function App() {
             }}
           ></div>
         )}
-        {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
+        {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={isAuth} />}
         <main className="flex flex-1 h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
@@ -99,7 +99,7 @@ function App() {
             </Route>
             <Route path="/write" element={<BoardWrite />} />
             <Route path="/write/:id" element={<BoardWrite />} />
-            <Route path="/mypage/:id" element={<Mypage />} />
+            <Route path="/mypage/:id" element={<Mypage2 />} />
             {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>
             )}

@@ -1,7 +1,17 @@
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import ButtonGroup from './buttons/ButtonGroup';
 import useCloseOutside from '@/shared/hooks/useCloseOutside';
 import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { getUserProfile } from '../../api/getUser';
+import type { Json } from '@/supabase/database.types';
+
+export interface ProfileData {
+  nickname: string;
+  profile_images: string;
+  role: string;
+  visibility: Json;
+}
 
 interface Props {
   showProfileModal: boolean;
@@ -19,6 +29,8 @@ function ProfileModal({
   setVisible,
 }: Props) {
   const profileModalRef = useRef<HTMLDivElement>(null);
+  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const { user } = useAuth();
 
   useAnimationStartEnd({
     ref: profileModalRef,
@@ -38,13 +50,27 @@ function ProfileModal({
     isActive: showProfileModal,
   });
 
+  useEffect(() => {
+    const fetchProfile = async () => {
+      const profile = await getUserProfile(user?.id);
+      setProfileData(profile);
+    };
+    if (user?.id) fetchProfile();
+  }, [user?.id]);
+
   return (
     <div
       ref={profileModalRef}
       className={`w-55 bg-white rounded-lg absolute top-12 right-0 shadow-md shadow-black/20 px-2 py-5 ${visible ? 'block' : 'hidden pointer-events-none'}`}
     >
-      <div className="w-full text-lg font-bold text-right">프둥이 님</div>
-      <ButtonGroup profileId={profileId} showProfileModal={showProfileModal} />
+      <div className="w-full text-lg font-bold text-right">
+        {profileData?.nickname ?? '프둥이'} 님
+      </div>
+      <ButtonGroup
+        profileId={profileId}
+        showProfileModal={showProfileModal}
+        profileData={profileData}
+      />
     </div>
   );
 }

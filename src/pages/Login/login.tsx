@@ -49,9 +49,10 @@ function Login() {
     }
 
     const checkApprove = async () => {
+      console.log('email', email);
       const { data: profileData, error: profileError } = await supabase
-        .from('user_profile')
-        .select('user_id')
+        .from('user_base')
+        .select('*')
         .eq('email', email)
         .single();
 
@@ -65,9 +66,9 @@ function Login() {
       const { data: baseData, error: baseError } = await supabase
         .from('user_base')
         .select('approve')
-        .eq('id', userId)
+        .eq('user_id', userId)
         .single();
-
+      console.log('baseData', baseData);
       if (baseError || !baseData) {
         console.error('user_base 조회 실패', baseError);
         return;
