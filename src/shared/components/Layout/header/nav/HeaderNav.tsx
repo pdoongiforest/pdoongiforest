@@ -3,14 +3,14 @@ import { navItem } from './navItem';
 
 function HeaderNav() {
   return (
-    <nav className="flex flex-1 items-center justify-center w-full">
-      <ul className="flex gap-10">
+    <nav className="flex-1 w-full hidden md:block">
+      <ul className="flex-center gap-10">
         {navItem.map((item) => (
           <li key={item.href}>
             <NavLink
               to={item.href}
               className={({ isActive }) =>
-                `${isActive ? 'text-primary' : 'text-header-text hover:text-header-text/60'}`
+                `${isActive ? 'text-primary font-semibold' : 'transition-colors hover:text-text-primary/60'}`
               }
             >
               {item.name}

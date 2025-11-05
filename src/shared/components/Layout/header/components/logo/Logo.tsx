@@ -1,8 +1,8 @@
-import LogoImg from '@/shared/assets/logo.webp';
+import LogoImg from '../../../../../../shared/assets/images/logo.webp';
 
 function Logo() {
   return (
-    <div className="flex items-center justify-center w-20">
+    <div className="w-20 hidden md:block">
       <img src={LogoImg} alt="logo" />
     </div>
   );

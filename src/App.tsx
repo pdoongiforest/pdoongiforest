@@ -44,12 +44,13 @@ function App() {
     path.startsWith('/channel') ||
     path.startsWith('/write') ||
     path.startsWith('/mypage/') ||
-    path.startsWith('/team')
+    path.startsWith('/team') ||
+    path.startsWith('/admin')
   );
   const [isOverlay, setIsOverlay] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
-  const { profileId } = useAuth();
+  const { profileId, isAuth } = useAuth();
 
   return (
     <NotificationProvider profileId={profileId}>
@@ -64,7 +65,7 @@ function App() {
           ></div>
         )}
         {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
-        <main className="flex flex-1 mt-[80px] h-screen">
+        <main className="flex flex-1 h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
