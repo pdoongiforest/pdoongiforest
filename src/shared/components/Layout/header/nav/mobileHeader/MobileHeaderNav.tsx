@@ -16,37 +16,32 @@ function MobileHeaderNav({ showMobileNav, setShowMobileNav }: Props) {
   const tweenRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    console.log('visible', visible);
-  }, [visible]);
-
-  useEffect(() => {
-    if (menuRef.current && !tweenRef.current) {
-      tweenRef.current = gsap
-        .timeline({ paused: true, onReverseComplete: () => setVisible(false) })
-        .fromTo(
-          menuRef.current,
-          {
-            x: -40,
-            opacity: 0,
-          },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.3,
-            ease: 'power2.out',
-          }
-        );
-    }
+    if (!menuRef.current) return;
 
     if (showMobileNav) {
       setVisible(true);
-      tweenRef.current?.play();
-      console.log('play', tweenRef.current?.progress());
-    } else {
-      tweenRef.current?.reverse();
-      console.log('reverse', tweenRef.current?.progress());
+      // ✅ 애니메이션을 매번 새로 만들기
+      const tl = gsap.timeline();
+      gsap.set(menuRef.current, { x: -40, opacity: 0 }); // 초기 위치 설정
+      tl.to(menuRef.current, {
+        x: 0,
+        opacity: 1,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    } else if (visible) {
+      // ✅ 닫을 때도 새로 만들기
+      const tl = gsap.timeline({
+        onComplete: () => setVisible(false),
+      });
+      tl.to(menuRef.current, {
+        x: -40,
+        opacity: 0,
+        duration: 0.3,
+        ease: 'power2.in',
+      });
     }
-  }, [showMobileNav, tweenRef.current, visible]);
+  }, [showMobileNav, menuRef.current]);
 
   if (!showMobileNav && !visible) return null;
 
@@ -63,7 +58,7 @@ function MobileHeaderNav({ showMobileNav, setShowMobileNav }: Props) {
         }}
       />
       <div
-        className={`px-7 py-10 fixed top-0 z-9999 h-full w-[200px] bg-white shadow-md shadow-black/10 ${visible ? 'block' : 'hidden'} md:hidden`}
+        className={`px-7 py-10 fixed top-0 z-9999 h-full w-50 bg-white shadow-md shadow-black/10 block md:hidden`}
         ref={menuRef}
       >
         <MobileHeaderLogo />
