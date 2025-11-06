@@ -17,8 +17,13 @@ function MobileHeader() {
   return (
     <>
       <div className="flex items-center gap-2">
-        <button type="button" className="block md:hidden" onClick={handleShowMobileNav}>
-          <img src={HamburgerIcon} alt="hamburger" className="w-8 h-8" />
+        <button
+          type="button"
+          className="block md:hidden"
+          onClick={handleShowMobileNav}
+          aria-label="모바일 네비게이션 토글 버튼"
+        >
+          <img src={HamburgerIcon} alt="hamburger" className="w-8 h-8" aria-hidden="true" />
         </button>
       </div>
       <MobileHeaderNav showMobileNav={showMobileNav} setShowMobileNav={setShowMobileNav} />

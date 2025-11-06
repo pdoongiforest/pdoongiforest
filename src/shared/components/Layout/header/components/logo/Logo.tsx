@@ -1,4 +1,4 @@
-import LogoImg from '../../../../../../shared/assets/images/logo.webp';
+import LogoImg from '@/shared/assets/images/logo.webp';
 
 function Logo() {
   return (

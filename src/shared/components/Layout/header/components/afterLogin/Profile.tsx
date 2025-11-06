@@ -41,10 +41,17 @@ function Profile({ profileId }: Props) {
         type="button"
         className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer bg-white relative"
         onClick={handleShowProfileModal}
+        aria-label={
+          profileData?.nickname ? `${profileData.nickname}님의 프로필 메뉴` : '프로필 메뉴'
+        }
+        aria-expanded={showProfileModal}
+        aria-haspopup="true"
       >
         <img
           src={profileData?.profile_images ?? ProfileIcon}
-          alt="profile"
+          alt={
+            profileData?.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
+          }
           className="object-cover w-full h-full"
         />
         <Status />

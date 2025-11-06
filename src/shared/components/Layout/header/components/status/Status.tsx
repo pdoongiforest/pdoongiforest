@@ -52,6 +52,7 @@ function Status() {
       src={statusList.find((item) => item.code === status)?.icon}
       alt={statusList.find((item) => item.code === status)?.name}
       className="w-4 h-4 absolute -bottom-1 -right-1  rounded-full"
+      aria-label={`${statusList.find((item) => item.code === status)?.name} 상태`}
     />
   );
 }

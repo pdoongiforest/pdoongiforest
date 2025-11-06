@@ -38,10 +38,12 @@ function ChangeStatusBtn({ showProfileModal }: { showProfileModal: boolean }) {
       <button
         type="button"
         ref={buttonRef}
+        aria-label="상태 변경 버튼"
+        aria-haspopup="true"
         onTouchStart={handleTouchStart}
         className="w-full h-10 border-primary border text-primary relative rounded-lg hover:bg-primary/20 hover:text-white transition-colors flex items-center justify-between px-2"
       >
-        <img src={ArrowIcon} alt="arrow" className="w-4 h-4" />
+        <img src={ArrowIcon} alt="arrow" className="w-4 h-4" aria-hidden="true" />
         <span>상태 변경</span>
       </button>
       <StatusModal

@@ -11,7 +11,7 @@ interface Props {
 
 function Header({ profileId, isAuth }: Props) {
   return (
-    <header className="w-full bg-bgc text-text-primary h-[80px] fixed inset-0 flex gap-5 z-10 items-center justify-between px-5">
+    <header className="w-full bg-bgc text-text-primary h-20 fixed inset-0 flex gap-5 z-10 items-center justify-between px-5">
       <Logo />
       <HeaderNav />
       <MobileHeader />

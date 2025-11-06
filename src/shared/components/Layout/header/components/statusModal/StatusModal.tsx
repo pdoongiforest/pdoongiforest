@@ -64,7 +64,8 @@ function StatusModal({ showStatusModal, setShowStatusModal, isMobile, triggerRef
   return (
     <div
       ref={statusModalRef}
-      className={`bg-white md:w-50 w-[220px] h-auto absolute md:-bottom-45 md:-left-52 -right-2 -bottom-65 shadow-md shadow-black/20 rounded-lg px-2 py-5 ${visible ? 'block' : 'hidden'}`}
+      className={`bg-white md:w-50 w-55 h-auto absolute md:-bottom-45 md:-left-52 -right-2 -bottom-65 shadow-md shadow-black/20 rounded-lg px-2 py-5 ${visible ? 'block' : 'hidden'}`}
+      aria-label="상태 변경 모달"
     >
       <ul className="flex flex-col gap-2">
         {statusList.map((status) => (
@@ -72,8 +73,9 @@ function StatusModal({ showStatusModal, setShowStatusModal, isMobile, triggerRef
             key={status.code}
             className={`flex items-center justify-between gap-2 hover:bg-gray-100 p-2 rounded-lg cursor-pointer ${selectedStatus === status.code ? 'bg-gray-100' : ''}`}
             onClick={() => handleSelectStatus(status.code)}
+            aria-label={`${status.name} 상태 선택`}
           >
-            <img src={status.icon} alt={status.name} className="w-4 h-4" />
+            <img src={status.icon} alt={status.name} className="w-4 h-4" aria-hidden="true" />
             {status.name}
           </li>
         ))}

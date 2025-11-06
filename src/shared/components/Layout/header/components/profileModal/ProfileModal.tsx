@@ -62,8 +62,9 @@ function ProfileModal({
     <div
       ref={profileModalRef}
       className={`w-55 bg-white rounded-lg absolute top-12 right-0 shadow-md shadow-black/20 px-2 py-5 ${visible ? 'block' : 'hidden pointer-events-none'}`}
+      aria-label="프로필 모달"
     >
-      <div className="w-full text-lg font-bold text-right">
+      <div className="w-full text-lg font-bold text-right" aria-label="프로필 닉네임">
         {profileData?.nickname ?? '프둥이'} 님
       </div>
       <ButtonGroup
