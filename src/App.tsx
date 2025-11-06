@@ -26,13 +26,14 @@ import Admin from './pages/Admin/Admin';
 import { useAuth } from './features/auth/AuthProvider';
 import { NotificationProvider } from './shared/context/NotificationContext';
 import { AdminProvider } from './shared/context/useAdmin';
-import BoardWrite from './pages/BoardWrite/BoardWrite';
 
 import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
 import TeamDetail from './pages/team/detail/TeamDetail';
 import Setting from './pages/team/setting/Setting';
 import Board from './pages/Board/Board';
+import BoardDetail from './pages/Board/BoardDetail';
+import BoardCreate from './pages/BoardWrite/BoardCreate';
 
 function App() {
   const location = useLocation();
@@ -72,6 +73,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/board" element={<Board />} />
+            <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/team" element={<Team />} />
             <Route path="/team/:id" element={<TeamDetail />}>
               <Route path="peerreview" element={<PeerReiview />}></Route>
@@ -96,8 +98,8 @@ function App() {
                 <Route path="managementmembers" element={<ManagementMembers />} />
               </Route>
             </Route>
-            <Route path="/write" element={<BoardWrite />} />
-            <Route path="/write/:id" element={<BoardWrite />} />
+            <Route path="/write" element={<BoardCreate />} />
+            <Route path="/write/:id" element={<BoardCreate />} />
             <Route path="/mypage/:id" element={<Mypage />} />
             {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>

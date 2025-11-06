@@ -1,9 +1,18 @@
+import { useNavigate } from 'react-router-dom';
 import KeywordTag from './KeywordTag';
 import Scrap from './Scrap';
+import Profile from './Profile';
 
 function BoardCard() {
+  const navigate = useNavigate();
+  const handleRoute = () => {
+    navigate(`/board/1`);
+  };
   return (
-    <article className="w-[280px] h-80 bg-white rounded-[30px] shadow-[2px_4px_15px_0_rgba(0,0,0,0.15)]">
+    <article
+      className="w-[280px] h-80 bg-white rounded-[30px] shadow-[2px_4px_15px_0_rgba(0,0,0,0.15)]"
+      onClick={handleRoute}
+    >
       <div className="h-80 p-6 flex flex-col justify-between">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 ">
@@ -26,12 +35,7 @@ function BoardCard() {
             <p>해시태그 영역</p>
           </div>
           <div className="flex justify-between">
-            <div className="flex gap-1 items-center">
-              <div className="rounded-lg shadow-[2px_2px_4px_0_rgba(0,0,0,0.25)] p-1">
-                <img src="/images/너굴.png" alt="" />
-              </div>
-              <p>프둥이</p>
-            </div>
+            <Profile />
             <div className="flex gap-1 text-xs font-light text-[#8E8E8E]">
               <div className="flex items-center gap-1">
                 <img src="/icons/commentCount.svg" alt="" className="w-4 h-4" />

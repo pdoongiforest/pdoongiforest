@@ -1,134 +1,50 @@
 export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: '13.0.4';
   };
   public: {
     Tables: {
-      approve_member: {
-        Row: {
-          board_id: string | null;
-          id: string;
-          profile_id: string | null;
-          status: Database['public']['Enums']['membership_status'] | null;
-        };
-        Insert: {
-          board_id?: string | null;
-          id?: string;
-          profile_id?: string | null;
-          status?: Database['public']['Enums']['membership_status'] | null;
-        };
-        Update: {
-          board_id?: string | null;
-          id?: string;
-          profile_id?: string | null;
-          status?: Database['public']['Enums']['membership_status'] | null;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'approve_member_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
-          },
-          {
-            foreignKeyName: 'approve_member_profile_id_fkey';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
-      };
       board: {
         Row: {
-          active: boolean;
-          address: string | null;
-          board_cls: Database['public']['Enums']['board_cls'] | null;
+          board_cls: string | null;
           board_id: string;
-          contents: string;
-          create_at: string;
+          contents: string | null;
+          created_at: string | null;
           deadline: string | null;
-          images: string | null;
-          likes: number;
-          meeting_time: string | null;
-          member: number;
+          hash_tag: string[] | null;
           profile_id: string;
-          start_date: string | null;
-          title: string;
+          recruitment_number: number | null;
+          title: string | null;
         };
         Insert: {
-          active?: boolean;
-          address?: string | null;
-          board_cls?: Database['public']['Enums']['board_cls'] | null;
-          board_id?: string;
-          contents: string;
-          create_at?: string;
-          deadline?: string | null;
-          images?: string | null;
-          likes?: number;
-          meeting_time?: string | null;
-          member?: number;
-          profile_id?: string;
-          start_date?: string | null;
-          title: string;
-        };
-        Update: {
-          active?: boolean;
-          address?: string | null;
-          board_cls?: Database['public']['Enums']['board_cls'] | null;
-          board_id?: string;
-          contents?: string;
-          create_at?: string;
-          deadline?: string | null;
-          images?: string | null;
-          likes?: number;
-          meeting_time?: string | null;
-          member?: number;
-          profile_id?: string;
-          start_date?: string | null;
-          title?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'fk_user_profile_to_board';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
-      };
-      board_member: {
-        Row: {
+          board_cls?: string | null;
           board_id: string;
-          member_id: string;
+          contents?: string | null;
+          created_at?: string | null;
+          deadline?: string | null;
+          hash_tag?: string[] | null;
           profile_id: string;
-        };
-        Insert: {
-          board_id?: string;
-          member_id?: string;
-          profile_id?: string;
+          recruitment_number?: number | null;
+          title?: string | null;
         };
         Update: {
+          board_cls?: string | null;
           board_id?: string;
-          member_id?: string;
+          contents?: string | null;
+          created_at?: string | null;
+          deadline?: string | null;
+          hash_tag?: string[] | null;
           profile_id?: string;
+          recruitment_number?: number | null;
+          title?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: 'board_member_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
-          },
-          {
-            foreignKeyName: 'board_member_profile_id_fkey';
+            foreignKeyName: 'FK_user_profile_TO_board_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
@@ -138,75 +54,58 @@ export type Database = {
       };
       board_save: {
         Row: {
+          board_cls: string | null;
           contents: string | null;
-          create_at: string;
+          created_at: string | null;
+          deadline: string | null;
+          hash_tag: string[] | null;
           profile_id: string;
+          recruitment_number: number | null;
           title: string | null;
-          update_at: string;
+          update_at: string | null;
         };
         Insert: {
+          board_cls?: string | null;
           contents?: string | null;
-          create_at?: string;
-          profile_id?: string;
+          created_at?: string | null;
+          deadline?: string | null;
+          hash_tag?: string[] | null;
+          profile_id: string;
+          recruitment_number?: number | null;
           title?: string | null;
-          update_at?: string;
+          update_at?: string | null;
         };
         Update: {
+          board_cls?: string | null;
           contents?: string | null;
-          create_at?: string;
+          created_at?: string | null;
+          deadline?: string | null;
+          hash_tag?: string[] | null;
           profile_id?: string;
+          recruitment_number?: number | null;
           title?: string | null;
-          update_at?: string;
+          update_at?: string | null;
         };
         Relationships: [];
       };
-      board_tag: {
-        Row: {
-          board_id: string;
-          color_code: string | null;
-          hash_tag: string | null;
-          tag_id: string;
-        };
-        Insert: {
-          board_id?: string;
-          color_code?: string | null;
-          hash_tag?: string | null;
-          tag_id?: string;
-        };
-        Update: {
-          board_id?: string;
-          color_code?: string | null;
-          hash_tag?: string | null;
-          tag_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'board_tag_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
-          },
-        ];
-      };
       certification: {
         Row: {
-          approve: boolean;
+          approve: boolean | null;
           certification_id: string;
-          email: string;
-          image: string;
+          email: string | null;
+          image: string | null;
         };
         Insert: {
-          approve?: boolean;
-          certification_id?: string;
-          email: string;
-          image: string;
+          approve?: boolean | null;
+          certification_id: string;
+          email?: string | null;
+          image?: string | null;
         };
         Update: {
-          approve?: boolean;
+          approve?: boolean | null;
           certification_id?: string;
-          email?: string;
-          image?: string;
+          email?: string | null;
+          image?: string | null;
         };
         Relationships: [];
       };
@@ -214,37 +113,34 @@ export type Database = {
         Row: {
           board_id: string;
           comment_id: string;
-          contents: string;
-          create_at: string;
-          likes: number;
+          content: string | null;
+          created_at: string | null;
           profile_id: string;
         };
         Insert: {
-          board_id?: string;
-          comment_id?: string;
-          contents: string;
-          create_at?: string;
-          likes?: number;
-          profile_id?: string;
+          board_id: string;
+          comment_id: string;
+          content?: string | null;
+          created_at?: string | null;
+          profile_id: string;
         };
         Update: {
           board_id?: string;
           comment_id?: string;
-          contents?: string;
-          create_at?: string;
-          likes?: number;
+          content?: string | null;
+          created_at?: string | null;
           profile_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'comment_board_id_fkey';
+            foreignKeyName: 'FK_board_TO_comment_1';
             columns: ['board_id'];
             isOneToOne: false;
             referencedRelation: 'board';
             referencedColumns: ['board_id'];
           },
           {
-            foreignKeyName: 'comment_profile_id_fkey';
+            foreignKeyName: 'FK_user_profile_TO_comment_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
@@ -255,38 +151,35 @@ export type Database = {
       comment_reply: {
         Row: {
           comment_id: string;
-          contents: string;
-          created_at: string;
-          likes: number;
+          contents: string | null;
+          created_at: string | null;
           profile_id: string;
           reply_id: string;
         };
         Insert: {
-          comment_id?: string;
-          contents: string;
-          created_at?: string;
-          likes?: number;
-          profile_id?: string;
-          reply_id?: string;
+          comment_id: string;
+          contents?: string | null;
+          created_at?: string | null;
+          profile_id: string;
+          reply_id: string;
         };
         Update: {
           comment_id?: string;
-          contents?: string;
-          created_at?: string;
-          likes?: number;
+          contents?: string | null;
+          created_at?: string | null;
           profile_id?: string;
           reply_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'comment_reply_comment_id_fkey';
+            foreignKeyName: 'FK_comment_TO_comment_reply_1';
             columns: ['comment_id'];
             isOneToOne: false;
             referencedRelation: 'comment';
             referencedColumns: ['comment_id'];
           },
           {
-            foreignKeyName: 'comment_reply_profile_id_fkey';
+            foreignKeyName: 'FK_user_profile_TO_comment_reply_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
@@ -319,115 +212,77 @@ export type Database = {
         Row: {
           board_id: string | null;
           content: string | null;
-          created_at: string;
+          created_at: string | null;
           id: string;
           is_read: boolean | null;
+          profile_id: string | null;
           type: string | null;
-          user_profile_id: string | null;
         };
         Insert: {
           board_id?: string | null;
           content?: string | null;
-          created_at?: string;
-          id?: string;
+          created_at?: string | null;
+          id: string;
           is_read?: boolean | null;
+          profile_id?: string | null;
           type?: string | null;
-          user_profile_id?: string | null;
         };
         Update: {
           board_id?: string | null;
           content?: string | null;
-          created_at?: string;
+          created_at?: string | null;
           id?: string;
           is_read?: boolean | null;
+          profile_id?: string | null;
           type?: string | null;
-          user_profile_id?: string | null;
         };
-        Relationships: [
-          {
-            foreignKeyName: 'notification_user_profile_id_fkey';
-            columns: ['user_profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
+        Relationships: [];
       };
       peer_review: {
         Row: {
-          board_id: string | null;
-          create_at: string;
+          created_at: string | null;
+          is_active: boolean | null;
           profile_id: string;
-          review_contents: string;
+          review_contents: string | null;
           review_id: string;
-          review_score: number;
-          writer_id: string;
+          review_score: number | null;
+          study_id: string;
+          writer_id: string | null;
         };
         Insert: {
-          board_id?: string | null;
-          create_at?: string;
-          profile_id?: string;
-          review_contents: string;
-          review_id?: string;
-          review_score?: number;
-          writer_id?: string;
-        };
-        Update: {
-          board_id?: string | null;
-          create_at?: string;
-          profile_id?: string;
-          review_contents?: string;
-          review_id?: string;
-          review_score?: number;
-          writer_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'fk_user_profile_to_peer_review';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-          {
-            foreignKeyName: 'fk_user_profile_to_peer_review1';
-            columns: ['writer_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
-      };
-      post: {
-        Row: {
-          board_id: string;
-          post_id: string;
+          created_at?: string | null;
+          is_active?: boolean | null;
           profile_id: string;
-        };
-        Insert: {
-          board_id?: string;
-          post_id?: string;
-          profile_id?: string;
+          review_contents?: string | null;
+          review_id: string;
+          review_score?: number | null;
+          study_id: string;
+          writer_id?: string | null;
         };
         Update: {
-          board_id?: string;
-          post_id?: string;
+          created_at?: string | null;
+          is_active?: boolean | null;
           profile_id?: string;
+          review_contents?: string | null;
+          review_id?: string;
+          review_score?: number | null;
+          study_id?: string;
+          writer_id?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: 'fk_user_profile_to_post';
+            foreignKeyName: 'FK_study_TO_peer_review_1';
+            columns: ['study_id'];
+            isOneToOne: false;
+            referencedRelation: 'study';
+            referencedColumns: ['study_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_peer_review_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
             referencedColumns: ['profile_id'];
-          },
-          {
-            foreignKeyName: 'post_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
           },
         ];
       };
@@ -438,9 +293,9 @@ export type Database = {
           scrap_id: string;
         };
         Insert: {
-          board_id?: string;
-          profile_id?: string;
-          scrap_id?: string;
+          board_id: string;
+          profile_id: string;
+          scrap_id: string;
         };
         Update: {
           board_id?: string;
@@ -449,14 +304,119 @@ export type Database = {
         };
         Relationships: [
           {
-            foreignKeyName: 'scrap_board_id_fkey';
+            foreignKeyName: 'FK_board_TO_scrap_1';
             columns: ['board_id'];
             isOneToOne: false;
             referencedRelation: 'board';
             referencedColumns: ['board_id'];
           },
           {
-            foreignKeyName: 'scrap_profile_id_fkey';
+            foreignKeyName: 'FK_user_profile_TO_scrap_1';
+            columns: ['profile_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_profile';
+            referencedColumns: ['profile_id'];
+          },
+        ];
+      };
+      study: {
+        Row: {
+          board_id: string;
+          profile_id: string;
+          study_id: string;
+        };
+        Insert: {
+          board_id?: string;
+          profile_id?: string;
+          study_id?: string;
+        };
+        Update: {
+          board_id?: string;
+          profile_id?: string;
+          study_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'FK_board_TO_study_1';
+            columns: ['board_id'];
+            isOneToOne: false;
+            referencedRelation: 'board';
+            referencedColumns: ['board_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_study_1';
+            columns: ['profile_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_profile';
+            referencedColumns: ['profile_id'];
+          },
+        ];
+      };
+      study_approve: {
+        Row: {
+          id: string;
+          profile_id: string;
+          status: string | null;
+          study_id: string;
+        };
+        Insert: {
+          id?: string;
+          profile_id?: string;
+          status?: string | null;
+          study_id?: string;
+        };
+        Update: {
+          id?: string;
+          profile_id?: string;
+          status?: string | null;
+          study_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'FK_study_TO_study_approve_1';
+            columns: ['study_id'];
+            isOneToOne: false;
+            referencedRelation: 'study';
+            referencedColumns: ['study_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_study_approve_1';
+            columns: ['profile_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_profile';
+            referencedColumns: ['profile_id'];
+          },
+        ];
+      };
+      study_member: {
+        Row: {
+          authority: string | null;
+          member_id: string;
+          profile_id: string;
+          study_id: string;
+        };
+        Insert: {
+          authority?: string | null;
+          member_id?: string;
+          profile_id?: string;
+          study_id?: string;
+        };
+        Update: {
+          authority?: string | null;
+          member_id?: string;
+          profile_id?: string;
+          study_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'FK_study_TO_study_member_1';
+            columns: ['study_id'];
+            isOneToOne: false;
+            referencedRelation: 'study';
+            referencedColumns: ['study_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_study_member_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
@@ -466,81 +426,110 @@ export type Database = {
       };
       thread: {
         Row: {
-          board_id: string;
-          contents: string;
-          create_at: string;
-          likes: number;
+          contents: string | null;
+          created_at: string | null;
+          like_user: string[] | null;
           profile_id: string;
+          study_id: string;
           thread_id: string;
         };
         Insert: {
-          board_id?: string;
-          contents: string;
-          create_at?: string;
-          likes?: number;
-          profile_id?: string;
-          thread_id?: string;
+          contents?: string | null;
+          created_at?: string | null;
+          like_user?: string[] | null;
+          profile_id: string;
+          study_id: string;
+          thread_id: string;
         };
         Update: {
-          board_id?: string;
-          contents?: string;
-          create_at?: string;
-          likes?: number;
+          contents?: string | null;
+          created_at?: string | null;
+          like_user?: string[] | null;
           profile_id?: string;
+          study_id?: string;
           thread_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'fk_user_profile_to_thread';
+            foreignKeyName: 'FK_study_TO_thread_1';
+            columns: ['study_id'];
+            isOneToOne: false;
+            referencedRelation: 'study';
+            referencedColumns: ['study_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_thread_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
             referencedColumns: ['profile_id'];
-          },
-          {
-            foreignKeyName: 'thread_board_id_fkey';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
           },
         ];
       };
       thread_reply: {
         Row: {
-          contents: string;
-          created_at: string;
-          likes: number | null;
+          contents: string | null;
+          created_at: string | null;
+          like_user: string[] | null;
           profile_id: string;
           reply_id: string;
           thread_id: string;
         };
         Insert: {
-          contents: string;
-          created_at?: string;
-          likes?: number | null;
+          contents?: string | null;
+          created_at?: string | null;
+          like_user?: string[] | null;
           profile_id?: string;
           reply_id?: string;
           thread_id?: string;
         };
         Update: {
-          contents?: string;
-          created_at?: string;
-          likes?: number | null;
+          contents?: string | null;
+          created_at?: string | null;
+          like_user?: string[] | null;
           profile_id?: string;
           reply_id?: string;
           thread_id?: string;
         };
         Relationships: [
           {
-            foreignKeyName: 'thread_reply_profile_id_fkey';
+            foreignKeyName: 'FK_thread_TO_thread_reply_1';
+            columns: ['thread_id'];
+            isOneToOne: false;
+            referencedRelation: 'thread';
+            referencedColumns: ['thread_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_thread_reply_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
             referencedColumns: ['profile_id'];
           },
+        ];
+      };
+      thread_resource: {
+        Row: {
+          contents: string | null;
+          resource_id: string;
+          thread_id: string;
+          type: string | null;
+        };
+        Insert: {
+          contents?: string | null;
+          resource_id?: string;
+          thread_id?: string;
+          type?: string | null;
+        };
+        Update: {
+          contents?: string | null;
+          resource_id?: string;
+          thread_id?: string;
+          type?: string | null;
+        };
+        Relationships: [
           {
-            foreignKeyName: 'thread_reply_thread_id_fkey';
+            foreignKeyName: 'FK_thread_TO_thread_resource_1';
             columns: ['thread_id'];
             isOneToOne: false;
             referencedRelation: 'thread';
@@ -550,132 +539,103 @@ export type Database = {
       };
       user_base: {
         Row: {
-          approve: boolean;
-          create_at: string;
-          id: string;
-          name: string;
-          nickname: string;
+          approve: string | null;
+          created_at: string | null;
+          email: string | null;
+          name: string | null;
           recent_at: string | null;
-          role: string | null;
-          status: Database['public']['Enums']['status'] | null;
+          status: string | null;
+          user_id: string;
         };
         Insert: {
-          approve?: boolean;
-          create_at?: string;
-          id?: string;
-          name: string;
-          nickname?: string;
+          approve?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          name?: string | null;
           recent_at?: string | null;
-          role?: string | null;
-          status?: Database['public']['Enums']['status'] | null;
+          status?: string | null;
+          user_id?: string;
         };
         Update: {
-          approve?: boolean;
-          create_at?: string;
-          id?: string;
-          name?: string;
-          nickname?: string;
+          approve?: string | null;
+          created_at?: string | null;
+          email?: string | null;
+          name?: string | null;
           recent_at?: string | null;
-          role?: string | null;
-          status?: Database['public']['Enums']['status'] | null;
+          status?: string | null;
+          user_id?: string;
         };
         Relationships: [];
       };
-      user_interest: {
-        Row: {
-          interest: string;
-          interest_id: string;
-          profile_id: string;
-        };
-        Insert: {
-          interest: string;
-          interest_id?: string;
-          profile_id?: string;
-        };
-        Update: {
-          interest?: string;
-          interest_id?: string;
-          profile_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'user_interest_profile_id_fkey';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
-      };
       user_profile: {
         Row: {
-          address: string | null;
-          age: number;
-          background_images: string;
-          email: string;
-          gender: string;
+          age: number | null;
+          interest: string[] | null;
+          introduce: string | null;
+          nickname: string | null;
           profile_id: string;
-          profile_images: string;
+          profile_images: string | null;
+          role: string | null;
           user_id: string;
-          visibility: Json;
+          visibility: Json | null;
         };
         Insert: {
-          address?: string | null;
-          age?: number;
-          background_images?: string;
-          email: string;
-          gender?: string;
+          age?: number | null;
+          interest?: string[] | null;
+          introduce?: string | null;
+          nickname?: string | null;
           profile_id?: string;
-          profile_images?: string;
+          profile_images?: string | null;
+          role?: string | null;
           user_id?: string;
-          visibility?: Json;
+          visibility?: Json | null;
         };
         Update: {
-          address?: string | null;
-          age?: number;
-          background_images?: string;
-          email?: string;
-          gender?: string;
+          age?: number | null;
+          interest?: string[] | null;
+          introduce?: string | null;
+          nickname?: string | null;
           profile_id?: string;
-          profile_images?: string;
+          profile_images?: string | null;
+          role?: string | null;
           user_id?: string;
-          visibility?: Json;
+          visibility?: Json | null;
         };
         Relationships: [
           {
-            foreignKeyName: 'user_profile_user_id_fkey';
+            foreignKeyName: 'FK_user_base_TO_user_profile_1';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'user_base';
-            referencedColumns: ['id'];
+            referencedColumns: ['user_id'];
           },
         ];
       };
       user_social: {
         Row: {
-          create_at: string;
+          created_at: string | null;
           profile_id: string;
-          social: string;
+          social: string | null;
           social_id: string;
-          social_link: string;
+          social_link: string | null;
         };
         Insert: {
-          create_at?: string;
+          created_at?: string | null;
           profile_id?: string;
-          social?: string;
+          social?: string | null;
           social_id?: string;
-          social_link: string;
+          social_link?: string | null;
         };
         Update: {
-          create_at?: string;
+          created_at?: string | null;
           profile_id?: string;
-          social?: string;
+          social?: string | null;
           social_id?: string;
-          social_link?: string;
+          social_link?: string | null;
         };
         Relationships: [
           {
-            foreignKeyName: 'user_social_profile_id_fkey';
+            foreignKeyName: 'FK_user_profile_TO_user_social_1';
             columns: ['profile_id'];
             isOneToOne: false;
             referencedRelation: 'user_profile';
