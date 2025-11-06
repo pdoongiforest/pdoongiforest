@@ -1,8 +1,8 @@
-import gsap from 'gsap';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { createPortal } from 'react-dom';
 import MobileNavItem from './MobileNavItem';
 import MobileHeaderLogo from './MobileHeaderLogo';
+import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
 
 interface Props {
   showMobileNav: boolean;
@@ -12,35 +12,18 @@ interface Props {
 function MobileHeaderNav({ showMobileNav, setShowMobileNav }: Props) {
   const menuRef = useRef<HTMLDivElement>(null);
 
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    if (!menuRef.current) return;
-
-    if (showMobileNav) {
-      setVisible(true);
-      // ✅ 애니메이션을 매번 새로 만들기
-      const tl = gsap.timeline();
-      gsap.set(menuRef.current, { x: -40, opacity: 0 }); // 초기 위치 설정
-      tl.to(menuRef.current, {
-        x: 0,
-        opacity: 1,
-        duration: 0.3,
-        ease: 'power2.out',
-      });
-    } else if (visible) {
-      // ✅ 닫을 때도 새로 만들기
-      const tl = gsap.timeline({
-        onComplete: () => setVisible(false),
-      });
-      tl.to(menuRef.current, {
-        x: -40,
-        opacity: 0,
-        duration: 0.3,
-        ease: 'power2.in',
-      });
-    }
-  }, [showMobileNav, menuRef.current]);
+  const { visible } = useAnimationStartEnd({
+    ref: menuRef,
+    configOpen: {
+      from: { x: -40, opacity: 0 },
+      to: { x: 0, opacity: 1 },
+    },
+    configClose: {
+      from: { x: 0, opacity: 1 },
+      to: { x: -40, opacity: 0 },
+    },
+    showModal: showMobileNav,
+  });
 
   if (!showMobileNav && !visible) return null;
 

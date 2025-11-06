@@ -21,25 +21,22 @@ interface Props {
   setVisible: (visible: boolean) => void;
 }
 
-function ProfileModal({
-  showProfileModal,
-  profileId,
-  setShowProfileModal,
-  visible,
-  setVisible,
-}: Props) {
+function ProfileModal({ showProfileModal, profileId, setShowProfileModal }: Props) {
   const profileModalRef = useRef<HTMLDivElement>(null);
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const { user } = useAuth();
 
-  useAnimationStartEnd({
+  const { visible } = useAnimationStartEnd({
     ref: profileModalRef,
-    config: {
+    configOpen: {
       from: { opacity: 0, x: 50 },
-      to: { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' },
+      to: { opacity: 1, x: 0 },
+    },
+    configClose: {
+      from: { opacity: 1, x: 0 },
+      to: { opacity: 0, x: 50 },
     },
     showModal: showProfileModal,
-    setVisible: setVisible,
   });
 
   useCloseOutside({
@@ -70,6 +67,7 @@ function ProfileModal({
       <ButtonGroup
         profileId={profileId}
         showProfileModal={showProfileModal}
+        setShowProfileModal={setShowProfileModal}
         profileData={profileData}
       />
     </div>
