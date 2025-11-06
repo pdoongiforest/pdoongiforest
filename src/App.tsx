@@ -67,7 +67,7 @@ function App() {
           ></div>
         )}
         {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
-        <main className="flex flex-1 mt-20 w-s h-screen justify-center">
+        <main className="flex flex-1 mt-20 w-s h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
