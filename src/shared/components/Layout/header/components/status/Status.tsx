@@ -1,31 +1,59 @@
-export type StatusCode = 0 | 1 | 2 | 3 | null;
+import { useAuth } from '@/features/auth/AuthProvider';
+import { statusList } from './statusList';
+import { useEffect, useState } from 'react';
+import { getUserStatus } from '../../api/getUser';
+import supabase from '@/supabase/supabase';
 
-const status = [
-  {
-    code: 0,
-    name: 'Online',
-    color: 'bg-green-500',
-  },
-  {
-    code: 1,
-    name: 'Offline',
-    color: 'bg-red-500',
-  },
-  {
-    code: 2,
-    name: 'Away',
-    color: 'bg-yellow-500',
-  },
-  {
-    code: 3,
-    name: 'DND',
-    color: 'bg-gray-500',
-  },
-];
+export type StatusCode = '0' | '1' | '2' | '3' | null;
 
 function Status() {
+  const [status, setStatus] = useState<StatusCode | null>(null);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const fetchUserStatus = async () => {
+      const status = await getUserStatus(user?.id);
+      if (status) {
+        setStatus(status);
+      }
+    };
+    fetchUserStatus();
+  }, [user?.id]);
+
+  useEffect(() => {
+    const channel = supabase
+      .channel(`status-${user?.id}`)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'user_base',
+          filter: `user_id=eq.${user?.id}`,
+        },
+        (payload) => {
+          console.log(payload);
+          const updatedUser = payload.new;
+          console.log('Status updated:', updatedUser);
+          // if (updatedUser.user_id === user?.id) {
+          //   setStatus(updatedUser.status);
+          // }
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user?.id]);
+
   return (
-    <div className={`w-4 h-4 rounded-full absolute -bottom-1 -right-1 ${status[0].color}`}></div>
+    <img
+      src={statusList.find((item) => item.code === status)?.icon}
+      alt={statusList.find((item) => item.code === status)?.name}
+      className="w-4 h-4 absolute -bottom-1 -right-1  rounded-full"
+      aria-label={`${statusList.find((item) => item.code === status)?.name} 상태`}
+    />
   );
 }
 
