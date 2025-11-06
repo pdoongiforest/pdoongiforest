@@ -17,6 +17,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [profileId, setProfileId] = useState<string | null>(null);
+
   useEffect(() => {
     const getSessionUser = async () => {
       const {

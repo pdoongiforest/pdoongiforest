@@ -6,7 +6,6 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
 import Thread from './pages/Study/components/Thread';
-import Mypage from './pages/Mypage/Mypage';
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
 
 import Register from './pages/Register';
@@ -31,9 +30,12 @@ import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
 import TeamDetail from './pages/team/detail/TeamDetail';
 import Setting from './pages/team/setting/Setting';
+
 import Board from './pages/Board/Board';
 import BoardDetail from './pages/Board/BoardDetail';
 import BoardCreate from './pages/BoardWrite/BoardCreate';
+import Mypage2 from './pages/Mypage/Mypage2';
+
 
 function App() {
   const location = useLocation();
@@ -47,12 +49,13 @@ function App() {
     path.startsWith('/channel') ||
     path.startsWith('/write') ||
     path.startsWith('/mypage/') ||
-    path.startsWith('/team')
+    path.startsWith('/team') ||
+    path.startsWith('/admin')
   );
   const [isOverlay, setIsOverlay] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
-  const { profileId } = useAuth();
+  const { profileId, isAuth } = useAuth();
 
   return (
     <NotificationProvider profileId={profileId}>
@@ -66,8 +69,8 @@ function App() {
             }}
           ></div>
         )}
-        {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={true} />}
-        <main className="flex flex-1 mt-20 w-s h-screen">
+        {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={isAuth} />}
+        <main className="flex flex-1 h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
@@ -100,7 +103,7 @@ function App() {
             </Route>
             <Route path="/write" element={<BoardCreate />} />
             <Route path="/write/:id" element={<BoardCreate />} />
-            <Route path="/mypage/:id" element={<Mypage />} />
+            <Route path="/mypage/:id" element={<Mypage2 />} />
             {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>
             )}

@@ -9,8 +9,10 @@ function ProfileBtn({ profileId }: { profileId: string | null }) {
 
   return (
     <button
-      className="w-full h-10 border-primary border text-primary text-right px-2 rounded-lg cursor-pointer hover:bg-primary/20 hover:text-white transition-colors"
+      type="button"
+      className="w-full h-10 border-primary border text-primary text-right px-2 rounded-lg hover:bg-primary/20 hover:text-white transition-colors"
       onClick={handleProfile}
+      aria-label="내 마이페이지 버튼"
     >
       내 프로필
     </button>
