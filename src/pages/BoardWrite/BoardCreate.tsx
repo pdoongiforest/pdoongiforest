@@ -1,17 +1,20 @@
 import BoardButtonArea from '@/features/boardWrite/BoardButtonArea';
 import BoardEdit from '@/features/boardWrite/BoardEdit';
+import { BoardProvider } from '@/features/boardWrite/context/useBoardContext';
 
 function BoardCreate() {
   return (
-    <div className="w-screen flex flex-col justify-between items-center">
-      <h2 className="sr-only">스터디/프로젝트 작성 페이지</h2>
-      <section className="w-[1200px] flex gap-3 relative">
-        <div className="flex flex-col gap-5 border border-[#B99470] rounded-sm absolute -left-10 bottom-[15%]">
-          <BoardButtonArea />
+    <BoardProvider>
+      <div className="w-screen flex flex-col justify-between items-center pt-30">
+        <h2 className="sr-only">스터디/프로젝트 작성 페이지</h2>
+        <div className="w-[1200px] flex gap-3 relative">
+          <aside className="flex flex-col gap-5 border border-[#B99470] rounded-sm absolute -left-10 bottom-[15%]">
+            <BoardButtonArea />
+          </aside>
+          <BoardEdit />
         </div>
-        <BoardEdit />
-      </section>
-    </div>
+      </div>
+    </BoardProvider>
   );
 }
 export default BoardCreate;

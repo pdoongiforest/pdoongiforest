@@ -1,6 +1,6 @@
 import { useProfileImageContext } from '@/shared/context/useProfileImage';
 import S from './BoardOptionPreview.module.css';
-import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useBoardContext } from '@/features/boardWrite/context/useBoardContext';
 
 // import { useHashTagContext } from "@/components/context/useHashTag";
 

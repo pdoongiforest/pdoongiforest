@@ -1,4 +1,4 @@
-import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useBoardContext } from '@/features/boardWrite/context/useBoardContext';
 import S from './BoardWrite.module.css';
 // import { debounce } from "@/utils/debounce";
 import type React from 'react';
