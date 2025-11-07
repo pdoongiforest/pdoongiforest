@@ -1,7 +1,7 @@
 import { useBoardContext } from '../context/useBoardContext';
 
 function RecruitCls() {
-  const { setPostData } = useBoardContext();
+  const { postData, setPostData } = useBoardContext();
 
   const handleClsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -10,8 +10,8 @@ function RecruitCls() {
   };
   return (
     <div className="flex flex-col gap-2 border-r border-[#D9D9D9] px-3">
-      <p>모집 구분</p>
-      <div className="flex gap-2">
+      <h3 className="font-semibold">모집 구분</h3>
+      <div className="flex gap-2 text-sm">
         <div className="flex gap-1">
           <input
             type="radio"
@@ -19,6 +19,7 @@ function RecruitCls() {
             value="study"
             id="option1"
             defaultChecked
+            checked={postData?.recruitCls === 'study' ? true : false}
             onChange={handleClsChange}
           />
           <label htmlFor="option1">스터디</label>
@@ -29,6 +30,7 @@ function RecruitCls() {
             name="group-name"
             value="project"
             id="option2"
+            checked={postData?.recruitCls === 'project' ? true : false}
             onChange={handleClsChange}
           />
           <label htmlFor="option2">프로젝트</label>

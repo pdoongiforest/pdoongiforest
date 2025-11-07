@@ -1,7 +1,7 @@
 import { useBoardContext } from '../context/useBoardContext';
 
 function BoardTitle() {
-  const { setPostData } = useBoardContext();
+  const { postData, setPostData } = useBoardContext();
 
   const handleChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target;
@@ -16,6 +16,7 @@ function BoardTitle() {
         type="text"
         placeholder="제목을 입력해주세요"
         className="w-full text-3xl border-b border-[#B99470]"
+        value={postData?.title}
         onChange={handleChangeTitle}
       />
     </section>

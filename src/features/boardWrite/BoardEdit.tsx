@@ -29,7 +29,7 @@ function BoardEdit() {
     if (!profileId) return;
     const selectSaveData = async () => {
       const data = await selectBoardSave(profileId);
-
+      console.log(data);
       if (data) {
         const updateTime = format(data.update_at, 'yyyy-MM-dd HH:mm:ss');
         showConfirmAlert(updateTime, '작성하던 글이 있습니다 불러오시겠습니까?').then((result) => {
@@ -53,6 +53,7 @@ function BoardEdit() {
     const hashTagArr = hashTag.map((tag) => tag.value);
     setPostData((prev) => ({ ...prev, hashTagArr }));
   };
+
   const handleSave = async () => {
     if (profileId && postData) {
       const saveData = await selectBoardSave(profileId);
@@ -88,10 +89,10 @@ function BoardEdit() {
     }
   };
   return (
-    <form className="flex flex-col gap-2 items-end" onSubmit={handleSubmitBoard}>
-      <div className="flex-1 flex flex-col gap-7 w-[1200px] bg-[#F5F2EB] border border-[#B99470] rounded-xl px-5">
+    <form className="flex-1 flex flex-col gap-2 items-end" onSubmit={handleSubmitBoard}>
+      <div className="flex-1 flex flex-col gap-7 max-w-[1200px] w-full bg-[#F5F2EB] border border-[#B99470] rounded-xl px-5">
         <BoardTitle />
-        <section className="flex">
+        <section className="flex sm:flex-row lg:gap-0 flex-col gap-5">
           <h2 className="sr-only">게시글 상세 정보 영역</h2>
           <RecruitCls />
           <RecruitTime />
@@ -102,6 +103,7 @@ function BoardEdit() {
         <section>
           <h2 className="sr-only">글 작성 및 미리보기 영역</h2>
           <SwitchBoard
+            switchMarkDown={switchMarkDown}
             onChange={(switchText: 'Write' | 'Preview') => {
               setSwitchMarkDown(switchText);
             }}

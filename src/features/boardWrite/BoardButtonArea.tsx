@@ -59,7 +59,7 @@ function BoardButtonArea() {
     });
   };
   return (
-    <ul className="flex flex-col justify-center items-center gap-4 p-1">
+    <ul className="flex sm:flex-col flex-row justify-center items-center gap-4 p-1">
       {BUTTON_LIST.map((icons) => {
         const src = `/icons/${icons.tag}.svg`;
         return (

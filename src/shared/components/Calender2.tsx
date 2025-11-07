@@ -1,17 +1,27 @@
 import Calendar from 'react-calendar';
 import C from './Calender.module.css';
 import { format } from 'date-fns';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CalendarProps } from 'react-calendar';
 
 interface Props {
   isHidden: boolean;
   callBack: (date: string) => void;
+  date?: string;
 }
 
-function Calender2({ isHidden, callBack }: Props) {
+function Calender2({ isHidden, callBack, date }: Props) {
   const [hidden, setHidden] = useState(isHidden);
   const [range, setRange] = useState<[Date, Date] | null>(null);
+
+  useEffect(() => {
+    if (date) {
+      const convertDate = new Date(date);
+      console.log(convertDate);
+      setRange([convertDate, convertDate]);
+      setHidden(true);
+    }
+  }, []);
 
   const handleChange: CalendarProps['onChange'] = async (value) => {
     if (Array.isArray(value)) {
