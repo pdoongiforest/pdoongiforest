@@ -9,7 +9,7 @@ export const navItem = [
   },
   {
     name: '스터디 / 프로젝트 찾기',
-    href: '/study',
+    href: '/board',
   },
   {
     name: '참여중인 스터디',
