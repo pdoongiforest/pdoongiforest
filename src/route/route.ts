@@ -1,6 +1,6 @@
 import Board from '@/pages/Board/Board';
 import BoardDetail from '@/pages/Board/BoardDetail';
-import BoardWrite from '@/pages/BoardWrite/BoardWrite';
+import BoardCreate from '@/pages/BoardWrite/BoardCreate';
 import Login from '@/pages/Login/login';
 import Main from '@/pages/Mainpage/Main';
 import NotFound from '@/pages/NotFound';
@@ -23,7 +23,7 @@ export const router = createBrowserRouter([
       },
       {
         path: '/write',
-        Component: BoardWrite,
+        Component: BoardCreate,
       },
       {
         path: '/board',
