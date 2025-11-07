@@ -36,7 +36,6 @@ import BoardDetail from './pages/Board/BoardDetail';
 import BoardCreate from './pages/BoardWrite/BoardCreate';
 import Mypage2 from './pages/Mypage/Mypage2';
 
-
 function App() {
   const location = useLocation();
   const path = location.pathname.toLowerCase();
@@ -70,7 +69,7 @@ function App() {
           ></div>
         )}
         {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={isAuth} />}
-        <main className="flex flex-1 h-screen">
+        <main className="flex flex-1  mt-20 h-screen">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
