@@ -4,7 +4,6 @@ import '@/shared/style/global.css';
 
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-import StudyChannel from './pages/Study/StudyChannel';
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
 import Thread from './pages/Study/components/Thread';
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
@@ -26,13 +25,17 @@ import Admin from './pages/Admin/Admin';
 import { useAuth } from './features/auth/AuthProvider';
 import { NotificationProvider } from './shared/context/NotificationContext';
 import { AdminProvider } from './shared/context/useAdmin';
-import BoardWrite from './pages/BoardWrite/BoardWrite';
 
 import Main from './pages/Mainpage/Main';
 import Header from './shared/components/Layout/header/Header';
 import TeamDetail from './pages/team/detail/TeamDetail';
 import Setting from './pages/team/setting/Setting';
+
+import Board from './pages/Board/Board';
+import BoardDetail from './pages/Board/BoardDetail';
+import BoardCreate from './pages/BoardWrite/BoardCreate';
 import Mypage2 from './pages/Mypage/Mypage2';
+
 
 function App() {
   const location = useLocation();
@@ -42,7 +45,7 @@ function App() {
     path === '/' ||
     path.startsWith('/login') ||
     path.startsWith('/register') ||
-    path.startsWith('/study') ||
+    path.startsWith('/board') ||
     path.startsWith('/channel') ||
     path.startsWith('/write') ||
     path.startsWith('/mypage/') ||
@@ -72,7 +75,8 @@ function App() {
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
-            <Route path="/study" element={<StudyChannel />} />
+            <Route path="/board" element={<Board />} />
+            <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/team" element={<Team />} />
             <Route path="/team/:id" element={<TeamDetail />}>
               <Route path="peerreview" element={<PeerReiview />}></Route>
@@ -97,8 +101,8 @@ function App() {
                 <Route path="managementmembers" element={<ManagementMembers />} />
               </Route>
             </Route>
-            <Route path="/write" element={<BoardWrite />} />
-            <Route path="/write/:id" element={<BoardWrite />} />
+            <Route path="/write" element={<BoardCreate />} />
+            <Route path="/write/:id" element={<BoardCreate />} />
             <Route path="/mypage/:id" element={<Mypage2 />} />
             {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>

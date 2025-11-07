@@ -2,7 +2,7 @@ import S from './BoardOption.module.css';
 
 import { useId } from 'react';
 
-import BoardButtonArea from './BoardButtonArea';
+import BoardButtonArea from '../../../features/boardWrite/BoardButtonArea';
 import { useProfileImageContext } from '@/shared/context/useProfileImage';
 import { useBoardContext } from '@/shared/context/useBoardContext';
 import { useHashTagContext } from '@/shared/context/useHashTag';

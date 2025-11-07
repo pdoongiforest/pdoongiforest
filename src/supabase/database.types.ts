@@ -238,7 +238,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      peer_review: {
+      scrap: {
         Row: {
           created_at: string | null;
           is_active: boolean | null;
@@ -340,8 +340,15 @@ export type Database = {
             foreignKeyName: 'FK_board_TO_study_1';
             columns: ['board_id'];
             isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
+            referencedRelation: 'study';
+            referencedColumns: ['study_id'];
+          },
+          {
+            foreignKeyName: 'FK_user_profile_TO_study_approve_1';
+            columns: ['profile_id'];
+            isOneToOne: false;
+            referencedRelation: 'user_profile';
+            referencedColumns: ['profile_id'];
           },
           {
             foreignKeyName: 'FK_user_profile_TO_study_1';
