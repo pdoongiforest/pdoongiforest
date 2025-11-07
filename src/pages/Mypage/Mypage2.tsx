@@ -1,3 +1,5 @@
+import AboutSection from '@/features/mypage/components/AboutSection';
+import ProfileSection from '@/features/mypage/components/ProfileSection';
 import type { ProfileData } from '@/shared/components/Layout/header/components/profileModal/ProfileModal';
 import supabase from '@/supabase/supabase';
 import { useEffect, useState } from 'react';
@@ -25,8 +27,9 @@ function Mypage2() {
   }, [id]);
 
   return (
-    <div className="page-layout max-w-1200 mt-20 flex-center">
-      {userData?.nickname ?? '프둥이'} 의 page
+    <div className="page-layout max-w-1200 flex-col gap-10 mt-20">
+      <ProfileSection />
+      <AboutSection />
     </div>
   );
 }
