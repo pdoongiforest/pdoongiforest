@@ -5,7 +5,7 @@ import '@/shared/style/global.css';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
 import StudyMemberChannel from './pages/Study/StudyMemberChannel';
-import Thread from './pages/Study/components/Thread';
+
 import StudyJoinInfomation from './pages/Study/StudyJoinInfomation';
 
 import Register from './pages/Register';
@@ -35,7 +35,7 @@ import Board from './pages/Board/Board';
 import BoardDetail from './pages/Board/BoardDetail';
 import BoardCreate from './pages/BoardWrite/BoardCreate';
 import Mypage2 from './pages/Mypage/Mypage2';
-
+import Thread from './pages/team/thread/Thread';
 
 function App() {
   const location = useLocation();
@@ -79,6 +79,7 @@ function App() {
             <Route path="/board/:id" element={<BoardDetail />} />
             <Route path="/team" element={<Team />} />
             <Route path="/team/:id" element={<TeamDetail />}>
+              <Route index element={<Thread />}></Route>
               <Route path="peerreview" element={<PeerReiview />}></Route>
               <Route path="settings" element={<Setting />}></Route>
             </Route>
@@ -93,7 +94,7 @@ function App() {
             >
               <Route index element={<StudyJoinInfomation />} />
               <Route path="memberchannel" element={<StudyMemberChannel />} />
-              <Route path="thread" element={<Thread />} />
+              {/* <Route path="thread" element={<Thread />} /> */}
               <Route path="peerReview/:id" element={<PeerReiview />} />
               <Route path="management" element={<Management />}>
                 <Route index element={<MangementChannel />} />

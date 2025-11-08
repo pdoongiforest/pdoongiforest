@@ -6,31 +6,35 @@ import supabase from '@/supabase/supabase';
 
 export type StatusCode = '0' | '1' | '2' | '3' | null;
 
-function Status() {
+interface Props {
+  userID?: string;
+}
+
+function Status({ userID }: Props) {
   const [status, setStatus] = useState<StatusCode | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     if (!user?.id) return;
     const fetchUserStatus = async () => {
-      const status = await getUserStatus(user?.id);
+      const status = await getUserStatus(userID ?? user?.id);
       if (status) {
         setStatus(status);
       }
     };
     fetchUserStatus();
-  }, [user?.id]);
+  }, [userID, user?.id]);
 
   useEffect(() => {
     const channel = supabase
-      .channel(`status-${user?.id}`)
+      .channel(`status-${userID ?? user?.id}`)
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
           table: 'user_base',
-          filter: `user_id=eq.${user?.id}`,
+          filter: `user_id=eq.${userID ?? user?.id}`,
         },
         (payload) => {
           console.log(payload);
@@ -45,7 +49,7 @@ function Status() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [user?.id]);
+  }, [userID, user?.id]);
 
   return (
     <img
