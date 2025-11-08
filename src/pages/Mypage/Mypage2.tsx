@@ -1,5 +1,7 @@
 import AboutSection from '@/features/mypage/components/AboutSection';
-import ProfileSection from '@/features/mypage/components/ProfileSection';
+import ContentSection from '@/features/mypage/components/content/ContentSection';
+import ProfileSection from '@/features/mypage/components/profile/ProfileSection';
+
 import type { ProfileData } from '@/shared/components/Layout/header/components/profileModal/ProfileModal';
 import supabase from '@/supabase/supabase';
 import { useEffect, useState } from 'react';
@@ -27,9 +29,10 @@ function Mypage2() {
   }, [id]);
 
   return (
-    <div className="page-layout max-w-1200 flex-col gap-10 mt-20">
+    <div className="page-layout max-w-1200 flex-col gap-10 mt-30">
       <ProfileSection />
       <AboutSection />
+      <ContentSection />
     </div>
   );
 }

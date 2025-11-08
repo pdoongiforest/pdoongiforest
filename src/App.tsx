@@ -35,7 +35,8 @@ import Board from './pages/Board/Board';
 import BoardDetail from './pages/Board/BoardDetail';
 import BoardCreate from './pages/BoardWrite/BoardCreate';
 import Mypage2 from './pages/Mypage/Mypage2';
-
+import PasswordChange from './features/mypage/components/passwordEdit/PasswordChange';
+import InfoChange from './features/mypage/components/edit/InfoChange';
 
 function App() {
   const location = useLocation();
@@ -70,7 +71,7 @@ function App() {
           ></div>
         )}
         {!isAuthPage && !isNotFoundPage && <Header profileId={profileId} isAuth={isAuth} />}
-        <main className="flex flex-1 h-screen">
+        <main className="flex flex-1 min-h-screen pb-10">
           <Routes>
             <Route path="/" element={<Main />} />
             <Route path="/login" element={<Login />} />
@@ -104,6 +105,8 @@ function App() {
             <Route path="/write" element={<BoardCreate />} />
             <Route path="/write/:id" element={<BoardCreate />} />
             <Route path="/mypage/:id" element={<Mypage2 />} />
+            <Route path="/mypage/:id/password" element={<PasswordChange />} />
+            <Route path="/mypage/:id/info" element={<InfoChange />} />
             {profileId === '163205a8-db22-4ed6-b44d-2e12718acb17' && (
               <Route path="/admin" element={<Admin />}></Route>
             )}
