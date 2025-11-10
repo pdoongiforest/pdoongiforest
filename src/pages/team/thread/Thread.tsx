@@ -3,7 +3,7 @@ import ThreadWrapper from '@/features/team/thread/components/ThreadWrapper';
 
 function Thread() {
   return (
-    <div className="w-[1200px] h-screen items-center outline-1 ">
+    <div className="relative w-[1200px] h-screen items-center ">
       <MemberList />
       <ThreadWrapper />
     </div>

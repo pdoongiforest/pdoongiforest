@@ -28,8 +28,8 @@ function MemberList() {
   return (
     <div className="flex gap-3 px-3 pb-2.5 border-b border-border-gray">
       {memberList &&
-        memberList.map((member) => (
-          <div className="flex flex-col items-center">
+        memberList.map((member, index) => (
+          <div key={index} className="flex flex-col items-center">
             <button
               type="button"
               className="w-10 h-10 mb-1 flex items-center justify-center rounded-full cursor-pointer bg-white relative"

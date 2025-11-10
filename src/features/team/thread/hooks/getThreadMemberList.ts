@@ -17,7 +17,7 @@ export async function getThreadMemberList(threadID: string) {
     .returns<Member[]>();
   if (error) throw error;
   if (!data) return [];
-  console.log(data);
+  // console.log(data);
   return await getTheradMemberStatus(data);
 }
 
@@ -33,7 +33,7 @@ async function getTheradMemberStatus(
 ) {
   const statusList = await Promise.all(
     memberList.map(async ({ profile_id, user_profile }) => {
-      console.log(user_profile.user_id);
+      // console.log(user_profile.user_id);
       const { data, error } = await supabase
         .from('user_base')
         .select('status')
@@ -50,6 +50,6 @@ async function getTheradMemberStatus(
       };
     })
   );
-  console.log(statusList);
+  // console.log(statusList);
   return statusList;
 }
