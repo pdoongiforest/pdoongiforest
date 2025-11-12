@@ -3,7 +3,7 @@ import Button from '@/shared/components/button/Button';
 
 function PeerReview() {
   return (
-    <section className="mt-8">
+    <section className="mt-8 w-full">
       <header className="flex justify-between items-center">
         <button type="button" className="flex flex-col" aria-label="이전">
           <svg

@@ -1,3 +1,4 @@
+import Admin from '@/pages/Admin/Admin';
 import Board from '@/pages/Board/Board';
 import BoardDetail from '@/pages/Board/BoardDetail';
 import BoardWrite from '@/pages/BoardWrite/BoardWrite';
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
   {
     path: '/register',
     Component: Register,
+  },
+  {
+    path: '/admin',
+    Component: Admin,
   },
   {
     path: '*',

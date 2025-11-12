@@ -21,7 +21,7 @@ function Admin() {
     const fetchApproveUser = async () => {
       const { data, error } = await supabase
         .from('user_base')
-        .select('id, name')
+        .select('user_id, name')
         .eq('approve', false);
       if (error) console.error('승인 대기 목록 가져오기 실패');
       if (!data) return;
@@ -36,10 +36,10 @@ function Admin() {
 
       const result = await Promise.all(
         data.map(async (d) => {
-          const matchFile = certificateFile?.find((c) => c.image.split('.')[0] === d.id);
+          const matchFile = certificateFile?.find((c) => c.image.split('.')[0] === d.user_id);
           if (!matchFile) {
             return {
-              id: d.id,
+              id: d.user_id,
               name: d.name,
               certificateFile: '',
             };
@@ -49,7 +49,7 @@ function Admin() {
             .getPublicUrl(matchFile.image);
 
           return {
-            id: d.id,
+            id: d.user_id,
             name: d.name,
             certificateFile: data.publicUrl,
           };
@@ -76,7 +76,10 @@ function Admin() {
   };
 
   const updateApprove = async () => {
-    const { error } = await supabase.from('user_base').update({ approve: true }).eq('id', activeId);
+    const { error } = await supabase
+      .from('user_base')
+      .update({ approve: true })
+      .eq('user_id', activeId);
     if (error) console.error('회원 승인 실패');
     toast.success(`승인 완료!`, {
       onClose() {
