@@ -423,7 +423,7 @@
   }
 }
 
-@media screen and (max-width: 1065px) {
+/* @media screen and (max-width: 1065px) {
   section {
     flex-direction: column;
   }
@@ -471,7 +471,7 @@
       margin-bottom: 2.5rem;
     }
   }
-}
+} */
 
 @media screen and (max-width: 768px) {
   .locationButton {
