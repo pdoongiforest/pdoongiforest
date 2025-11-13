@@ -4,7 +4,7 @@ import { useId } from 'react';
 
 import BoardButtonArea from '../../../features/boardWrite/BoardButtonArea';
 import { useProfileImageContext } from '@/shared/context/useProfileImage';
-import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useBoardContext } from '@/features/boardWrite/context/useBoardContext';
 import { useHashTagContext } from '@/shared/context/useHashTag';
 import DragDropFile from '@/shared/components/DragDropFile';
 import HashTag from '@/shared/components/HashTag';

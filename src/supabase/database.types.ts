@@ -286,39 +286,6 @@ export type Database = {
           },
         ];
       };
-      scrap: {
-        Row: {
-          board_id: string;
-          profile_id: string;
-          scrap_id: string;
-        };
-        Insert: {
-          board_id: string;
-          profile_id: string;
-          scrap_id: string;
-        };
-        Update: {
-          board_id?: string;
-          profile_id?: string;
-          scrap_id?: string;
-        };
-        Relationships: [
-          {
-            foreignKeyName: 'FK_board_TO_scrap_1';
-            columns: ['board_id'];
-            isOneToOne: false;
-            referencedRelation: 'board';
-            referencedColumns: ['board_id'];
-          },
-          {
-            foreignKeyName: 'FK_user_profile_TO_scrap_1';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
-          },
-        ];
-      };
       study: {
         Row: {
           board_id: string;

@@ -1,22 +1,32 @@
 import { createContext, useContext, useState } from 'react';
 
-type boardType = {
+interface BaseTagData {
+  value: string;
+}
+type BoardType = {
   title: string;
   contents: string;
+  recruitCls: string;
+  recruitTime: string;
+  recruitCount: number;
+  hashTag: BaseTagData[] | null;
 };
-
 interface BoardDataType {
-  postData: boardType | null;
-  setPostData: React.Dispatch<React.SetStateAction<boardType>>;
+  postData: BoardType | null;
+  setPostData: React.Dispatch<React.SetStateAction<BoardType>>;
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const BoardContext = createContext<BoardDataType | null>(null);
 
 export function BoardProvider({ children }: { children: React.ReactNode }) {
-  const [postData, setPostData] = useState({
+  const [postData, setPostData] = useState<BoardType>({
     title: '',
     contents: '',
+    recruitCls: 'study',
+    recruitTime: '',
+    recruitCount: 0,
+    hashTag: null,
   });
 
   return (

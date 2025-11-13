@@ -1,5 +1,6 @@
 import supabase from '@/supabase/supabase';
 import { useToast } from '@/shared/utils/useToast';
+import { useBoardContext } from './context/useBoardContext';
 
 const BUTTON_LIST = [
   { tag: 'h1', text: '\n# ' },
@@ -18,16 +19,16 @@ interface MarkdownOption {
   text: string;
 }
 function BoardButtonArea() {
-  // const { setPostData } = useBoardContext();
+  const { setPostData } = useBoardContext();
   const { error: errorPop } = useToast();
 
   const handleMarkdownMenu = (icons: MarkdownOption) => {
-    // setPostData((prev) => {
-    //   return {
-    //     ...prev,
-    //     contents: prev.contents + icons.text,
-    //   };
-    // });
+    setPostData((prev) => {
+      return {
+        ...prev,
+        contents: prev.contents + icons.text,
+      };
+    });
   };
 
   const handleChange = async (file: File) => {
@@ -50,15 +51,15 @@ function BoardButtonArea() {
 
     const imageUrl = publicUrlData.publicUrl;
 
-    // setPostData((prev) => {
-    //   return {
-    //     ...prev,
-    //     contents: prev.contents + `\n![${file.name}](${imageUrl})`,
-    //   };
-    // });
+    setPostData((prev) => {
+      return {
+        ...prev,
+        contents: prev.contents + `\n![${file.name}](${imageUrl})`,
+      };
+    });
   };
   return (
-    <ul className="flex flex-col justify-center items-center gap-4 p-1">
+    <ul className="flex sm:flex-col flex-row justify-center items-center gap-4 p-1">
       {BUTTON_LIST.map((icons) => {
         const src = `/icons/${icons.tag}.svg`;
         return (
