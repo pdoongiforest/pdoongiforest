@@ -1,14 +1,52 @@
+import supabase from '@/supabase/supabase';
+
 interface Props {
   variants: 'approve' | 'member';
+  src: string;
+  nickname: string;
+  profileId: string;
 }
 
-function MemberCard({ variants }: Props) {
+function MemberCard({ variants, src, nickname, profileId }: Props) {
+  const handleAccept = async () => {
+    const { error } = await supabase
+      .from('study_approve')
+      .update({
+        status: 1,
+      })
+      .eq('profile_id', profileId);
+    if (error) console.log('승인 요청 실패');
+    console.log('업데이트성공');
+  };
+
+  const handleReject = async () => {
+    const { error } = await supabase
+      .from('study_approve')
+      .update({
+        status: 2,
+      })
+      .eq('profile_id', profileId);
+    if (error) console.log('거절 요청 실패');
+    console.log('업데이트성공');
+  };
+
+  const handleEmission = async () => {
+    const { error } = await supabase
+      .from('study_member')
+      .update({
+        authority: 0,
+      })
+      .eq('profile_id', profileId);
+    if (error) console.log('거절 요청 실패');
+    console.log('업데이트성공');
+  };
+
   return (
     <div className="rounded-sm bg-white px-3 py-4 flex items-center justify-between h-17 w-full md:w-72 drop-shadow-[0_2px_8px_rgba(0,0,0,0.10)]">
       <div className="flex items-center gap-4">
-        <img src="" alt="멤버 카드 이미지" />
+        <img src={src} alt="멤버 카드 이미지" />
         <div>
-          <p>멤버 이름</p>
+          <p>{nickname}</p>
           <span>피어온도</span>
         </div>
       </div>
@@ -18,6 +56,7 @@ function MemberCard({ variants }: Props) {
             type="submit"
             className="rounded-sm bg-[#27C840] w-6 h-6 flex-center"
             aria-label="수락"
+            onClick={handleAccept}
           >
             <svg
               width="18"
@@ -32,7 +71,12 @@ function MemberCard({ variants }: Props) {
               />
             </svg>
           </button>
-          <button type="submit" className="rounded-sm bg-[#ea1714] w-6 h-6" aria-label="거절">
+          <button
+            type="submit"
+            className="rounded-sm bg-[#ea1714] w-6 h-6"
+            aria-label="거절"
+            onClick={handleReject}
+          >
             <svg
               width="24"
               height="24"
@@ -49,7 +93,12 @@ function MemberCard({ variants }: Props) {
         </div>
       ) : (
         <div>
-          <button type="submit" className="text-[#ea1714]">
+          <button
+            type="submit"
+            aria-label="추방"
+            className="text-[#ea1714]"
+            onClick={handleEmission}
+          >
             추방하기
           </button>
         </div>

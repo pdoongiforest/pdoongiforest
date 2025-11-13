@@ -17,7 +17,16 @@ function TeamDetail() {
           >
             홈
           </NavLink>
-          <li className="flex items-center">
+          <NavLink
+            to="peerreview"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? 'pending'
+                : isActive
+                  ? 'text-primary border-b border-primary flex items-center'
+                  : 'flex items-center'
+            }
+          >
             피어리뷰
             <svg
               width="16"
@@ -48,8 +57,17 @@ function TeamDetail() {
                 strokeLinejoin="round"
               />
             </svg>
-          </li>
-          <li className="flex items-center">
+          </NavLink>
+          <NavLink
+            to="settings"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? 'pending'
+                : isActive
+                  ? 'text-primary border-b border-primary flex items-center'
+                  : 'flex items-center'
+            }
+          >
             관리
             <svg
               width="16"
@@ -80,11 +98,11 @@ function TeamDetail() {
                 strokeLinejoin="round"
               />
             </svg>
-          </li>
+          </NavLink>
         </ul>
       </nav>
 
-      <main className="flex flex-1  mt-5">
+      <main className="flex flex-1 mt-5">
         <Outlet />
       </main>
     </div>
