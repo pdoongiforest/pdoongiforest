@@ -8,6 +8,6 @@ export async function getUserData(profile_id: string) {
     .maybeSingle();
   if (error) throw error;
   if (!data) return [];
-  console.log(data);
+  // console.log(data);
   return data;
 }

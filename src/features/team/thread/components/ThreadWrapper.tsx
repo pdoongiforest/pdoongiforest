@@ -15,12 +15,13 @@ function ThreadWrapper() {
   const { id } = useParams();
 
   return (
-    <>
-      <div className="overflow-y-scroll h-[calc(100%-200px)] w-full">
+    <div className="h-screen w-full">
+      <div className="overflow-y-auto h-[calc(100%-200px)] pb-[200px] w-full">
         <ThreadList threadData={threadData} setThreadData={setThreadData} id={id ?? ''} />
       </div>
+
       <ThreadInput setThreadData={setThreadData} id={id ?? ''} />
-    </>
+    </div>
   );
 }
 export default ThreadWrapper;

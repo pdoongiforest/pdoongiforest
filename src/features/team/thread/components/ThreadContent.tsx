@@ -33,6 +33,12 @@ interface Props {
   replyData?: ReplyWithUser[];
 }
 
+type ThreadFile = {
+  url: string;
+  type: 'image' | 'video';
+  order: number;
+};
+
 type UserData = Tables<'user_profile'>;
 
 export function ThreadContent({ data, onDelete, replyData }: Props) {
@@ -51,6 +57,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   const threadRef = useRef<HTMLLIElement>(null);
 
   const [userData, setUserData] = useState<UserData>();
+  const files = data.file as ThreadFile[]; // 타입 좁히기 (narrowing)
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -61,19 +68,27 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   }, [data]);
   // console.log('패치해온 유저 데이터', userData);
 
+  // useEffect(() => {
+  //   if (threadRef.current) {
+  //     gsap.fromTo(
+  //       threadRef.current,
+  //       { opacity: 0, y: 20 },
+  //       {
+  //         opacity: 1,
+  //         y: 0,
+  //         duration: 0.5,
+  //         ease: 'power2.out',
+  //       }
+  //     );
+  //   }
+  // }, []);
   useEffect(() => {
-    if (threadRef.current) {
-      gsap.fromTo(
-        threadRef.current,
-        { opacity: 0, y: 20 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.5,
-          ease: 'power2.out',
-        }
-      );
-    }
+    if (!threadRef.current) return;
+    gsap.fromTo(
+      threadRef.current,
+      { opacity: 0, y: -20 },
+      { opacity: 1, y: 0, duration: 0.4, ease: 'power2.out', clearProps: 'all' }
+    );
   }, []);
 
   useEffect(() => {
@@ -99,6 +114,11 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
     setContent(editContent);
     setIsEditing(!isEditing);
     if (error) console.error();
+
+    console.log({ threadRef });
+    threadRef.current?.scrollIntoView({
+      block: 'end',
+    });
   };
 
   const handleReplyDelete = (targetId: string) => {
@@ -110,15 +130,25 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   };
 
   const handleDelete = () => {
-    showConfirmAlert('정말로 댓글을 삭제하시겠습니까', '확인을 누르면 삭제됩니다').then(
-      (result) => {
-        if (result.isConfirmed) dataDelete();
-      }
-    );
+    showConfirmAlert('정말로 삭제하시겠습니까?', '확인을 누르면 삭제됩니다').then((result) => {
+      if (result.isConfirmed) dataDelete();
+    });
   };
+
+  function extractPath(publicUrl: string) {
+    const prefix = `/object/public/thread/`;
+    const idx = publicUrl.indexOf(prefix);
+    return publicUrl.substring(idx + prefix.length);
+  }
 
   const dataDelete = async () => {
     try {
+      const paths = files.map((file) => extractPath(file.url));
+
+      if (paths.length > 0) {
+        await supabase.storage.from('thread').remove(paths);
+      }
+
       const { error } = await supabase.from('thread').delete().eq('thread_id', thread_id);
       if (error) console.error(error);
       if (!error) onDelete?.();
@@ -135,7 +165,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
         thread_id,
         profile_id: profileId,
         contents: createReply,
-        like_user: '',
+        like_user: [],
       },
     ]);
     if (error) console.log(error.message);
@@ -168,9 +198,9 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   return (
     <li ref={threadRef} className="py-8">
       {data.isFirstThread === true && (
-        <div className="flex w-full mb-4">
+        <div className="relative flex w-full mb-4">
           <div className="border-b border-border-gray w-full"></div>
-          <div className="absolute left-[calc(50%-108px)] top-4 px-6 w-fit bg-gray-300 rounded-2xl text-center py-1">
+          <div className="absolute left-[calc(50%-108px)] -top-4 px-6 w-fit bg-gray-300 rounded-2xl text-center py-1">
             <p className="whitespace-nowrap">{convertDay(created_at ?? '')}</p>
           </div>
         </div>
@@ -226,7 +256,19 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
             autoFocus
           />
         ) : (
-          <p className="whitespace-pre-wrap text-xs">{content}</p>
+          <>
+            <p className="whitespace-pre-wrap text-xs">{content}</p>
+
+            {files && (
+              <div className="flex flex-row gap-3">
+                {files.map(({ url, type, order }) => (
+                  <div key={order} className="">
+                    {type === 'video' ? <video src={url} muted autoPlay /> : <img src={url} />}
+                  </div>
+                ))}
+              </div>
+            )}
+          </>
         )}
       </div>
 
@@ -248,7 +290,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
         createPortal(
           <div className="fixed z-10 top-20 w-1/3 right-0 h-[calc(100%-120px)] bg-bgc border-l-2 px-8">
             <div className="flex flex-row items-center gap-6 pb-5">
-              <button type="button" onClick={() => setIsOpen(false)}>
+              <button type="button" onClick={() => setIsReplyPress(false)}>
                 <img
                   src="/src/shared/assets/threadBack.svg"
                   alt="뒤로가기"

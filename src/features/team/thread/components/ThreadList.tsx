@@ -29,8 +29,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
   const { profileId } = useAuth();
 
   useEffect(() => {
-    if (!id) throw new Error('id가 없습니다');
-    if (!profileId) return;
+    if (!id || !profileId) return;
 
     const fetchData = async () => {
       const { data: ThreadData, error: ThreadError } = await supabase
@@ -38,7 +37,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
         .select('*')
         .eq('study_id', id)
         .order('created_at', {
-          ascending: true,
+          ascending: false,
         });
 
       if (ThreadError) throw new Error('스레드 데이터 가져오기 실패');
@@ -46,20 +45,6 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
     };
     fetchData();
   }, [id, profileId]);
-
-  useEffect(() => {
-    if (!id) return;
-    const fetchData = async () => {
-      const { data, error } = await supabase
-        .from('thread')
-        .select('*')
-        .eq('study_id', id)
-        .order('created_at', { ascending: true });
-      if (error) console.error(error);
-      setThreadData(data as ThreadWithUser[]);
-    };
-    fetchData();
-  }, [id]);
 
   useEffect(() => {
     const channel = supabase
@@ -73,8 +58,16 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
           filter: `study_id=eq.${id}`,
         },
         (payload) => {
-          // 실시간 갱신
-          setThreadData((prev) => [payload.new as ThreadWithUser, ...prev]);
+          const newThread = payload.new as ThreadWithUser;
+
+          // 내가 만든 스레드면 무시(중복 fetch 방지)
+          if (newThread.profile_id === profileId) return;
+
+          // 최신이 하단으로 가도록
+          setThreadData((prev) => {
+            if (prev.some((t) => t.thread_id === newThread.thread_id)) return prev;
+            return [newThread, ...prev];
+          });
         }
       )
       .subscribe();
@@ -95,7 +88,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
         },
         (payload) => {
           const thread_id = payload.new.thread_id;
-          setThreadReplyData(thread_id);
+          fetchThreadReplyData(thread_id);
         }
       )
       .subscribe();
@@ -121,7 +114,6 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
       );
 
       const replyMap = Object.fromEntries(replies);
-      // console.log('replyMap', replyMap);
       setReplyData(replyMap);
     };
 
@@ -130,11 +122,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
     }
   }, [threadData]);
 
-  const handleDelete = (targetId: string) => {
-    setThreadData(threadData.filter((item) => item.thread_id !== targetId));
-  };
-
-  const setThreadReplyData = async (thread_id: string) => {
+  const fetchThreadReplyData = async (thread_id: string) => {
     const { data, error } = await supabase
       .from('thread_reply')
       .select('*,user_profile(*,user_base(*))')
@@ -150,39 +138,51 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
       [thread_id]: data as ReplyWithUser[],
     }));
   };
-  // 여기서 각 스레드가 해당 요일의 첫 스레드인지 판별하고 그걸 개별 스레드 렌더링때 플래그로 전달해야할듯
-  let prevDay = '00';
-  const indexingThreadData = threadData.map((thread) => {
-    const day = thread.created_at?.slice(8, 10);
-    // console.log(day);
-    if (day !== prevDay) {
-      prevDay = day ?? '';
-      return {
-        ...thread,
-        isFirstThread: true,
-      };
-    } else
-      return {
-        ...thread,
-        isFirstThread: false,
-      };
+
+  const handleDelete = (targetId: string) => {
+    setThreadData(threadData.filter((item) => item.thread_id !== targetId));
+  };
+
+  // 오래된순 -> 최신순으로 패치할때 쓰던 코드
+  // const indexingThreadData = threadData.map((thread) => {
+  //   const day = thread.created_at?.slice(8, 10);
+  //   if (day !== prevDay.current) {
+  //     prevDay.current = day ?? '';
+  //     return {
+  //       ...thread,
+  //       isFirstThread: true,
+  //     };
+  //   } else
+  //     return {
+  //       ...thread,
+  //       isFirstThread: false,
+  //     };
+  // });
+
+  // 패치가 최신순 ->오래된순으로 가져오기때문에 다음날짜랑 비교해서 firstthread판별
+  const indexingThreadData = threadData.map((thread, idx) => {
+    const currentDay = thread.created_at?.slice(8, 10);
+    const nextDay = threadData[idx + 1]?.created_at?.slice(8, 10);
+    const isFirstThread = currentDay !== nextDay;
+    return {
+      ...thread,
+      isFirstThread,
+    };
   });
-  // console.log(indexingThreadData);
+  // console.log({ indexingThreadData });
 
   return (
     <div className="flex flex-col w-full">
       <ul className="space-y-[34px]">
         {indexingThreadData &&
-          indexingThreadData.map((thread) => {
+          indexingThreadData.reverse().map((thread) => {
             return (
               <IsMineProvider key={thread.thread_id} writerProfileId={thread.profile_id}>
                 <ThreadContent
-                  key={thread.thread_id}
                   data={thread}
                   replyData={replyData[thread.thread_id] || []}
                   onDelete={() => handleDelete(thread.thread_id)}
                 />
-                {/* <ThreadReplyList replyList={replyData[thread.thread_id] || []} /> */}
               </IsMineProvider>
             );
           })}
