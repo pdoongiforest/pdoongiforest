@@ -5,8 +5,8 @@ import { useCallback, useRef } from 'react';
 import type { ChangeEventData } from '@yaireo/tagify';
 
 interface Props {
-  taglist?: string[] | null;
-  defaultList?: string[] | null;
+  taglist?: BaseTagData[] | null;
+  defaultList?: BaseTagData[] | null;
   editable?: boolean;
   callBack?: (tag: BaseTagData[]) => void;
 }

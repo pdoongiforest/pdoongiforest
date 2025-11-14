@@ -84,7 +84,7 @@ function TeamDetail() {
         </ul>
       </nav>
 
-      <main className="flex flex-1 mt-5">
+      <main className="flex flex-1  mt-5">
         <Outlet />
       </main>
     </div>

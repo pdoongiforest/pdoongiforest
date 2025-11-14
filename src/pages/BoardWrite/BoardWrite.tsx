@@ -7,7 +7,7 @@ import BoardUpdate from './BoardUpdate';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { showErrorAlert } from '@/shared/utils/sweetAlert';
 import { ProfileImageProvider } from '@/shared/context/useProfileImage';
-import { BoardProvider } from '@/shared/context/useBoardContext';
+import { BoardProvider } from '@/features/boardWrite/context/useBoardContext';
 import { HashTagProvider } from '@/shared/context/useHashTag';
 
 function BoardWrite() {

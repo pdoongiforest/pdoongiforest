@@ -1,3 +1,4 @@
+import Management from '@/features/team/components/setting/Management';
 import MemberCard from '@/features/team/components/setting/MemberCard';
 
 function Setting() {
@@ -17,13 +18,7 @@ function Setting() {
         </div>
       </section>
       <section className="flex flex-col gap-3">
-        <h2>멤버 관리</h2>
-        <div className="flex flex-wrap gap-3">
-          <MemberCard variants="member" />
-          <MemberCard variants="member" />
-          <MemberCard variants="member" />
-          <MemberCard variants="member" />
-        </div>
+        <Management />
       </section>
     </main>
   );

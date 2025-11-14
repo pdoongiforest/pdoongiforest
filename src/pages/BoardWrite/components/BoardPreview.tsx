@@ -1,4 +1,4 @@
-import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useBoardContext } from '@/features/boardWrite/context/useBoardContext';
 import BoardOptionPreview from './BoardOptionPreview';
 import S from './BoardPreview.module.css';
 
