@@ -65,6 +65,8 @@ export const useAgeValidation = ({ setError, clearErrors }: UseAgeValidationProp
         | { social: string; social_link: string }
         | { social: string; social_link: string }[]
         | File
+        | { address: boolean; age: boolean; gender: boolean }
+        | boolean
         | null
     ): boolean | string => {
       // 빈 값은 허용 (비공개 설정 가능)

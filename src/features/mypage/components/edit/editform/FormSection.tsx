@@ -8,6 +8,9 @@ import InterestSection from './InterestSection';
 import IntroduceSection from './IntroduceSection';
 import { useProfileForm } from './hooks/useProfileForm';
 import { useProfileSubmit } from './hooks/useProfileSubmit';
+import FormSectionSkeleton from '../../loading/FormSectionSkeleton';
+import { useState } from 'react';
+import { useBlocker } from 'react-router-dom';
 
 export interface ProfileFormData {
   nickname: string;
@@ -20,6 +23,7 @@ export interface ProfileFormData {
     social_link: string;
   }[];
   profile_images: File | string | null;
+  visibility: boolean;
 }
 
 export interface ProfileData {
@@ -33,9 +37,11 @@ export interface ProfileData {
     social_link: string;
   }>;
   profile_images: string | null;
+  visibility: boolean | null;
 }
 
 function FormSection() {
+  const [value, setValue] = useState('');
   const {
     profileData,
     profileId,
@@ -58,8 +64,14 @@ function FormSection() {
     // 회원 탈퇴 로직
   };
 
+  // let blocker = useBlocker(
+  //   ({ currentLocation, nextLocation, historyAction }) =>
+  //     value !== "" && currentLocation.pathname !== nextLocation.pathname
+  // )
+  const blocker = useBlocker(value !== '');
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <FormSectionSkeleton />;
   }
 
   return (
@@ -68,6 +80,12 @@ function FormSection() {
       aria-label="프로필 정보 수정 폼"
       onSubmit={handleSubmit(onSubmit, (errors) => {
         console.log('Form validation errors:', errors);
+        setValue('');
+        if (blocker.state === 'blocked') {
+          console.log(blocker.state);
+          blocker.proceed();
+          console.log(blocker.state);
+        }
       })}
       noValidate
     >
@@ -97,6 +115,7 @@ function FormSection() {
           errors={errors.age}
           setError={setError}
           clearErrors={clearErrors}
+          control={control}
         />
 
         <InterestSection control={control} />

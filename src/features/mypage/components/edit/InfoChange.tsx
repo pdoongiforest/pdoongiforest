@@ -1,8 +1,12 @@
 import FormSection from './editform/FormSection';
 import EditContainer from '../editContainer/EditContainer';
 import Backbtn from '../back/Backbtn';
+import { useNavigate } from 'react-router-dom';
 
 function InfoChange() {
+  const navigate = useNavigate();
+  console.log(navigate);
+
   return (
     <div className="page-layout mt-30 max-w-200">
       <EditContainer>

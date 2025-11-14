@@ -47,6 +47,7 @@ export const useProfileForm = () => {
       setValue('interest', profileData.interest);
       setValue('introduce', profileData.introduce);
       setValue('social', profileData.social || []);
+      setValue('visibility', profileData.visibility ?? false);
     }
   }, [profileData, setValue]);
 

@@ -30,5 +30,10 @@ export const getChangedFields = (
     updateProfile.introduce = formData.introduce || null;
   }
 
+  // visibility 변경 체크
+  if (formData.visibility !== (profileData.visibility ?? false)) {
+    updateProfile.visibility = formData.visibility;
+  }
+
   return updateProfile;
 };

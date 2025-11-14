@@ -18,4 +18,12 @@
   .max-w-1200 {
     @apply max-w-[1200px];
   }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -39,16 +39,16 @@ export const useProfileSubmit = ({ profileId, profileData, setError }: UseProfil
       const updateProfile = getChangedFields(data, profileData);
 
       // 프로필 이미지 처리
-      if (data.profileImage instanceof File) {
+      if (data.profile_images instanceof File) {
         try {
-          updateProfile.profile_images = await uploadProfileImage(data.profileImage, profileId);
+          updateProfile.profile_images = await uploadProfileImage(data.profile_images, profileId);
         } catch (error) {
           const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
-          setError('profileImage', { message });
+          setError('profile_images', { message });
           throw error;
         }
-      } else if (data.profileImage !== profileData.profile_image) {
-        updateProfile.profile_images = data.profileImage || null;
+      } else if (data.profile_images !== profileData.profile_images) {
+        updateProfile.profile_images = data.profile_images || null;
       }
 
       // user_profile 업데이트 (변경된 필드만)

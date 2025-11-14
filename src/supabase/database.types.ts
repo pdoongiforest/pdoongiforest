@@ -10,34 +10,40 @@ export type Database = {
     Tables: {
       board: {
         Row: {
+          approve_cls: string | null;
           board_cls: string | null;
           board_id: string;
           contents: string | null;
           created_at: string | null;
           deadline: string | null;
           hash_tag: string[] | null;
+          is_delete: boolean | null;
           profile_id: string;
           recruitment_number: number | null;
           title: string | null;
         };
         Insert: {
-          board_cls?: string | null;
-          board_id: string;
-          contents?: string | null;
-          created_at?: string | null;
-          deadline?: string | null;
-          hash_tag?: string[] | null;
-          profile_id: string;
-          recruitment_number?: number | null;
-          title?: string | null;
-        };
-        Update: {
+          approve_cls?: string | null;
           board_cls?: string | null;
           board_id?: string;
           contents?: string | null;
           created_at?: string | null;
           deadline?: string | null;
           hash_tag?: string[] | null;
+          is_delete?: boolean | null;
+          profile_id?: string;
+          recruitment_number?: number | null;
+          title?: string | null;
+        };
+        Update: {
+          approve_cls?: string | null;
+          board_cls?: string | null;
+          board_id?: string;
+          contents?: string | null;
+          created_at?: string | null;
+          deadline?: string | null;
+          hash_tag?: string[] | null;
+          is_delete?: boolean | null;
           profile_id?: string;
           recruitment_number?: number | null;
           title?: string | null;
@@ -54,6 +60,7 @@ export type Database = {
       };
       board_save: {
         Row: {
+          approve_cls: string | null;
           board_cls: string | null;
           contents: string | null;
           created_at: string | null;
@@ -65,6 +72,7 @@ export type Database = {
           update_at: string | null;
         };
         Insert: {
+          approve_cls?: string | null;
           board_cls?: string | null;
           contents?: string | null;
           created_at?: string | null;
@@ -76,6 +84,7 @@ export type Database = {
           update_at?: string | null;
         };
         Update: {
+          approve_cls?: string | null;
           board_cls?: string | null;
           contents?: string | null;
           created_at?: string | null;
@@ -97,7 +106,7 @@ export type Database = {
         };
         Insert: {
           approve?: boolean | null;
-          certification_id: string;
+          certification_id?: string;
           email?: string | null;
           image?: string | null;
         };
@@ -118,11 +127,11 @@ export type Database = {
           profile_id: string;
         };
         Insert: {
-          board_id: string;
-          comment_id: string;
+          board_id?: string;
+          comment_id?: string;
           content?: string | null;
           created_at?: string | null;
-          profile_id: string;
+          profile_id?: string;
         };
         Update: {
           board_id?: string;
@@ -157,11 +166,11 @@ export type Database = {
           reply_id: string;
         };
         Insert: {
-          comment_id: string;
+          comment_id?: string;
           contents?: string | null;
           created_at?: string | null;
-          profile_id: string;
-          reply_id: string;
+          profile_id?: string;
+          reply_id?: string;
         };
         Update: {
           comment_id?: string;
@@ -222,7 +231,7 @@ export type Database = {
           board_id?: string | null;
           content?: string | null;
           created_at?: string | null;
-          id: string;
+          id?: string;
           is_read?: boolean | null;
           profile_id?: string | null;
           type?: string | null;
@@ -238,7 +247,7 @@ export type Database = {
         };
         Relationships: [];
       };
-      scrap: {
+      peer_review: {
         Row: {
           created_at: string | null;
           is_active: boolean | null;
@@ -252,11 +261,11 @@ export type Database = {
         Insert: {
           created_at?: string | null;
           is_active?: boolean | null;
-          profile_id: string;
+          profile_id?: string;
           review_contents?: string | null;
-          review_id: string;
+          review_id?: string;
           review_score?: number | null;
-          study_id: string;
+          study_id?: string;
           writer_id?: string | null;
         };
         Update: {
@@ -293,9 +302,9 @@ export type Database = {
           scrap_id: string;
         };
         Insert: {
-          board_id: string;
-          profile_id: string;
-          scrap_id: string;
+          board_id?: string;
+          profile_id?: string;
+          scrap_id?: string;
         };
         Update: {
           board_id?: string;
@@ -326,9 +335,9 @@ export type Database = {
           study_id: string;
         };
         Insert: {
-          board_id: string;
-          profile_id: string;
-          study_id: string;
+          board_id?: string;
+          profile_id?: string;
+          study_id?: string;
         };
         Update: {
           board_id?: string;
@@ -340,15 +349,8 @@ export type Database = {
             foreignKeyName: 'FK_board_TO_study_1';
             columns: ['board_id'];
             isOneToOne: false;
-            referencedRelation: 'study';
-            referencedColumns: ['study_id'];
-          },
-          {
-            foreignKeyName: 'FK_user_profile_TO_study_approve_1';
-            columns: ['profile_id'];
-            isOneToOne: false;
-            referencedRelation: 'user_profile';
-            referencedColumns: ['profile_id'];
+            referencedRelation: 'board';
+            referencedColumns: ['board_id'];
           },
           {
             foreignKeyName: 'FK_user_profile_TO_study_1';
@@ -363,19 +365,19 @@ export type Database = {
         Row: {
           id: string;
           profile_id: string;
-          status: string | null;
+          status: Database['public']['Enums']['membership_status'] | null;
           study_id: string;
         };
         Insert: {
-          id: string;
-          profile_id: string;
-          status?: string | null;
-          study_id: string;
+          id?: string;
+          profile_id?: string;
+          status?: Database['public']['Enums']['membership_status'] | null;
+          study_id?: string;
         };
         Update: {
           id?: string;
           profile_id?: string;
-          status?: string | null;
+          status?: Database['public']['Enums']['membership_status'] | null;
           study_id?: string;
         };
         Relationships: [
@@ -404,9 +406,9 @@ export type Database = {
         };
         Insert: {
           authority?: string | null;
-          member_id: string;
-          profile_id: string;
-          study_id: string;
+          member_id?: string;
+          profile_id?: string;
+          study_id?: string;
         };
         Update: {
           authority?: string | null;
@@ -446,7 +448,7 @@ export type Database = {
           like_user?: string[] | null;
           profile_id: string;
           study_id: string;
-          thread_id: string;
+          thread_id?: string;
         };
         Update: {
           contents?: string | null;
@@ -486,9 +488,9 @@ export type Database = {
           contents?: string | null;
           created_at?: string | null;
           like_user?: string[] | null;
-          profile_id: string;
-          reply_id: string;
-          thread_id: string;
+          profile_id?: string;
+          reply_id?: string;
+          thread_id?: string;
         };
         Update: {
           contents?: string | null;
@@ -524,8 +526,8 @@ export type Database = {
         };
         Insert: {
           contents?: string | null;
-          resource_id: string;
-          thread_id: string;
+          resource_id?: string;
+          thread_id?: string;
           type?: string | null;
         };
         Update: {
@@ -561,7 +563,7 @@ export type Database = {
           name?: string | null;
           recent_at?: string | null;
           status?: string | null;
-          user_id: string;
+          user_id?: string;
         };
         Update: {
           approve?: string | null;
@@ -584,18 +586,18 @@ export type Database = {
           profile_images: string | null;
           role: string | null;
           user_id: string;
-          visibility: Json | null;
+          visibility: boolean | null;
         };
         Insert: {
           age?: number | null;
           interest?: string[] | null;
           introduce?: string | null;
           nickname?: string | null;
-          profile_id: string;
+          profile_id?: string;
           profile_images?: string | null;
           role?: string | null;
-          user_id: string;
-          visibility?: Json | null;
+          user_id?: string;
+          visibility?: boolean | null;
         };
         Update: {
           age?: number | null;
@@ -606,7 +608,7 @@ export type Database = {
           profile_images?: string | null;
           role?: string | null;
           user_id?: string;
-          visibility?: Json | null;
+          visibility?: boolean | null;
         };
         Relationships: [
           {
@@ -628,9 +630,9 @@ export type Database = {
         };
         Insert: {
           created_at?: string | null;
-          profile_id: string;
+          profile_id?: string;
           social?: string | null;
-          social_id: string;
+          social_id?: string;
           social_link?: string | null;
         };
         Update: {

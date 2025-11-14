@@ -7,6 +7,7 @@ export interface UpdateProfileData {
   interest?: string[] | null;
   introduce?: string | null;
   profile_images?: string | null;
+  visibility?: boolean | null;
 }
 
 /**

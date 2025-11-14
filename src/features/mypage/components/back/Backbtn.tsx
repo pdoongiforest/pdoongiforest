@@ -9,10 +9,13 @@ function Backbtn() {
     <button
       className="absolute top-10 left-6"
       onClick={() => {
-        if (window.history.length > 1) {
-          navigate(-1);
-        } else {
-          navigate(`/mypage/${id}`);
+        const result = confirm('정말 뒤로가시겠습니까? 나가면 변경사항이 저장되지 않습니다');
+        if (result) {
+          if (window.history.length > 1) {
+            navigate(-1);
+          } else {
+            navigate(`/mypage/${id}`);
+          }
         }
       }}
       type="button"

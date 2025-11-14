@@ -8,8 +8,8 @@ interface Props {
 }
 
 const roleOptions = [
-  { value: 'front-end Developer', label: 'Front-end Developer' },
-  { value: 'back-end Developer', label: 'Back-end Developer' },
+  { value: 'Front-end Developer', label: 'Front-end Developer' },
+  { value: 'Back-end Developer', label: 'Back-end Developer' },
   { value: 'AI Back-end Developer', label: 'AI Back-end Developer' },
   { value: 'Full-stack Developer', label: 'Full-stack Developer' },
   { value: 'Data Engineer', label: 'Data Engineer' },
