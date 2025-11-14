@@ -29,7 +29,7 @@
   }
 }
 .hashTagInput {
-  min-width: 300px;
+  min-width: 200px;
   width: fit-content;
   --tag-bg: #e2e8f0;
   --tag--max-width: 300px;
