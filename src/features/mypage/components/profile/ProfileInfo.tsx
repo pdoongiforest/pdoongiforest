@@ -3,7 +3,7 @@ import PeerTemperature from '../peerTemperature/PeerTemperature';
 interface Props {
   name: string;
   role: string;
-  age: string;
+  age: string | number;
 }
 
 function ProfileInfo({ name, role, age }: Props) {

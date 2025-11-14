@@ -1,20 +1,22 @@
 import FormField from '../edit/editform/FormField';
+import type { UseFormRegister, FieldError, FieldValues, Path } from 'react-hook-form';
 
-interface TextareaInputProps {
+interface TextareaInputProps<T extends FieldValues = FieldValues> {
   id: string;
-  name: string;
+  name: Path<T>;
   label: string;
   description?: string;
   required?: boolean;
-  error?: string;
+  error?: FieldError;
   placeholder?: string;
   maxLength?: number;
   rows?: number;
-  value?: string;
+  register?: UseFormRegister<T>;
+  validation?: Parameters<UseFormRegister<T>>[1];
   onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-function TextareaInput({
+function TextareaInput<T extends FieldValues = FieldValues>({
   id,
   name,
   label,
@@ -24,16 +26,23 @@ function TextareaInput({
   placeholder,
   maxLength,
   rows = 5,
-  value,
+  register,
+  validation,
   onChange,
-}: TextareaInputProps) {
+}: TextareaInputProps<T>) {
+  const registerProps = register ? register(name, validation) : {};
+
   return (
-    <FormField id={id} label={label} description={description} required={required} error={error}>
+    <FormField
+      id={id}
+      label={label}
+      description={description}
+      required={required}
+      error={error?.message}
+    >
       <textarea
         id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
+        {...registerProps}
         className="w-full bg-white focus:outline-primary/50 resize-none min-h-30 p-2 rounded-md"
         aria-describedby={error ? `${id}-error` : description ? `${id}-description` : undefined}
         aria-invalid={!!error}
@@ -41,6 +50,9 @@ function TextareaInput({
         placeholder={placeholder}
         maxLength={maxLength}
         rows={rows}
+        spellCheck="false"
+        autoComplete="off"
+        onChange={onChange}
       />
     </FormField>
   );

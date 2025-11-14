@@ -11,6 +11,9 @@ export interface ProfileData {
   profile_images: string;
   role: string;
   visibility: Json;
+  age: number;
+  introduce: string;
+  interest: string[];
 }
 
 interface Props {

@@ -5,7 +5,7 @@ interface Props {
 
 function ProfileImage({ src, alt }: Props) {
   return (
-    <div className="min-w-50 min-h-50 rounded-xl bg-white">
+    <div className="max-w-50 max-h-50 min-w-50 min-h-50 rounded-xl bg-white">
       <img src={src} alt={alt} className="w-full h-full object-contain rounded-xl" />
     </div>
   );

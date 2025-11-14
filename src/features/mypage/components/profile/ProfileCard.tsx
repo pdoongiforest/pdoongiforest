@@ -6,7 +6,7 @@ interface Props {
   imageAlt: string;
   name: string;
   role: string;
-  age: string;
+  age: string | number;
 }
 
 function ProfileCard({ imageSrc, imageAlt, name, role, age }: Props) {

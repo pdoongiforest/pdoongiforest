@@ -1,42 +1,45 @@
 import FormField from '../edit/editform/FormField';
+import type { UseFormRegister, FieldError, FieldValues, Path } from 'react-hook-form';
 
 interface SelectOption {
   value: string;
   label: string;
 }
 
-interface SelectInputProps {
+interface SelectInputProps<T extends FieldValues = FieldValues> {
   id: string;
-  name: string;
+  name: Path<T>;
   label: string;
   description?: string;
   required?: boolean;
-  error?: string;
+  error?: FieldError;
+  errors?: FieldError | undefined;
   options: SelectOption[];
   placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  register?: UseFormRegister<T>;
+  validation?: Parameters<UseFormRegister<T>>[1];
 }
 
-function SelectInput({
+function SelectInput<T extends FieldValues = FieldValues>({
   id,
   name,
   label,
   description,
   required,
   error,
+
   options,
   placeholder,
-  value,
-  onChange,
-}: SelectInputProps) {
+  register,
+  validation,
+}: SelectInputProps<T>) {
+  const registerProps = register ? register(name, validation) : {};
+
   return (
-    <FormField id={id} label={label} description={description} required={required} error={error}>
+    <FormField id={id} label={label} description={description} required={required}>
       <select
         id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
+        {...registerProps}
         className="w-full bg-white focus:outline-primary/50 h-8 px-2 rounded-md"
         aria-describedby={error ? `${id}-error` : description ? `${id}-description` : undefined}
         aria-invalid={!!error}
