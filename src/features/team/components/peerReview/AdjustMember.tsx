@@ -23,6 +23,7 @@ function AdjustMember() {
       name: 'active',
     },
   ];
+
   return (
     <form
       className="flex justify-center"
@@ -38,7 +39,7 @@ function AdjustMember() {
 
       <ol className="flex flex-col gap-10">
         {PEER_REVIEW_QUESTION.map(({ id, question, name }) => (
-          <li key={id} className="flex flex-col xl:flex-row     gap-3">
+          <li key={id} className="flex flex-col xl:flex-row  gap-3">
             <p>{question}</p>
             <AdjustRadios name={name} />
           </li>

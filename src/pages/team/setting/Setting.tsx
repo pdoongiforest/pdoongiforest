@@ -9,7 +9,12 @@ function Setting() {
         <label htmlFor="editname" className="sr-only">
           스터디 명 변경하기
         </label>
-        <input type="text" id="editname" className="bg-white px-1 py-2 w-fit" value="스터디 명" />
+        <input
+          type="text"
+          id="editname"
+          className="bg-white px-1 py-2 w-fit"
+          placeholder="스터디 명"
+        />
       </section>
       <section className="flex flex-col gap-3">
         <ApproveMember />
