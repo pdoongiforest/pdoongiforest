@@ -11,6 +11,7 @@ type BoardType = {
   recruitTime: string;
   recruitCount: number;
   hashTag: BaseTagData[] | null;
+  approveCls: string;
 };
 
 export const insertBoardSave = async (profileId: string, postData: BoardType) => {
@@ -23,6 +24,7 @@ export const insertBoardSave = async (profileId: string, postData: BoardType) =>
       board_cls: postData.recruitCls,
       deadline: postData.recruitTime,
       recruitment_number: postData.recruitCount,
+      apporve_cls: postData.approveCls,
       hash_tag: postData.hashTag,
     });
     if (boardInsertError) {

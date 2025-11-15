@@ -14,10 +14,16 @@ import { format } from 'date-fns';
 import { showConfirmAlert, showErrorAlert, showSuccessAlert } from '@/shared/utils/sweetAlert';
 import { insertBoard } from '@/api/board';
 import { useNavigate } from 'react-router-dom';
+import { insertStudy } from '@/api/study';
+import type { Tables } from '@/supabase/database.types';
+import { insertStudyMember } from '@/api/studyMember';
+import ApproveCls from './components/ApproveCls';
 
 interface BaseTagData {
   value: string;
 }
+
+type Board = Tables<'board'> | null;
 
 function BoardEdit() {
   const { postData, setPostData } = useBoardContext();
@@ -40,6 +46,7 @@ function BoardEdit() {
               recruitCls: data.board_cls,
               recruitCount: data.recruitment_number,
               recruitTime: data.deadline,
+              approveCls: data.approve_cls,
               hashTag: data.hash_tag,
             });
           }
@@ -75,11 +82,20 @@ function BoardEdit() {
   const handleSubmitBoard = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (profileId && postData) {
-      const data = await insertBoard(profileId, postData);
-      if (data?.result === 'success') {
+      const data: Board = await insertBoard(profileId, postData);
+      if (data) {
         await deleteBoardSave(profileId);
-        await showSuccessAlert('게시글 등록 성공!', '게시글이 등록 되었습니다.');
-        navigate('/board');
+        const studyData = await insertStudy(profileId, data.board_id);
+        if (studyData) {
+          await insertStudyMember(profileId, studyData?.study_id ?? '', '1');
+          await showSuccessAlert('게시글 등록 성공!', '게시글이 등록 되었습니다.');
+          navigate('/board');
+        } else {
+          await showErrorAlert(
+            '게시글 등록 실패',
+            '게시글 등록에 실패하였습니다. 잠시 후 다시 시도해주세요'
+          );
+        }
       } else {
         await showErrorAlert(
           '게시글 등록 실패',
@@ -95,6 +111,7 @@ function BoardEdit() {
         <section className="flex sm:flex-row lg:gap-0 flex-col gap-5">
           <h2 className="sr-only">게시글 상세 정보 영역</h2>
           <RecruitCls />
+          <ApproveCls />
           <RecruitTime />
           <RecruitMemberCount />
         </section>
