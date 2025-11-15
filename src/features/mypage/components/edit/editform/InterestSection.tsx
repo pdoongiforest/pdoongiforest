@@ -94,7 +94,7 @@ function InterestSection({ control, onDirtyChange }: Props) {
               description={
                 isMaxReached
                   ? `최대 ${MAX_INTERESTS}개까지 입력 가능합니다. (${interests.length}/${MAX_INTERESTS})`
-                  : `관심 있는 기술이나 분야를 입력해주세요. 쉼표로 구분할 수 있습니다. (${remainingCount}개 더 입력 가능)`
+                  : `관심 있는 기술이나 분야를 입력해주세요. 쉼표, 스페이스바로 구분할 수 있습니다. (${remainingCount}개 더 입력 가능)`
               }
               placeholder={
                 isMaxReached ? '최대 개수에 도달했습니다' : '예: JavaScript, React, Node.js'
