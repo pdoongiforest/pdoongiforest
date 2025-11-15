@@ -1,10 +1,8 @@
 import ProfileIcon from '@/shared/assets/character.png';
-
-import { useEffect, useState } from 'react';
-import ProfileModal, { type ProfileData } from '../profileModal/ProfileModal';
+import { useState } from 'react';
+import ProfileModal from '../profileModal/ProfileModal';
 import Status from '../status/Status';
-import { useAuth } from '@/features/auth/AuthProvider';
-import { getUserProfile } from '../../api/getUser';
+import { useHeaderProfile } from '../../hooks/useHeaderProfile';
 
 interface Props {
   profileId: string | null;
@@ -13,9 +11,7 @@ interface Props {
 function Profile({ profileId }: Props) {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  const { user } = useAuth();
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const { profileData, isLoading } = useHeaderProfile(profileId);
 
   // 프로필 모달 창 토글
   const handleShowProfileModal = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,16 +20,11 @@ function Profile({ profileId }: Props) {
     setShowProfileModal(!showProfileModal);
   };
 
-  useEffect(() => {
-    if (!user?.id) return;
-    const fetchProfile = async () => {
-      const profile = await getUserProfile(user?.id);
-      if (profile) {
-        setProfileData(profile);
-      }
-    };
-    fetchProfile();
-  }, [user?.id]);
+  if (isLoading) {
+    return (
+      <div className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer bg-white "></div>
+    );
+  }
 
   return (
     <>
