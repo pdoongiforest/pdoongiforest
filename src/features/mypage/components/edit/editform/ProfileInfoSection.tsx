@@ -15,14 +15,33 @@ interface Props {
   setError: UseFormSetError<ProfileFormData>;
   clearErrors: UseFormClearErrors<ProfileFormData>;
   profileData: ProfileData | null;
+  onDirtyChange: () => void;
 }
 
-function ProfileInfoSection({ register, errors, setError, clearErrors, profileData }: Props) {
+function ProfileInfoSection({
+  register,
+  errors,
+  setError,
+  clearErrors,
+  profileData,
+  onDirtyChange,
+}: Props) {
   const { handleChange, validateNickname } = useNicknameValidation({
     setError,
     clearErrors,
     currentNickname: profileData?.nickname,
   });
+
+  // nickname 필드에 대한 validation 래퍼
+  const nicknameValidation = async (value: unknown): Promise<boolean | string> => {
+    if (typeof value === 'string' || typeof value === 'number' || value === null || value === '') {
+      return validateNickname(value as string);
+    }
+    if (value === undefined) {
+      return true;
+    }
+    return '닉네임은 문자열만 입력 가능합니다.';
+  };
 
   return (
     <TextInput
@@ -35,10 +54,13 @@ function ProfileInfoSection({ register, errors, setError, clearErrors, profileDa
       autoComplete="on"
       register={register}
       error={errors}
-      onChange={handleChange}
+      onChange={(e) => {
+        handleChange(e);
+        onDirtyChange();
+      }}
       validation={{
         ...NICKNAME_VALIDATION,
-        validate: validateNickname,
+        validate: nicknameValidation,
       }}
     />
   );

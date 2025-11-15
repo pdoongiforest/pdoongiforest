@@ -9,8 +9,6 @@ import IntroduceSection from './IntroduceSection';
 import { useProfileForm } from './hooks/useProfileForm';
 import { useProfileSubmit } from './hooks/useProfileSubmit';
 import FormSectionSkeleton from '../../loading/FormSectionSkeleton';
-import { useState } from 'react';
-import { useBlocker } from 'react-router-dom';
 
 export interface ProfileFormData {
   nickname: string;
@@ -40,8 +38,9 @@ export interface ProfileData {
   visibility: boolean | null;
 }
 
-function FormSection() {
-  const [value, setValue] = useState('');
+function FormSection({ onDirtyChange }: { onDirtyChange: (isDirty: boolean) => void }) {
+  // const [value, setValue] = useState('');
+  // const isSubmitAction = useRef(false);
   const {
     profileData,
     profileId,
@@ -58,17 +57,15 @@ function FormSection() {
     profileId,
     profileData,
     setError,
+    onSuccess: () => {
+      // submit 성공 시 즉시 dirty 상태 초기화
+      onDirtyChange(false);
+    },
   });
 
   const handleDelete = () => {
     // 회원 탈퇴 로직
   };
-
-  // let blocker = useBlocker(
-  //   ({ currentLocation, nextLocation, historyAction }) =>
-  //     value !== "" && currentLocation.pathname !== nextLocation.pathname
-  // )
-  const blocker = useBlocker(value !== '');
 
   if (loading) {
     return <FormSectionSkeleton />;
@@ -78,15 +75,13 @@ function FormSection() {
     <form
       className="flex flex-col gap-6 w-full"
       aria-label="프로필 정보 수정 폼"
-      onSubmit={handleSubmit(onSubmit, (errors) => {
-        console.log('Form validation errors:', errors);
-        setValue('');
-        if (blocker.state === 'blocked') {
-          console.log(blocker.state);
-          blocker.proceed();
-          console.log(blocker.state);
-        }
-      })}
+      onSubmit={(e) => {
+        // submit 시작 시 즉시 dirty 상태 초기화 (navigate 전에 blocker 비활성화)
+        onDirtyChange(false);
+        handleSubmit(onSubmit, (errors) => {
+          console.log('Form validation errors:', errors);
+        })(e);
+      }}
       noValidate
     >
       <fieldset className="flex flex-col gap-6">
@@ -97,6 +92,7 @@ function FormSection() {
             errors={errors.profile_images}
             control={control}
             profileData={profileData}
+            onDirtyChange={() => onDirtyChange(true)}
           />
         </div>
 
@@ -106,9 +102,14 @@ function FormSection() {
           setError={setError}
           clearErrors={clearErrors}
           profileData={profileData}
+          onDirtyChange={() => onDirtyChange(true)}
         />
 
-        <RoleSection register={register} errors={errors.role} />
+        <RoleSection
+          register={register}
+          errors={errors.role}
+          onDirtyChange={() => onDirtyChange(true)}
+        />
 
         <AgeSection
           register={register}
@@ -116,16 +117,21 @@ function FormSection() {
           setError={setError}
           clearErrors={clearErrors}
           control={control}
+          onDirtyChange={() => onDirtyChange(true)}
         />
 
-        <InterestSection control={control} />
+        <InterestSection control={control} onDirtyChange={() => onDirtyChange(true)} />
       </fieldset>
 
-      <SocialLinksField control={control} />
+      <SocialLinksField control={control} onDirtyChange={() => onDirtyChange(true)} />
 
       <fieldset>
         <legend className="sr-only">자기소개</legend>
-        <IntroduceSection register={register} errors={errors.introduce} />
+        <IntroduceSection
+          register={register}
+          errors={errors.introduce}
+          onDirtyChange={() => onDirtyChange(true)}
+        />
       </fieldset>
 
       <FormActions onDelete={handleDelete} />

@@ -17,9 +17,10 @@ interface Props {
   setError: UseFormSetError<ProfileFormData>;
   clearErrors: UseFormClearErrors<ProfileFormData>;
   control: Control<ProfileFormData>;
+  onDirtyChange: () => void;
 }
 
-function AgeSection({ register, errors, setError, clearErrors, control }: Props) {
+function AgeSection({ register, errors, setError, clearErrors, control, onDirtyChange }: Props) {
   const { handleChange, validateAge } = useAgeValidation({
     setError,
     clearErrors,
@@ -46,7 +47,10 @@ function AgeSection({ register, errors, setError, clearErrors, control }: Props)
         type="number"
         autoComplete="on"
         register={register}
-        onChange={handleChange}
+        onChange={(e) => {
+          handleChange(e);
+          onDirtyChange();
+        }}
         validation={{
           ...AGE_VALIDATION,
           validate: ageValidation,
@@ -62,7 +66,10 @@ function AgeSection({ register, errors, setError, clearErrors, control }: Props)
               type="button"
               className="absolute left-8 -top-[0.8px]"
               aria-label="나이 공개 여부"
-              onClick={() => onChange(!value)}
+              onClick={() => {
+                onChange(!value);
+                onDirtyChange();
+              }}
             >
               <svg
                 width="24"

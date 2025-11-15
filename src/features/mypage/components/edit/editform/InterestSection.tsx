@@ -8,9 +8,10 @@ const MAX_INTERESTS = 5;
 
 interface Props {
   control: Control<ProfileFormData>;
+  onDirtyChange: () => void;
 }
 
-function InterestSection({ control }: Props) {
+function InterestSection({ control, onDirtyChange }: Props) {
   const [isComposing, setIsComposing] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -32,6 +33,7 @@ function InterestSection({ control }: Props) {
 
     const newInterests = [...new Set([...currentInterests, trimmedTag])];
     onChange(newInterests);
+    onDirtyChange();
     setInputValue('');
   };
 
@@ -70,6 +72,7 @@ function InterestSection({ control }: Props) {
   ) => {
     const newInterests = fieldValue.filter((_, i) => i !== index);
     onChange(newInterests);
+    onDirtyChange();
   };
 
   return (
@@ -99,7 +102,9 @@ function InterestSection({ control }: Props) {
               autoComplete="on"
               value={inputValue}
               onKeyDown={(e) => handleKeyDown(e, interests, onChange)}
-              onChange={(e) => handleInput(e, interests, onChange)}
+              onChange={(e) => {
+                handleInput(e, interests, onChange);
+              }}
               type="text"
               onCompositionStart={() => setIsComposing(true)}
               onCompositionEnd={() => setIsComposing(false)}

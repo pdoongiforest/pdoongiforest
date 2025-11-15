@@ -5,6 +5,7 @@ import type { ProfileFormData } from './FormSection';
 interface Props {
   register: UseFormRegister<ProfileFormData>;
   errors: FieldError | undefined;
+  onDirtyChange: () => void;
 }
 
 const roleOptions = [
@@ -17,7 +18,7 @@ const roleOptions = [
   { value: 'etc', label: '기타' },
 ];
 
-function RoleSection({ register, errors }: Props) {
+function RoleSection({ register, errors, onDirtyChange }: Props) {
   return (
     <SelectInput
       id="role"
@@ -29,6 +30,7 @@ function RoleSection({ register, errors }: Props) {
       register={register}
       error={errors}
       validation={{}}
+      onChange={() => onDirtyChange()}
     />
   );
 }

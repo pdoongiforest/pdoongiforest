@@ -19,7 +19,7 @@ export const useProfileForm = () => {
     setValue,
     setError,
     clearErrors,
-    formState: { errors },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<ProfileFormData>({
     mode: 'onBlur',
   });
@@ -62,5 +62,7 @@ export const useProfileForm = () => {
     clearErrors,
     errors,
     loading,
+    isSubmitting,
+    isDirty,
   };
 };

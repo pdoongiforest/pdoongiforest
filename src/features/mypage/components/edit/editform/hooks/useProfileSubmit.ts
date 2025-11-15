@@ -12,12 +12,18 @@ interface UseProfileSubmitProps {
   profileId: string | undefined;
   profileData: ProfileData | null;
   setError: UseFormSetError<ProfileFormData>;
+  onSuccess?: () => void;
 }
 
 /**
  * 프로필 폼 제출 로직 hook
  */
-export const useProfileSubmit = ({ profileId, profileData, setError }: UseProfileSubmitProps) => {
+export const useProfileSubmit = ({
+  profileId,
+  profileData,
+  setError,
+  onSuccess,
+}: UseProfileSubmitProps) => {
   const navigate = useNavigate();
 
   const onSubmit = useCallback(
@@ -65,9 +71,15 @@ export const useProfileSubmit = ({ profileId, profileData, setError }: UseProfil
         await updateUserSocial(profileId, newSocial);
       }
 
-      navigate(`/mypage/${profileId}`);
+      // submit 성공 시 콜백 호출
+      onSuccess?.();
+
+      // navigate는 다음 이벤트 루프에서 실행하여 dirty 상태가 확실히 반영되도록 함
+      setTimeout(() => {
+        navigate(`/mypage/${profileId}`);
+      }, 0);
     },
-    [profileId, profileData, setError, navigate]
+    [profileId, profileData, setError, navigate, onSuccess]
   );
 
   return { onSubmit };

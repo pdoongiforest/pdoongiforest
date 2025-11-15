@@ -18,6 +18,7 @@ interface SelectInputProps<T extends FieldValues = FieldValues> {
   placeholder?: string;
   register?: UseFormRegister<T>;
   validation?: Parameters<UseFormRegister<T>>[1];
+  onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
 function SelectInput<T extends FieldValues = FieldValues>({
@@ -27,7 +28,7 @@ function SelectInput<T extends FieldValues = FieldValues>({
   description,
   required,
   error,
-
+  onChange,
   options,
   placeholder,
   register,
@@ -44,6 +45,7 @@ function SelectInput<T extends FieldValues = FieldValues>({
         aria-describedby={error ? `${id}-error` : description ? `${id}-description` : undefined}
         aria-invalid={!!error}
         aria-required={required}
+        onChange={onChange}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((option) => (

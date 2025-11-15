@@ -8,9 +8,10 @@ interface Props {
   errors: FieldError | undefined;
   control: Control<ProfileFormData>;
   profileData: ProfileData | null;
+  onDirtyChange: () => void;
 }
 
-function ImageSection({ errors, control, profileData }: Props) {
+function ImageSection({ errors, control, profileData, onDirtyChange }: Props) {
   const profileImageRef = useRef<HTMLInputElement>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
 
@@ -52,6 +53,7 @@ function ImageSection({ errors, control, profileData }: Props) {
                 if (file) {
                   setImageFile(file);
                   onChange(file);
+                  onDirtyChange();
                 }
               }}
               className="hidden"
