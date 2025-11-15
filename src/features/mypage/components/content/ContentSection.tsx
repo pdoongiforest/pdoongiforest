@@ -13,7 +13,7 @@ function ContentSection() {
     <>
       <MypageTabs activeTab={activeTab} setActiveTab={setActiveTab} isMine={isMine} />
       <Container>
-        {activeTab === 'peerReview' && <PeerReviewCard />}
+        {activeTab === 'peerReview' && <PeerReviewCard isMine={isMine} />}
         {isMine && activeTab === 'scrap' && <ScrapCard />}
       </Container>
     </>

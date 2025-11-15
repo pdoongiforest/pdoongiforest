@@ -7,6 +7,7 @@ import { updateUserProfile } from '@/features/mypage/api/updateUserProfile';
 import { updateUserSocial } from '@/features/mypage/api/updateUserSocial';
 import { getChangedFields } from '../utils/getChangedFields';
 import { validateSocialLinks } from '../utils/validateSocialLinks';
+import { useToast } from '@/shared/utils/useToast';
 
 interface UseProfileSubmitProps {
   profileId: string | undefined;
@@ -25,6 +26,7 @@ export const useProfileSubmit = ({
   onSuccess,
 }: UseProfileSubmitProps) => {
   const navigate = useNavigate();
+  const { success, error: errorToast } = useToast();
 
   const onSubmit = useCallback(
     async (data: ProfileFormData) => {
@@ -51,6 +53,7 @@ export const useProfileSubmit = ({
         } catch (error) {
           const message = error instanceof Error ? error.message : '이미지 업로드에 실패했습니다.';
           setError('profile_images', { message });
+          errorToast('이미지 업로드에 실패했습니다.');
           throw error;
         }
       } else if (data.profile_images !== profileData.profile_images) {
@@ -78,6 +81,7 @@ export const useProfileSubmit = ({
       setTimeout(() => {
         navigate(`/mypage/${profileId}`);
       }, 0);
+      success('프로필 정보가 수정되었습니다.');
     },
     [profileId, profileData, setError, navigate, onSuccess]
   );

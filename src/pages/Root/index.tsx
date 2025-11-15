@@ -7,7 +7,7 @@ function Root() {
   return (
     <div>
       <Header profileId={profileId} isAuth={isAuth} />
-      <main className="flex flex-1 mx-auto mt-20 h-screen">
+      <main className="flex flex-1 mx-auto mt-20 min-h-screen mb-30">
         <Outlet />
       </main>
     </div>

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import type { UseFormSetError } from 'react-hook-form';
 import { updatePassword } from '@/features/mypage/api/updatePassword';
 import { PASSWORD_VALIDATION_MESSAGES } from '../constants/passwordValidation';
+import { useToast } from '@/shared/utils/useToast';
 
 interface PasswordFormData {
   newPassword: string;
@@ -20,6 +21,7 @@ interface UsePasswordSubmitProps {
  */
 export const usePasswordSubmit = ({ profileId, setError, onSuccess }: UsePasswordSubmitProps) => {
   const navigate = useNavigate();
+  const { success, error: errorToast } = useToast();
 
   const onSubmit = useCallback(
     async (data: PasswordFormData) => {
@@ -41,6 +43,7 @@ export const usePasswordSubmit = ({ profileId, setError, onSuccess }: UsePasswor
         setTimeout(() => {
           navigate(`/mypage/${profileId}`);
         }, 0);
+        success('비밀번호가 변경되었습니다.');
       } catch (error) {
         const message =
           error instanceof Error ? error.message : PASSWORD_VALIDATION_MESSAGES.updateFailed;
@@ -48,6 +51,7 @@ export const usePasswordSubmit = ({ profileId, setError, onSuccess }: UsePasswor
           type: 'manual',
           message,
         });
+        errorToast('비밀번호 변경에 실패했습니다.');
         throw error;
       }
     },

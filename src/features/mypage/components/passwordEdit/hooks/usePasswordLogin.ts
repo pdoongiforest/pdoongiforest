@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import type { UseFormSetError } from 'react-hook-form';
 import supabase from '@/supabase/supabase';
 import { LOGIN_ERROR_MESSAGES, RATE_LIMIT } from '../constants/passwordLoginValidation';
+import { useToast } from '@/shared/utils/useToast';
 
 interface LoginFormData {
   email: string;
@@ -28,6 +29,8 @@ export const usePasswordLogin = ({
   resetRateLimit,
   onSuccess,
 }: UsePasswordLoginProps) => {
+  const { success, error: errorToast } = useToast();
+
   const onSubmit = useCallback(
     async (data: LoginFormData) => {
       // 1. 현재 로그인한 사용자 검증
@@ -80,11 +83,13 @@ export const usePasswordLogin = ({
         if (loginData.session.user.id === user.id) {
           resetRateLimit();
           onSuccess();
+          success('비밀번호 재인증 성공');
         } else {
           setError('password', {
             type: 'manual',
             message: LOGIN_ERROR_MESSAGES.sessionMismatch,
           });
+          errorToast('비밀번호 재인증 실패');
           // 다른 사용자로 로그인한 경우 세션 종료
           await supabase.auth.signOut();
         }
