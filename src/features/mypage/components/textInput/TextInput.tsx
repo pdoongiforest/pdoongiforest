@@ -19,7 +19,7 @@ interface TextInputProps<T extends FieldValues = FieldValues> {
   onInput?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCompositionStart?: (e: React.CompositionEvent<HTMLInputElement>) => void;
   onCompositionEnd?: (e: React.CompositionEvent<HTMLInputElement>) => void;
-  type?: 'text' | 'password' | 'number';
+  type?: 'text' | 'password' | 'number' | 'email';
   autoComplete?: 'off' | 'on';
   disabled?: boolean;
   register?: UseFormRegister<T>;

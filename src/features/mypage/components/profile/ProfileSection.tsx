@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import ProfileButtonGroup from '../buttons/ProfileButtonGroup';
 import Social from './Social';
 import ProfileCard from './ProfileCard';
 import ProfileSectionHeader from './ProfileSectionHeader';
@@ -28,13 +27,11 @@ function ProfileSection({ userData }: Props) {
 
   return (
     <section className="mx-6 relative">
-      <ProfileSectionHeader />
-      <div className="border border-gray-300 rounded-lg px-8 py-10 md:mt-6 mt-12">
+      <ProfileSectionHeader setActiveBtn={setActiveBtn} isMine={isMine} />
+      <div className="border border-gray-300 rounded-lg px-8 py-10 mt-4 flex flex-col gap-5">
         <ProfileCard {...profileData} />
         <Social {...profileData} />
       </div>
-      {/* 본인일 때만 버튼 그룹 표시 */}
-      {isMine && <ProfileButtonGroup setActiveBtn={setActiveBtn} />}
     </section>
   );
 }
