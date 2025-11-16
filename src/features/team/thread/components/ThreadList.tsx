@@ -173,7 +173,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
 
   return (
     <div className="flex flex-col w-full">
-      <ul className="space-y-[34px]">
+      <ul className="space-y-[10px]">
         {indexingThreadData &&
           indexingThreadData.reverse().map((thread) => {
             return (

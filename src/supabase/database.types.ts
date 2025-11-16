@@ -488,6 +488,7 @@ export type Database = {
         Row: {
           contents: string | null
           created_at: string | null
+          file: Json | null
           like_user: string[] | null
           profile_id: string
           reply_id: string
@@ -496,6 +497,7 @@ export type Database = {
         Insert: {
           contents?: string | null
           created_at?: string | null
+          file?: Json | null
           like_user?: string[] | null
           profile_id?: string
           reply_id?: string
@@ -504,6 +506,7 @@ export type Database = {
         Update: {
           contents?: string | null
           created_at?: string | null
+          file?: Json | null
           like_user?: string[] | null
           profile_id?: string
           reply_id?: string
