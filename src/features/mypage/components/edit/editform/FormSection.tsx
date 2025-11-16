@@ -8,6 +8,7 @@ import InterestSection from './InterestSection';
 import IntroduceSection from './IntroduceSection';
 import { useProfileForm } from './hooks/useProfileForm';
 import { useProfileSubmit } from './hooks/useProfileSubmit';
+import { useDeleteUser } from './hooks/useDeleteUser';
 import FormSectionSkeleton from '../../loading/FormSectionSkeleton';
 
 export interface ProfileFormData {
@@ -39,8 +40,6 @@ export interface ProfileData {
 }
 
 function FormSection({ onDirtyChange }: { onDirtyChange: (isDirty: boolean) => void }) {
-  // const [value, setValue] = useState('');
-  // const isSubmitAction = useRef(false);
   const {
     profileData,
     profileId,
@@ -63,9 +62,7 @@ function FormSection({ onDirtyChange }: { onDirtyChange: (isDirty: boolean) => v
     },
   });
 
-  const handleDelete = () => {
-    // 회원 탈퇴 로직
-  };
+  const { handleDelete } = useDeleteUser();
 
   if (loading) {
     return <FormSectionSkeleton />;

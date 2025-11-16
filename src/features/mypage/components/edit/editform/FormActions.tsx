@@ -1,3 +1,5 @@
+import DeleteUserBtn from '../../deleteUser/DeleteUserBtn';
+
 interface FormActionsProps {
   onDelete?: () => void;
 }
@@ -12,14 +14,7 @@ function FormActions({ onDelete }: FormActionsProps) {
       >
         프로필 저장
       </button>
-      <button
-        type="button"
-        onClick={onDelete}
-        className="w-full text-primary/40 h-8 px-2 rounded-md cursor-auto"
-        aria-label="회원 탈퇴하기"
-      >
-        회원탈퇴
-      </button>
+      <DeleteUserBtn onDelete={onDelete} />
     </div>
   );
 }
