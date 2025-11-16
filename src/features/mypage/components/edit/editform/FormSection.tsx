@@ -70,7 +70,7 @@ function FormSection({ onDirtyChange }: { onDirtyChange: (isDirty: boolean) => v
 
   return (
     <form
-      className="flex flex-col gap-6 w-full"
+      className="flex flex-col gap-6 w-full overflow-auto no-scrollbar"
       aria-label="프로필 정보 수정 폼"
       onSubmit={(e) => {
         // submit 시작 시 즉시 dirty 상태 초기화 (navigate 전에 blocker 비활성화)

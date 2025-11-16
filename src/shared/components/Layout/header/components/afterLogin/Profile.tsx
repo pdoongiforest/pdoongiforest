@@ -40,7 +40,7 @@ function Profile({ profileId }: Props) {
         {profileData?.profile_images ? (
           <img
             key={profileData.profile_images} // 이미지 URL이 변경되면 강제 리렌더링
-            src={profileData.profile_images}
+            src={`${profileData.profile_images}?t=${Date.now()}`}
             alt={
               profileData.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
             }

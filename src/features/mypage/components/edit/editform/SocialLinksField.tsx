@@ -13,7 +13,7 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
   });
 
   return (
-    <fieldset className="flex flex-col gap-2">
+    <fieldset className="flex flex-col gap-2 w-full">
       <legend className="block mb-2 font-semibold">소셜 링크</legend>
 
       {fields.map((field, index) => (
@@ -28,7 +28,7 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
                   field.onChange(e);
                   onDirtyChange();
                 }}
-                className="bg-white focus:outline-primary/50 h-8 px-2 rounded-md"
+                className="bg-white focus:outline-primary/50 h-8 px-2 rounded-md md:text-md text-sm"
               >
                 <option value="">플랫폼 선택</option>
                 <option value="github">GitHub</option>
@@ -52,7 +52,7 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
                   field.onChange(e);
                   onDirtyChange();
                 }}
-                className="flex-1 bg-white focus:outline-primary/50 h-8 px-2 rounded-md"
+                className="bg-white focus:outline-primary/50 h-8 px-2 rounded-md min-w-60 max-w-full md:flex-1"
                 placeholder="https://"
               />
             )}
@@ -60,7 +60,7 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
 
           <button
             type="button"
-            className="text-red-500 hover:text-red-700"
+            className="text-red-500 hover:text-red-700 shrink-0 whitespace-nowrap"
             onClick={() => {
               remove(index);
               onDirtyChange();
