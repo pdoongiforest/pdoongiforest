@@ -2,11 +2,16 @@ import ProfileImage from './ProfileImage';
 import ProfileInfo from './ProfileInfo';
 
 interface Props {
-  profile_images: string;
+  profile_images: string | null | undefined;
   nickname: string;
   role: string;
   age: string | number;
   visibility: boolean | null;
+  interest?: string[];
+  social?: {
+    social: string;
+    social_link: string;
+  }[];
 }
 
 function ProfileCard({ profile_images, nickname, role, age, visibility }: Props) {

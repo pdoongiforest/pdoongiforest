@@ -1,4 +1,3 @@
-import ProfileIcon from '@/shared/assets/character.png';
 import { useState } from 'react';
 import ProfileModal from '../profileModal/ProfileModal';
 import Status from '../status/Status';
@@ -38,13 +37,18 @@ function Profile({ profileId }: Props) {
         aria-expanded={showProfileModal}
         aria-haspopup="true"
       >
-        <img
-          src={profileData?.profile_images ?? ProfileIcon}
-          alt={
-            profileData?.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
-          }
-          className="object-cover w-full h-full"
-        />
+        {profileData?.profile_images ? (
+          <img
+            key={profileData.profile_images} // 이미지 URL이 변경되면 강제 리렌더링
+            src={profileData.profile_images}
+            alt={
+              profileData.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
+            }
+            className="object-cover w-full h-full rounded-full"
+          />
+        ) : (
+          <div className="w-full h-full rounded-full bg-gray-200" />
+        )}
         <Status />
       </button>
       <ProfileModal

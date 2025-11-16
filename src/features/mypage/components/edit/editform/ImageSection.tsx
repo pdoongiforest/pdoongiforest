@@ -3,6 +3,7 @@ import { Controller } from 'react-hook-form';
 import EditPencil from '/icons/edit_pencil.svg';
 import { useRef, useState } from 'react';
 import type { ProfileData, ProfileFormData } from './FormSection';
+import { randomImage } from '../../content/util/randomImage';
 
 interface Props {
   errors: FieldError | undefined;
@@ -19,13 +20,13 @@ function ImageSection({ errors, control, profileData, onDirtyChange }: Props) {
   const getImageSrc = (formValue: File | string | null) => {
     if (imageFile) return URL.createObjectURL(imageFile); // 새로 업로드한 파일 우선
     if (typeof formValue === 'string' && formValue) return formValue; // form value 우선
-    return '/images/너굴.png'; // 최종 fallback
+    return randomImage(); // 최종 fallback
   };
 
   return (
     <div className="relative w-40 h-40 rounded-lg bg-white">
       <Controller
-        key={profileData?.profile_images || '/images/너굴.png'}
+        key={profileData?.profile_images}
         control={control}
         name="profile_images"
         defaultValue={profileData?.profile_images}

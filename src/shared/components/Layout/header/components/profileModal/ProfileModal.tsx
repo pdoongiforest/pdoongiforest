@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import ButtonGroup from './buttons/ButtonGroup';
 import useCloseOutside from '@/shared/hooks/useCloseOutside';
-import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
-import { useAuth } from '@/features/auth/AuthProvider';
-import { getUserProfile } from '../../api/getUser';
 import type { Json } from '@/supabase/database.types';
+import { useHeaderProfile } from '../../hooks/useHeaderProfile';
+import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
 
 export interface ProfileData {
   nickname: string;
@@ -26,8 +25,7 @@ interface Props {
 
 function ProfileModal({ showProfileModal, profileId, setShowProfileModal }: Props) {
   const profileModalRef = useRef<HTMLDivElement>(null);
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
-  const { user } = useAuth();
+  const { profileData } = useHeaderProfile(profileId);
 
   const { visible } = useAnimationStartEnd({
     ref: profileModalRef,
@@ -49,14 +47,6 @@ function ProfileModal({ showProfileModal, profileId, setShowProfileModal }: Prop
     },
     isActive: showProfileModal,
   });
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const profile = await getUserProfile(user?.id);
-      setProfileData(profile);
-    };
-    if (user?.id) fetchProfile();
-  }, [user?.id]);
 
   return (
     <div

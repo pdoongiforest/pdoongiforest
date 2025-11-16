@@ -16,7 +16,7 @@ function ProfileSection({ userData }: Props) {
 
   // TODO: 실제 데이터로 교체
   const profileData = {
-    profile_images: userData?.profile_images || '/images/너굴.png',
+    profile_images: userData?.profile_images,
     nickname: userData?.nickname || '프둥이',
     role: userData?.role || 'Developer',
     age: userData?.age || 0,
