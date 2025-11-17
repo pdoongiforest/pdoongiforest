@@ -371,19 +371,23 @@ export type Database = {
         Row: {
           id: string
           profile_id: string
-          status: string | null
+
+          status: Database["public"]["Enums"]["membership_status"] | null
+
           study_id: string
         }
         Insert: {
           id?: string
           profile_id?: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["membership_status"] | null
+
           study_id?: string
         }
         Update: {
           id?: string
           profile_id?: string
-          status?: string | null
+          status?: Database["public"]["Enums"]["membership_status"] | null
+
           study_id?: string
         }
         Relationships: [
@@ -454,7 +458,9 @@ export type Database = {
           like_user?: string[] | null
           profile_id: string
           study_id: string
-          thread_id: string
+
+          thread_id?: string
+
         }
         Update: {
           contents?: string | null
