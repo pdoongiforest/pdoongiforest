@@ -1,41 +1,47 @@
-import { useEffect, useRef, useState } from 'react';
-import supabase from '@/supabase/supabase';
-import ProfileIcon from '@/shared/assets/character.png';
-
-import gsap from 'gsap';
-import { useIsMine } from '@/shared/context/useIsMine';
-import { showConfirmAlert } from '@/shared/utils/sweetAlert';
-import { commentTime } from '../commentTime';
-import { getUserData } from '../hooks/getUserData';
-import LikeBtn from './LikeBtn';
-import { convertDay } from '../convertDay';
-import { createPortal } from 'react-dom';
-import ThreadPannel from './ThreadPannel';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import '@/features/team/thread/components/swiperCustom.css';
 
-import type { ReplyWithUser, Thread, ThreadFile, UserData } from '../threadType';
+import gsap from 'gsap';
+import { useEffect, useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import supabase from '@/supabase/supabase';
+import ProfileIcon from '@/shared/assets/character.png';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { showConfirmAlert, showWarningAlert } from '@/shared/utils/sweetAlert';
+
+import LikeBtn from './LikeBtn';
+import { getUserData } from '../hooks/getUserData';
+import { convertDay } from '../convertDay';
+import { useThread } from '../hooks/useThread';
+import type { ThreadFile } from '../threadType';
 
 interface Props {
-  data: Thread;
-  onDelete: () => void;
-  replyData?: ReplyWithUser[];
+  isReplyPress: boolean;
+  setIsReplyPress: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenThreadId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export function ThreadContent({ data, onDelete, replyData }: Props) {
+export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }: Props) {
   const { isMine } = useIsMine();
-  const { contents, created_at, thread_id, like_user } = data;
+  const {
+    data,
+    setContent,
+    replyData,
+    setUserData,
+    userData,
+    setReply,
+    thread_id,
+    onDelete,
+    content,
+    created_at,
+    timeStamp,
+    like_user,
+    reply,
+  } = useThread();
   const [isEditing, setIsEditing] = useState(false);
-  const [isReplyPress, setIsReplyPress] = useState(false);
-  const [content, setContent] = useState(contents);
-  const [reply, setReply] = useState<ReplyWithUser[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const timeStamp = commentTime(created_at ?? '');
   const threadRef = useRef<HTMLLIElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
-
-  const [userData, setUserData] = useState<UserData>();
   const [files, setFiles] = useState<ThreadFile[] | null>(data.file as ThreadFile[]);
 
   useEffect(() => {
@@ -67,7 +73,18 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
       e.preventDefault();
     }
     const editContent = editRef.current?.innerText.trim() ?? '';
-    if (!editContent) setIsEditing(false);
+    if (!editContent) {
+      setIsEditing(false);
+    }
+
+    if (editContent.length === 0 && files?.length === 0) {
+      showWarningAlert(
+        '빈 내용을 등록할 수 없습니다',
+        '한 글자 또는 하나 이상의 파일을 등록해주세요'
+      );
+      setIsEditing(false);
+      return;
+    }
 
     const { error } = await supabase
       .from('thread')
@@ -86,6 +103,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   };
 
   const handleReply = () => {
+    setOpenThreadId(thread_id);
     setIsReplyPress(!isReplyPress);
   };
 
@@ -127,6 +145,14 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   const handleEditFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const answer = await showConfirmAlert('정말로 삭제하시겠습니까?', '확인을 누르면 삭제됩니다');
     if (!answer.isConfirmed) return;
+    if (files?.length === 1 && content?.length === 0) {
+      showWarningAlert(
+        '빈 내용을 등록할 수 없습니다',
+        '한 글자 또는 하나 이상의 파일을 등록해주세요'
+      );
+      setIsEditing(false);
+      return;
+    }
 
     const img = e.target as HTMLImageElement;
     const target = Number(img.closest('button')?.dataset.index);
@@ -217,27 +243,12 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
             />
             {files && files.length > 0 && (
               <Swiper
-                slidesPerView={1}
-                spaceBetween={5}
+                slidesPerView="auto"
+                spaceBetween={15}
                 pagination={{
                   clickable: true,
                 }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 5,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 10,
-                  },
-                  1024: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
-                  },
-                }}
-                // modules={[Pagination]}
-                className="mySwiper h-[190px] max-w-[1100px]"
+                className="mySwiper h-[190px] max-w-[1100px] w-full"
               >
                 {files.map(({ url, type, order }) => (
                   <SwiperSlide
@@ -268,24 +279,10 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
 
             {files && files.length > 0 && (
               <Swiper
-                slidesPerView={1}
-                spaceBetween={5}
+                slidesPerView="auto"
+                spaceBetween={10}
                 pagination={{
                   clickable: true,
-                }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 5,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 10,
-                  },
-                  1024: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
-                  },
                 }}
                 className="mySwiper h-[190px] max-w-[1100px]"
               >
@@ -307,7 +304,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
         )}
       </div>
 
-      <div className="flex flex-row gap-7 items-center pl-11">
+      <div className="flex flex-row gap-7 items-center pl-11 pt-4">
         <LikeBtn
           likeUser={like_user ?? []}
           targetId={thread_id}
@@ -320,26 +317,6 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
           <span>{reply.length}</span>
         </button>
       </div>
-
-      {isReplyPress &&
-        createPortal(
-          <ThreadPannel
-            data={data}
-            userData={userData}
-            setContent={setContent}
-            content={content}
-            onDelete={onDelete}
-            files={files}
-            setFiles={setFiles}
-            setReply={setReply}
-            reply={reply}
-            setIsReplyPress={setIsReplyPress}
-            isReplyPress={isReplyPress}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />,
-          document.body
-        )}
     </li>
   );
 }

@@ -3,7 +3,7 @@ import { useState } from 'react';
 import tw from '@/shared/utils/tw';
 
 import ThreadInput from './ThreadInput';
-import ThreadList from './ThreadListRefactor';
+import ThreadList from './ThreadList';
 import { useParams } from 'react-router-dom';
 import type { ThreadWithUser } from '../threadType';
 
