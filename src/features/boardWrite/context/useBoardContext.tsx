@@ -9,6 +9,7 @@ type BoardType = {
   recruitCls: string;
   recruitTime: string;
   recruitCount: number;
+  approveCls: string;
   hashTag: BaseTagData[] | null;
 };
 interface BoardDataType {
@@ -26,6 +27,7 @@ export function BoardProvider({ children }: { children: React.ReactNode }) {
     recruitCls: 'study',
     recruitTime: '',
     recruitCount: 0,
+    approveCls: 'free',
     hashTag: null,
   });
 
