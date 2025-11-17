@@ -1,8 +1,10 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { UseFormSetError } from 'react-hook-form';
 import supabase from '@/supabase/supabase';
 import { LOGIN_ERROR_MESSAGES, RATE_LIMIT } from '../constants/passwordLoginValidation';
 import { useToast } from '@/shared/utils/useToast';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { useNavigate, useParams } from 'react-router-dom';
 
 interface LoginFormData {
   email: string;
@@ -29,7 +31,18 @@ export const usePasswordLogin = ({
   resetRateLimit,
   onSuccess,
 }: UsePasswordLoginProps) => {
+  const { profileId: loginId } = useAuth();
+  const { id: profileId } = useParams();
   const { success, error: errorToast } = useToast();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (loginId !== profileId) {
+      navigate(`/mypage/${profileId}`);
+      errorToast('잘못된 접근 입니다.');
+      return;
+    }
+  }, [loginId, profileId]);
 
   const onSubmit = useCallback(
     async (data: LoginFormData) => {

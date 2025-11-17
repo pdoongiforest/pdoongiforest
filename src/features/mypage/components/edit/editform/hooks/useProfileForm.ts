@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import getProfileData from '@/features/mypage/api/getProfileData';
 import type { ProfileFormData, ProfileData } from '../FormSection';
+import { useAuth } from '@/features/auth/AuthProvider';
+import { useToast } from '@/shared/utils/useToast';
 
 /**
  * 프로필 폼 데이터 관리 hook
@@ -11,6 +13,9 @@ export const useProfileForm = () => {
   const [profileData, setProfileData] = useState<ProfileData | null>(null);
   const [loading, setLoading] = useState(false);
   const { id: profileId } = useParams();
+  const { profileId: loginId } = useAuth();
+  const navigate = useNavigate();
+  const { error: errorToast } = useToast();
 
   const {
     register,
@@ -23,6 +28,14 @@ export const useProfileForm = () => {
   } = useForm<ProfileFormData>({
     mode: 'onBlur',
   });
+
+  useEffect(() => {
+    if (loginId !== profileId) {
+      navigate(`/mypage/${profileId}`);
+      errorToast('잘못된 접근 입니다.');
+      return;
+    }
+  }, [loginId, profileId]);
 
   // 프로필 데이터 가져오기
   useEffect(() => {
