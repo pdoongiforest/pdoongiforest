@@ -3,7 +3,6 @@ import { IsMineProvider } from '@/shared/context/isMine';
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import { useEffect, useState } from 'react';
-// import ThreadContent from './ThreadContent';
 import { ThreadProvider } from '../context/ThreadProvider';
 import ThreadContent from './ThreadContentRefactor';
 import ThreadPannel from './ThreadPannelRefactor';
@@ -25,12 +24,14 @@ interface Props {
   setThreadData: React.Dispatch<React.SetStateAction<ThreadWithUser[]>>;
   threadData: ThreadWithUser[];
   id: string;
+  isReplyPress: boolean;
+  setIsReplyPress: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ThreadList({ setThreadData, threadData, id }: Props) {
+function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPress }: Props) {
   const [replyData, setReplyData] = useState<Record<string, ReplyWithUser[]>>({});
   const { profileId } = useAuth();
-  const [isReplyPress, setIsReplyPress] = useState(false);
+  // const [isReplyPress, setIsReplyPress] = useState(false);
   const [openThreadId, setOpenThreadId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -148,22 +149,6 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
     setThreadData(threadData.filter((item) => item.thread_id !== targetId));
   };
 
-  // 오래된순 -> 최신순으로 패치할때 쓰던 코드
-  // const indexingThreadData = threadData.map((thread) => {
-  //   const day = thread.created_at?.slice(8, 10);
-  //   if (day !== prevDay.current) {
-  //     prevDay.current = day ?? '';
-  //     return {
-  //       ...thread,
-  //       isFirstThread: true,
-  //     };
-  //   } else
-  //     return {
-  //       ...thread,
-  //       isFirstThread: false,
-  //     };
-  // });
-
   // 패치가 최신순 ->오래된순으로 가져오기때문에 다음날짜랑 비교해서 firstthread판별
   const indexingThreadData = threadData.map((thread, idx) => {
     const currentDay = thread.created_at?.slice(8, 10);
@@ -184,6 +169,7 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
             return (
               <IsMineProvider key={thread.thread_id} writerProfileId={thread.profile_id}>
                 <ThreadProvider
+                  key={thread.thread_id}
                   data={thread}
                   replyData={replyData[thread.thread_id] || []}
                   onDelete={() => handleDelete(thread.thread_id)}
@@ -193,33 +179,14 @@ function ThreadList({ setThreadData, threadData, id }: Props) {
                     setIsReplyPress={setIsReplyPress}
                     setOpenThreadId={setOpenThreadId}
                   />
-
-                  {/* <ThreadContent
-                  data={thread}
-                  replyData={replyData[thread.thread_id] || []}
-                  onDelete={() => handleDelete(thread.thread_id)}
-                  /> */}
+                  {isReplyPress && openThreadId === thread.thread_id && (
+                    <ThreadPannel setIsReplyPress={setIsReplyPress} />
+                  )}
                 </ThreadProvider>
               </IsMineProvider>
             );
           })}
       </ul>
-
-      {isReplyPress && openThreadId && (
-        <IsMineProvider
-          key={openThreadId}
-          writerProfileId={indexingThreadData.find((t) => t.thread_id === openThreadId)?.profile_id}
-        >
-          <ThreadProvider
-            key={`${openThreadId}-${replyData[openThreadId].length}`}
-            data={indexingThreadData.find((t) => t.thread_id === openThreadId)!}
-            replyData={replyData[openThreadId] || []}
-            onDelete={() => handleDelete(openThreadId)}
-          >
-            <ThreadPannel setIsReplyPress={setIsReplyPress} />
-          </ThreadProvider>
-        </IsMineProvider>
-      )}
     </div>
   );
 }

@@ -9,39 +9,28 @@ import { useAuth } from '@/features/auth/AuthProvider';
 import { commentTime } from '../commentTime';
 import { IsMineProvider } from '@/shared/context/isMine';
 import ThreadReplyComponent from './ThreadReplyComponent';
-import type { ReplyWithUser, Thread, ThreadFile, UserData } from '../threadType';
+import type { ThreadFile } from '../threadType';
+import { useThread } from '../hooks/useThread';
 
 interface Props {
-  data: Thread;
-  userData: UserData | undefined;
-  setContent: React.Dispatch<React.SetStateAction<string | null>>;
-  content: string | null;
-  onDelete: () => void;
-  files: ThreadFile[] | null;
-  setFiles: React.Dispatch<React.SetStateAction<ThreadFile[] | null>>;
-  setReply: React.Dispatch<React.SetStateAction<ReplyWithUser[]>>;
-  reply: ReplyWithUser[];
-  isReplyPress: boolean;
   setIsReplyPress: React.Dispatch<React.SetStateAction<boolean>>;
-  isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ThreadPannel({
-  data,
-  userData,
-  setContent,
-  content,
-  onDelete,
-  files,
-  setFiles,
-  setReply,
-  reply,
-  setIsReplyPress,
-  // isReplyPress,
-  isOpen,
-  setIsOpen,
-}: Props) {
+function ThreadPannel({ setIsReplyPress }: Props) {
+  const {
+    data,
+    userData,
+    setContent,
+    content,
+    onDelete,
+    files,
+    setFiles,
+    setReply,
+    reply,
+    // setIsReplyPress,
+    isOpen,
+    setIsOpen,
+  } = useThread();
   const { isMine } = useIsMine();
   const { profileId } = useAuth();
   const { created_at, thread_id } = data;
@@ -50,6 +39,7 @@ function ThreadPannel({
   const editRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement | null>(null);
   const timeStamp = commentTime(created_at ?? '');
+  console.log({ reply });
 
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent

@@ -5,37 +5,55 @@ import ProfileIcon from '@/shared/assets/character.png';
 import gsap from 'gsap';
 import { useIsMine } from '@/shared/context/useIsMine';
 import { showConfirmAlert } from '@/shared/utils/sweetAlert';
-import { commentTime } from '../commentTime';
+// import { commentTime } from '../commentTime';
 import { getUserData } from '../hooks/getUserData';
 import LikeBtn from './LikeBtn';
 import { convertDay } from '../convertDay';
-import { createPortal } from 'react-dom';
-import ThreadPannel from './ThreadPannel';
+// import { createPortal } from 'react-dom';
+// import ThreadPannel from './ThreadPannel';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import '@/features/team/thread/components/swiperCustom.css';
 
-import type { ReplyWithUser, Thread, ThreadFile, UserData } from '../threadType';
+// import type { ReplyWithUser, ThreadFile, UserData } from '../threadType';
+import { useThread } from '../hooks/useThread';
+import type { ThreadFile } from '../threadType';
+// import ThreadPannel from './ThreadPannelRefactor';
 
 interface Props {
-  data: Thread;
-  onDelete: () => void;
-  replyData?: ReplyWithUser[];
+  isReplyPress: boolean;
+  setIsReplyPress: React.Dispatch<React.SetStateAction<boolean>>;
+  setOpenThreadId: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
-export function ThreadContent({ data, onDelete, replyData }: Props) {
+export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }: Props) {
   const { isMine } = useIsMine();
-  const { contents, created_at, thread_id, like_user } = data;
+  const {
+    data,
+    setContent,
+    replyData,
+    setUserData,
+    userData,
+    setReply,
+    thread_id,
+    onDelete,
+    content,
+    created_at,
+    timeStamp,
+    like_user,
+    reply,
+  } = useThread();
+  // const { contents, created_at, thread_id, like_user } = data;
   const [isEditing, setIsEditing] = useState(false);
-  const [isReplyPress, setIsReplyPress] = useState(false);
-  const [content, setContent] = useState(contents);
-  const [reply, setReply] = useState<ReplyWithUser[]>([]);
-  const [isOpen, setIsOpen] = useState(false);
-  const timeStamp = commentTime(created_at ?? '');
+  // const [isReplyPress, setIsReplyPress] = useState(false);
+  // const [content, setContent] = useState(contents);
+  // const [reply, setReply] = useState<ReplyWithUser[]>([]);
+  // const [isOpen, setIsOpen] = useState(false);
+  // const timeStamp = commentTime(created_at ?? '');
   const threadRef = useRef<HTMLLIElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
 
-  const [userData, setUserData] = useState<UserData>();
+  // const [userData, setUserData] = useState<UserData>();
   const [files, setFiles] = useState<ThreadFile[] | null>(data.file as ThreadFile[]);
 
   useEffect(() => {
@@ -86,6 +104,7 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
   };
 
   const handleReply = () => {
+    setOpenThreadId(thread_id);
     setIsReplyPress(!isReplyPress);
   };
 
@@ -320,26 +339,6 @@ export function ThreadContent({ data, onDelete, replyData }: Props) {
           <span>{reply.length}</span>
         </button>
       </div>
-
-      {isReplyPress &&
-        createPortal(
-          <ThreadPannel
-            data={data}
-            userData={userData}
-            setContent={setContent}
-            content={content}
-            onDelete={onDelete}
-            files={files}
-            setFiles={setFiles}
-            setReply={setReply}
-            reply={reply}
-            setIsReplyPress={setIsReplyPress}
-            isReplyPress={isReplyPress}
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-          />,
-          document.body
-        )}
     </li>
   );
 }

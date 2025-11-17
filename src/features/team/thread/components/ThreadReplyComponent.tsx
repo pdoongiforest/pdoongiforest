@@ -108,9 +108,9 @@ function ThreadReplyComponent({ reply, onDelete }: Prop) {
 
     const img = e.target as HTMLImageElement;
     const target = Number(img.closest('button')?.dataset.index);
-    const fileList = reply.file as ThreadFile[];
 
-    const removeFileList = fileList?.filter((_, index) => index !== target);
+    const removeFileList = files?.filter((_, index) => index !== target);
+    if (!removeFileList) return;
     const newFileList = removeFileList.map((file, index) => ({
       ...file,
       order: index,
@@ -125,8 +125,7 @@ function ThreadReplyComponent({ reply, onDelete }: Prop) {
       .eq('reply_id', reply_id);
     if (error) console.error();
 
-    const newFiles = files?.filter((_, index) => index !== target) || [];
-    setFiles(newFiles);
+    setFiles(newFileList);
   };
 
   useEffect(() => {

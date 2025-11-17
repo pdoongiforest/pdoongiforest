@@ -118,64 +118,60 @@ function ThreadInput({ setThreadData, id }: Props) {
   };
 
   return (
-    <div className="fixed z-10 bottom-50 inset-x-0 h-35 w-full py-10 bg-bgc px-3">
-      <div className="flex flex-col w-full max-w-[1200px] mx-auto">
-        {isOpen && (
-          <UploadFile onImageChange={handleImageUpload} onVideoChange={handleVideoUpload} />
-        )}
+    <div className="flex flex-col w-full max-w-[1200px] mx-auto">
+      {isOpen && <UploadFile onImageChange={handleImageUpload} onVideoChange={handleVideoUpload} />}
 
-        <form className="flex justify-between px-5 gap-5 items-center border py-4 rounded-lg border-gray/50">
-          <button
-            type="button"
-            className="rounded-full bg-border-gray w-11 h-10 items-center"
-            title="파일 업로드하기"
-            aria-label="파일 업로드하기"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            <p className="text-3xl text-gray">+</p>
-          </button>
-          <div className="flex flex-col w-full gap-5">
-            <div
-              contentEditable="true"
-              className="w-full min-h-10 focus:outline-none"
-              ref={inputRef}
-              onKeyDown={handleKeyDown}
-            ></div>
-            <div className="flex flex-row gap-5 outline">
-              {files.map((file, index) => {
-                const url = URL.createObjectURL(file);
-                console.log({ url });
-                return (
-                  <div key={index} className="h-[190px] relative">
-                    <button
-                      type="button"
-                      className="absolute -top-2 -right-3 w-7 h-7"
-                      onClick={handleDeleteFile}
-                      data-index={index}
-                    >
-                      <img src="/src/shared/assets/close.svg" alt="" className="w-full h-full" />
-                    </button>
-                    {file.type.endsWith('mp4') ||
-                    file.type.endsWith('mov') ||
-                    file.type.endsWith('webm') ? (
-                      <video src={url} muted autoPlay className="h-full w-auto object-contain" />
-                    ) : (
-                      <img
-                        src={url}
-                        alt={file.name.split('.')[0]}
-                        className="h-full w-auto object-contain"
-                      />
-                    )}
-                  </div>
-                );
-              })}
-            </div>
+      <form className="flex justify-between px-5 gap-5 items-center border py-4 rounded-lg border-gray/50">
+        <button
+          type="button"
+          className="rounded-full bg-border-gray w-11 h-10 items-center"
+          title="파일 업로드하기"
+          aria-label="파일 업로드하기"
+          onClick={() => setIsOpen((prev) => !prev)}
+        >
+          <p className="text-3xl text-gray">+</p>
+        </button>
+        <div className="flex flex-col w-full gap-5">
+          <div
+            contentEditable="true"
+            className="w-full min-h-10 focus:outline-none"
+            ref={inputRef}
+            onKeyDown={handleKeyDown}
+          ></div>
+          <div className="flex flex-row gap-5 outline">
+            {files.map((file, index) => {
+              const url = URL.createObjectURL(file);
+              console.log({ url });
+              return (
+                <div key={index} className="h-[190px] relative">
+                  <button
+                    type="button"
+                    className="absolute -top-2 -right-3 w-7 h-7"
+                    onClick={handleDeleteFile}
+                    data-index={index}
+                  >
+                    <img src="/src/shared/assets/close.svg" alt="" className="w-full h-full" />
+                  </button>
+                  {file.type.endsWith('mp4') ||
+                  file.type.endsWith('mov') ||
+                  file.type.endsWith('webm') ? (
+                    <video src={url} muted autoPlay className="h-full w-auto object-contain" />
+                  ) : (
+                    <img
+                      src={url}
+                      alt={file.name.split('.')[0]}
+                      className="h-full w-auto object-contain"
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
-          <button type="button" onClick={handleSubmit}>
-            <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />
-          </button>
-        </form>
-      </div>
+        </div>
+        <button type="button" onClick={handleSubmit}>
+          <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />
+        </button>
+      </form>
     </div>
   );
 }
