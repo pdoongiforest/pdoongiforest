@@ -27,18 +27,15 @@ function Status() {
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'UPDATE',
           schema: 'public',
           table: 'user_base',
-          filter: `user_id=eq.${user?.id}`,
         },
         (payload) => {
-          console.log(payload);
-          const updatedUser = payload.new;
-          console.log('Status updated:', updatedUser);
-          // if (updatedUser.user_id === user?.id) {
-          //   setStatus(updatedUser.status);
-          // }
+          if (payload.new.user_id === user?.id) {
+            const updatedUser = payload.new;
+            setStatus(updatedUser.status);
+          }
         }
       )
       .subscribe();

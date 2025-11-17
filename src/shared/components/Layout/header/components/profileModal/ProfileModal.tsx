@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import ButtonGroup from './buttons/ButtonGroup';
 import useCloseOutside from '@/shared/hooks/useCloseOutside';
-import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
-import { useAuth } from '@/features/auth/AuthProvider';
-import { getUserProfile } from '../../api/getUser';
 import type { Json } from '@/supabase/database.types';
+import { useHeaderProfile } from '../../hooks/useHeaderProfile';
+import { useAnimationStartEnd } from '@/shared/hooks/useAnimationStartEnd';
 
 export interface ProfileData {
   nickname: string;
   profile_images: string;
   role: string;
   visibility: Json;
+  age: number;
+  introduce: string;
+  interest: string[];
 }
 
 interface Props {
@@ -21,25 +23,21 @@ interface Props {
   setVisible: (visible: boolean) => void;
 }
 
-function ProfileModal({
-  showProfileModal,
-  profileId,
-  setShowProfileModal,
-  visible,
-  setVisible,
-}: Props) {
+function ProfileModal({ showProfileModal, profileId, setShowProfileModal }: Props) {
   const profileModalRef = useRef<HTMLDivElement>(null);
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
-  const { user } = useAuth();
+  const { profileData } = useHeaderProfile(profileId);
 
-  useAnimationStartEnd({
+  const { visible } = useAnimationStartEnd({
     ref: profileModalRef,
-    config: {
+    configOpen: {
       from: { opacity: 0, x: 50 },
-      to: { opacity: 1, x: 0, duration: 0.3, ease: 'power2.out' },
+      to: { opacity: 1, x: 0 },
+    },
+    configClose: {
+      from: { opacity: 1, x: 0 },
+      to: { opacity: 0, x: 50 },
     },
     showModal: showProfileModal,
-    setVisible: setVisible,
   });
 
   useCloseOutside({
@@ -49,14 +47,6 @@ function ProfileModal({
     },
     isActive: showProfileModal,
   });
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      const profile = await getUserProfile(user?.id);
-      setProfileData(profile);
-    };
-    if (user?.id) fetchProfile();
-  }, [user?.id]);
 
   return (
     <div
@@ -70,6 +60,7 @@ function ProfileModal({
       <ButtonGroup
         profileId={profileId}
         showProfileModal={showProfileModal}
+        setShowProfileModal={setShowProfileModal}
         profileData={profileData}
       />
     </div>

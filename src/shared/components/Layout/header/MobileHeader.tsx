@@ -1,13 +1,9 @@
 import HamburgerIcon from '../../../../shared/assets/icons/hamburger.svg';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import MobileHeaderNav from './nav/mobileHeader/MobileHeaderNav';
 
 function MobileHeader() {
   const [showMobileNav, setShowMobileNav] = useState(false);
-
-  useEffect(() => {
-    console.log('showMobileNav', showMobileNav);
-  }, [showMobileNav]);
 
   const handleShowMobileNav = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
