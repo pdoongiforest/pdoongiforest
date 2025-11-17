@@ -11,6 +11,7 @@ import TeamDetail from '@/pages/team/detail/TeamDetail';
 import PeerReview from '@/pages/team/peerReview/PeerReview';
 import Setting from '@/pages/team/setting/Setting';
 import Team from '@/pages/team/Team';
+import Thread from '@/pages/team/thread/Thread';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -42,6 +43,10 @@ export const router = createBrowserRouter([
         path: '/team/:id',
         Component: TeamDetail,
         children: [
+          {
+            index: true,
+            Component: Thread,
+          },
           {
             path: 'peerreview',
             Component: PeerReview,
