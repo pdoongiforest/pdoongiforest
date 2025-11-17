@@ -1,24 +1,21 @@
-import { useEffect, useRef, useState } from 'react';
-import supabase from '@/supabase/supabase';
-import ProfileIcon from '@/shared/assets/character.png';
-
-import gsap from 'gsap';
-import { useIsMine } from '@/shared/context/useIsMine';
-import { showConfirmAlert } from '@/shared/utils/sweetAlert';
-// import { commentTime } from '../commentTime';
-import { getUserData } from '../hooks/getUserData';
-import LikeBtn from './LikeBtn';
-import { convertDay } from '../convertDay';
-// import { createPortal } from 'react-dom';
-// import ThreadPannel from './ThreadPannel';
-import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import '@/features/team/thread/components/swiperCustom.css';
 
-// import type { ReplyWithUser, ThreadFile, UserData } from '../threadType';
+import gsap from 'gsap';
+import { useEffect, useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+
+import supabase from '@/supabase/supabase';
+import ProfileIcon from '@/shared/assets/character.png';
+import { useIsMine } from '@/shared/context/useIsMine';
+import { showConfirmAlert } from '@/shared/utils/sweetAlert';
+
+import LikeBtn from './LikeBtn';
+import { getUserData } from '../hooks/getUserData';
+import { convertDay } from '../convertDay';
 import { useThread } from '../hooks/useThread';
 import type { ThreadFile } from '../threadType';
-// import ThreadPannel from './ThreadPannelRefactor';
+// import type { Swiper as SwiperType } from 'swiper';
 
 interface Props {
   isReplyPress: boolean;
@@ -43,18 +40,11 @@ export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }
     like_user,
     reply,
   } = useThread();
-  // const { contents, created_at, thread_id, like_user } = data;
   const [isEditing, setIsEditing] = useState(false);
-  // const [isReplyPress, setIsReplyPress] = useState(false);
-  // const [content, setContent] = useState(contents);
-  // const [reply, setReply] = useState<ReplyWithUser[]>([]);
-  // const [isOpen, setIsOpen] = useState(false);
-  // const timeStamp = commentTime(created_at ?? '');
   const threadRef = useRef<HTMLLIElement>(null);
   const editRef = useRef<HTMLDivElement>(null);
-
-  // const [userData, setUserData] = useState<UserData>();
   const [files, setFiles] = useState<ThreadFile[] | null>(data.file as ThreadFile[]);
+  // const swiperRef = useRef<SwiperType | null>(null);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -236,27 +226,12 @@ export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }
             />
             {files && files.length > 0 && (
               <Swiper
-                slidesPerView={1}
-                spaceBetween={5}
+                slidesPerView="auto"
+                spaceBetween={15}
                 pagination={{
                   clickable: true,
                 }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 5,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 10,
-                  },
-                  1024: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
-                  },
-                }}
-                // modules={[Pagination]}
-                className="mySwiper h-[190px] max-w-[1100px]"
+                className="mySwiper h-[190px] max-w-[1100px] w-full"
               >
                 {files.map(({ url, type, order }) => (
                   <SwiperSlide
@@ -287,24 +262,10 @@ export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }
 
             {files && files.length > 0 && (
               <Swiper
-                slidesPerView={1}
-                spaceBetween={5}
+                slidesPerView="auto"
+                spaceBetween={10}
                 pagination={{
                   clickable: true,
-                }}
-                breakpoints={{
-                  640: {
-                    slidesPerView: 2,
-                    spaceBetween: 5,
-                  },
-                  768: {
-                    slidesPerView: 4,
-                    spaceBetween: 10,
-                  },
-                  1024: {
-                    slidesPerView: 5,
-                    spaceBetween: 20,
-                  },
                 }}
                 className="mySwiper h-[190px] max-w-[1100px]"
               >
@@ -326,7 +287,7 @@ export function ThreadContent({ isReplyPress, setIsReplyPress, setOpenThreadId }
         )}
       </div>
 
-      <div className="flex flex-row gap-7 items-center pl-11">
+      <div className="flex flex-row gap-7 items-center pl-11 pt-4">
         <LikeBtn
           likeUser={like_user ?? []}
           targetId={thread_id}

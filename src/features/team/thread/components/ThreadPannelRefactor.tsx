@@ -3,7 +3,7 @@ import ProfileIcon from '@/shared/assets/character.png';
 import { useIsMine } from '@/shared/context/useIsMine';
 import supabase from '@/supabase/supabase';
 import UploadFile from './UploadFile';
-import { showConfirmAlert } from '@/shared/utils/sweetAlert';
+import { showConfirmAlert, showWarningAlert } from '@/shared/utils/sweetAlert';
 import { checktype } from '../utils/checktype';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { commentTime } from '../commentTime';
@@ -11,6 +11,7 @@ import { IsMineProvider } from '@/shared/context/isMine';
 import ThreadReplyComponent from './ThreadReplyComponent';
 import type { ThreadFile } from '../threadType';
 import { useThread } from '../hooks/useThread';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 interface Props {
   setIsReplyPress: React.Dispatch<React.SetStateAction<boolean>>;
@@ -169,6 +170,10 @@ function ThreadPannel({ setIsReplyPress }: Props) {
     if (!e.target.files) return;
 
     const imageList = Array.from(e.target.files);
+    if (mediaFiles.length + imageList.length > 5) {
+      showWarningAlert('파일은 5개까지만 등록이 가능합니다');
+      return;
+    }
     setMediaFiles((prev) => [...prev, ...imageList]);
     e.target.value = '';
   };
@@ -178,6 +183,10 @@ function ThreadPannel({ setIsReplyPress }: Props) {
     if (!e.target.files) return;
 
     const videoList = Array.from(e.target.files);
+    if (mediaFiles.length + videoList.length > 5) {
+      showWarningAlert('파일은 5개까지만 등록이 가능합니다');
+      return;
+    }
     setMediaFiles((prev) => [...prev, ...videoList]);
     e.target.value = '';
   };
@@ -227,8 +236,9 @@ function ThreadPannel({ setIsReplyPress }: Props) {
 
   return (
     // <div className="w-1/3 h-[calc(100%-120px)] bg-bgc border-l-2 px-8 overflow-y-scroll">
-    <div className="fixed z-10 top-20 w-1/3 right-0 h-[calc(100%-120px)] bg-bgc border-l-2 px-8 overflow-y-scroll">
-      <div className="flex flex-row items-center gap-6 pb-5">
+    <div className="fixed z-30 top-20 w-full md:w-120 right-0 bg-bgc  shadow-[-4px_0px_3px_0px_rgba(0,0,0,0.12)] flex flex-col">
+      {/* 패널 헤더 */}
+      <div className="fixed z-30 flex flex-row items-center gap-6 py-3 w-full px-8 bg-bgc">
         <button type="button" onClick={() => setIsReplyPress(false)}>
           <img
             src="/src/shared/assets/threadBack.svg"
@@ -239,190 +249,223 @@ function ThreadPannel({ setIsReplyPress }: Props) {
         </button>
         <p className="text-2xl">스레드</p>
       </div>
-      <div className="flex justify-between items-center w-full">
-        {/* 프로필, 닉네임, 시간 */}
-        <div className="flex items-center gap-1">
-          <button
-            type="button"
-            className="w-10 h-10 mb-1 flex items-center justify-center rounded-full cursor-pointer bg-white relative"
-          >
-            <img
-              src={userData?.profile_images ?? ProfileIcon}
-              alt={'프로필 이미지'}
-              className="object-cover w-full h-full"
-            />
-          </button>
+
+      <div className="overflow-y-auto pt-14 px-8 h-[calc(100vh-230px)] ">
+        <div className="flex justify-between items-center w-full">
+          {/* 프로필, 닉네임, 시간 */}
           <div className="flex items-center gap-1">
-            <p className="text-center">{userData?.nickname}</p>
-            <p className="text-center text-gray-400 text-xs">{timeStamp}</p>
-          </div>
-        </div>
-        {isMine && (
-          <div className="space-x-1 text-sm">
-            {isEditing ? (
-              <>
-                <button type="submit" onClick={handleSave}>
-                  저장
-                </button>
-                <button type="button" onClick={() => setIsEditing(!isEditing)}>
-                  취소
-                </button>
-              </>
-            ) : (
-              <button type="button" onClick={() => setIsEditing(!isEditing)}>
-                수정
-              </button>
-            )}
-            <button type="submit" onClick={handleDelete}>
-              삭제
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="pl-11 pb-4">
-        {isEditing ? (
-          <>
-            <div
-              ref={editRef}
-              className="w-full px-3 whitespace-pre-wrap text-xs pb-4"
-              contentEditable="true"
-              onKeyDown={handleEditKeyDown}
-              autoFocus
-            />
-            {files && files.length > 0 && (
-              <div className="flex flex-row gap-5 h-[190px] pb-4">
-                {files.map(({ url, type, order }) => (
-                  <div key={order} className="relative">
-                    <button
-                      type="button"
-                      className="absolute -top-2 -right-3 w-7 h-7"
-                      onClick={(e) => handleEditFile(e)}
-                      data-index={order}
-                    >
-                      <img src="/src/shared/assets/close.svg" alt="" className="w-full h-full" />
-                    </button>
-                    {type === 'video' ? (
-                      <video src={url} muted autoPlay className="h-full w-auto object-contain" />
-                    ) : (
-                      <img src={url} className="h-full w-auto object-contain" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        ) : (
-          <>
-            <p className="whitespace-pre-wrap text-xs pb-4">{content}</p>
-
-            {files && files.length > 0 && (
-              <div className="flex flex-row gap-3 h-[190px] pb-4">
-                {files.map(({ url, type, order }) => (
-                  <div key={order}>
-                    {type === 'video' ? (
-                      <video src={url} muted autoPlay className="h-full w-auto object-contain" />
-                    ) : (
-                      <img src={url} className="h-full w-auto object-contain" />
-                    )}
-                  </div>
-                ))}
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {/* <div className="flex flex-row gap-7 items-center pl-11">
-        <LikeBtn
-          likeUser={like_user ?? []}
-          targetId={thread_id}
-          table="thread"
-          columnId="thread_id"
-        />
-
-        <button type="button" onClick={handleReply} className=" flex flex-row gap-2">
-          <img src="/src/shared/assets/reply.svg" alt="댓글" />
-          <span>{reply.length}</span>
-        </button>
-      </div> */}
-      <div className="flex items-center py-8 gap-2">
-        <p className="whitespace-nowrap">{reply.length}개의 댓글</p>
-        <div className="flex-1 border-b border-border-gray w-full"></div>
-      </div>
-
-      {reply &&
-        reply.map((item) => {
-          console.log('item', item);
-          return (
-            <IsMineProvider key={item.reply_id} writerProfileId={item.profile_id}>
-              <ThreadReplyComponent
-                key={item.reply_id}
-                reply={item}
-                onDelete={() => handleReplyDelete(item.reply_id)}
+            <button
+              type="button"
+              className="w-10 h-10 mb-1 flex items-center justify-center rounded-full cursor-pointer bg-white relative"
+            >
+              <img
+                src={userData?.profile_images ?? ProfileIcon}
+                alt={'프로필 이미지'}
+                className="object-cover w-full h-full"
               />
-            </IsMineProvider>
-          );
-        })}
-      {/* 인풋 */}
-      <div className="fixed z-10 bottom-0 h-35 w-full py-10 bg-bgc">
-        {isOpen && (
-          <UploadFile onImageChange={handleImageUpload} onVideoChange={handleVideoUpload} />
-        )}
-        <form
-          onSubmit={handleSubmitReply}
-          className="absolute bottom-10 w-[calc(30%-4px)] flex justify-between px-5 gap-5 items-center border py-4 rounded-lg border-gray/50"
-        >
-          <button
-            type="button"
-            className="rounded-full bg-border-gray min-w-10 h-10 items-center "
-            title="파일 업로드하기"
-            aria-label="파일 업로드하기"
-            onClick={() => setIsOpen((prev) => !prev)}
-          >
-            <p className="text-3xl text-gray">+</p>
-          </button>
-          <div className="flex flex-col w-full gap-5">
-            <div
-              contentEditable="true"
-              className="w-full min-h-10 focus:outline-none"
-              ref={inputRef}
-              onKeyDown={handleKeyDown}
-            ></div>
-            <div className="flex flex-row gap-5 outline">
-              {mediaFiles.map((file, index) => {
-                const url = URL.createObjectURL(file);
-                console.log({ url });
-                return (
-                  <div key={index} className="h-[190px] relative">
-                    <button
-                      type="button"
-                      className="absolute -top-2 -right-3 w-7 h-7"
-                      onClick={handleDeleteFile}
-                      data-index={index}
-                    >
-                      <img src="/src/shared/assets/close.svg" alt="" className="w-full h-full" />
-                    </button>
-                    {file.type.endsWith('mp4') ||
-                    file.type.endsWith('mov') ||
-                    file.type.endsWith('webm') ? (
-                      <video src={url} muted autoPlay className="h-full w-auto object-contain" />
-                    ) : (
-                      <img
-                        src={url}
-                        alt={file.name.split('.')[0]}
-                        className="h-full w-auto object-contain"
-                      />
-                    )}
-                  </div>
-                );
-              })}
+            </button>
+            <div className="flex items-center gap-1">
+              <p className="text-center">{userData?.nickname}</p>
+              <p className="text-center text-gray-400 text-xs">{timeStamp}</p>
             </div>
           </div>
-          <button type="button" onClick={handleSubmitReply}>
-            <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />
-          </button>
-        </form>
+          {isMine && (
+            <div className="space-x-1 text-sm">
+              {isEditing ? (
+                <>
+                  <button type="submit" onClick={handleSave}>
+                    저장
+                  </button>
+                  <button type="button" onClick={() => setIsEditing(!isEditing)}>
+                    취소
+                  </button>
+                </>
+              ) : (
+                <button type="button" onClick={() => setIsEditing(!isEditing)}>
+                  수정
+                </button>
+              )}
+              <button type="submit" onClick={handleDelete}>
+                삭제
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="pl-11 pb-4">
+          {isEditing ? (
+            <>
+              <div
+                ref={editRef}
+                className="w-full px-3 whitespace-pre-wrap text-xs pb-4"
+                contentEditable="true"
+                onKeyDown={handleEditKeyDown}
+                autoFocus
+              />
+              {files && files.length > 0 && (
+                <Swiper
+                  slidesPerView="auto"
+                  spaceBetween={15}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  className="mySwiper h-[190px] max-w-[1100px] w-full"
+                >
+                  {files.map(({ url, type, order }) => (
+                    <SwiperSlide
+                      key={order}
+                      className="relative h-[190px] w-auto! items-center flex justify-center mt-2"
+                    >
+                      <button
+                        type="button"
+                        className="absolute -top-2 -right-3 w-7 h-7"
+                        onClick={(e) => handleEditFile(e)}
+                        data-index={order}
+                      >
+                        <img src="/src/shared/assets/close.svg" alt="" className="w-full h-full" />
+                      </button>
+                      {type === 'video' ? (
+                        <video src={url} muted autoPlay className="h-full w-auto object-contain" />
+                      ) : (
+                        <img src={url} className="h-full w-auto object-contain" />
+                      )}
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+            </>
+          ) : (
+            <>
+              <p className="whitespace-pre-wrap text-xs pb-4">{content}</p>
+
+              {files && files.length > 0 && (
+                <Swiper
+                  slidesPerView="auto"
+                  spaceBetween={10}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  className="mySwiper h-[190px]"
+                >
+                  {files.map(({ url, type, order }) => (
+                    <SwiperSlide
+                      key={order}
+                      className="relative h-[190px] w-auto! items-center flex justify-center select-none"
+                    >
+                      {type === 'video' ? (
+                        <video src={url} muted autoPlay className="h-full w-auto object-contain" />
+                      ) : (
+                        <img src={url} className="h-full w-auto object-contain" />
+                      )}
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              )}
+            </>
+          )}
+        </div>
+        <div className="flex items-center py-8 gap-2">
+          <p className="whitespace-nowrap">{reply.length}개의 댓글</p>
+          <div className="flex-1 border-b border-border-gray w-full"></div>
+        </div>
+
+        {reply &&
+          reply.map((item) => {
+            console.log('item', item);
+            return (
+              <IsMineProvider key={item.reply_id} writerProfileId={item.profile_id}>
+                <ThreadReplyComponent
+                  key={item.reply_id}
+                  reply={item}
+                  onDelete={() => handleReplyDelete(item.reply_id)}
+                />
+              </IsMineProvider>
+            );
+          })}
+      </div>
+
+      {/* 인풋 */}
+      <div className="w-full md:w-120 h-[300px] bg-bgc px-8">
+        <div className="fixed bottom-0 w-[calc(100%-60px)] md:w-104 mx-auto max-h-[300px] z-40 pt-5 pb-10 flex flex-col bg-bgc">
+          {isOpen && (
+            <UploadFile onImageChange={handleImageUpload} onVideoChange={handleVideoUpload} />
+          )}
+          <form
+            onSubmit={handleSubmitReply}
+            className="flex justify-between px-5 gap-5 items-center border py-4 rounded-lg border-gray/50"
+          >
+            <button
+              type="button"
+              className="rounded-full bg-border-gray min-w-10 h-10 items-center "
+              title="파일 업로드하기"
+              aria-label="파일 업로드하기"
+              onClick={() => setIsOpen((prev) => !prev)}
+            >
+              <p className="text-3xl text-gray">+</p>
+            </button>
+            <div className="flex flex-col w-full max-h-[200px] overflow-y-auto">
+              <div
+                aria-placeholder="내용을 입력해주세요"
+                contentEditable="true"
+                className="w-full min-h-10 focus:outline-none items-center py-2"
+                ref={inputRef}
+                onKeyDown={handleKeyDown}
+              ></div>
+              {mediaFiles.length > 0 && (
+                <Swiper
+                  slidesPerView="auto"
+                  spaceBetween={15}
+                  pagination={{
+                    clickable: true,
+                  }}
+                  className="mySwiper h-[190px] w-full pt-5"
+                >
+                  {mediaFiles.map((file, index) => {
+                    const url = URL.createObjectURL(file);
+                    return (
+                      <SwiperSlide
+                        key={index}
+                        className="relative h-[190px] w-auto! items-center flex justify-center mt-2"
+                      >
+                        <button
+                          type="button"
+                          className="absolute -top-2 -right-3 w-7 h-7"
+                          onClick={handleDeleteFile}
+                          data-index={index}
+                        >
+                          <img
+                            src="/src/shared/assets/close.svg"
+                            alt=""
+                            className="w-full h-full"
+                          />
+                        </button>
+                        {file.type.endsWith('mp4') ||
+                        file.type.endsWith('mov') ||
+                        file.type.endsWith('webm') ? (
+                          <video
+                            src={url}
+                            muted
+                            autoPlay
+                            className="h-full w-auto object-contain"
+                          />
+                        ) : (
+                          <img
+                            src={url}
+                            alt={file.name.split('.')[0]}
+                            className="h-full w-auto object-contain"
+                          />
+                        )}
+                      </SwiperSlide>
+                    );
+                  })}
+                </Swiper>
+              )}
+            </div>
+            <button type="button" onClick={handleSubmitReply}>
+              <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

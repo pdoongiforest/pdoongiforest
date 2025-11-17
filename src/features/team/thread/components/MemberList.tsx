@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import ProfileIcon from '@/shared/assets/character.png';
 import { useEffect, useState } from 'react';
 import Status from '@/shared/components/Layout/header/components/status/Status';
+import tw from '@/shared/utils/tw';
 
 type MemberList = ({
   profile_id: string;
@@ -12,7 +13,11 @@ type MemberList = ({
   status: string;
 } | null)[];
 
-function MemberList() {
+interface Props {
+  isReplyPress: boolean;
+}
+
+function MemberList({ isReplyPress }: Props) {
   const [memberList, setMemberList] = useState<MemberList>();
   const { id } = useParams();
 
@@ -26,7 +31,12 @@ function MemberList() {
   console.log(memberList);
 
   return (
-    <div className="flex gap-3 px-3 pb-2.5 border-b border-border-gray">
+    <div
+      className={tw(
+        'flex gap-3 px-3 pb-2.5 border-b border-border-gray',
+        isReplyPress && 'max-w-[1000px]'
+      )}
+    >
       {memberList &&
         memberList.map((member, index) => (
           <div key={index} className="flex flex-col items-center">

@@ -7,7 +7,7 @@ interface Props {
 
 export function UploadFile({ onImageChange, onVideoChange }: Props) {
   return (
-    <div className="absolute bottom-30 flex gap-3.5 pl-5">
+    <div className="absolute -top-10 flex gap-3.5 pl-5">
       {/* 사진 업로드 */}
       <input
         type="file"
@@ -19,7 +19,7 @@ export function UploadFile({ onImageChange, onVideoChange }: Props) {
       ></input>
       <label
         htmlFor="image"
-        className="rounded-full bg-border-gray w-10 h-10 flex items-center justify-center"
+        className="shadow-[2px_2px_2.4px_0px_rgba(0,0,0,0.25)] rounded-full bg-border-gray w-10 h-10 flex items-center justify-center"
       >
         <img
           src="/src/shared/assets/photo.svg"
@@ -39,7 +39,7 @@ export function UploadFile({ onImageChange, onVideoChange }: Props) {
       ></input>
       <label
         htmlFor="video"
-        className="rounded-full bg-border-gray w-10 h-10 flex items-center justify-center"
+        className="shadow-[2px_2px_2.4px_0px_rgba(0,0,0,0.25)] rounded-full bg-border-gray w-10 h-10 flex items-center justify-center"
       >
         <img
           src="/src/shared/assets/video.svg"

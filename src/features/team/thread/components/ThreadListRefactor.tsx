@@ -1,16 +1,18 @@
+import { useEffect, useState } from 'react';
+
+import supabase from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthProvider';
 import { IsMineProvider } from '@/shared/context/isMine';
 import type { Tables } from '@/supabase/database.types';
-import supabase from '@/supabase/supabase';
-import { useEffect, useState } from 'react';
-import { ThreadProvider } from '../context/ThreadProvider';
-import ThreadContent from './ThreadContentRefactor';
-import ThreadPannel from './ThreadPannelRefactor';
 
-type ThreadReply = Tables<'thread_reply'>;
+import ThreadPannel from './ThreadPannelRefactor';
+import ThreadContent from './ThreadContentRefactor';
+import { ThreadProvider } from '../context/ThreadProvider';
+
 type User = Tables<'user_profile'> & {
   user_base: Tables<'user_base'>;
 };
+type ThreadReply = Tables<'thread_reply'>;
 type ReplyWithUser = ThreadReply & {
   user_profile: User;
 };
@@ -162,7 +164,7 @@ function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPre
   // console.log({ indexingThreadData });
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full pb-30">
       <ul className="space-y-2.5">
         {indexingThreadData &&
           indexingThreadData.reverse().map((thread) => {
