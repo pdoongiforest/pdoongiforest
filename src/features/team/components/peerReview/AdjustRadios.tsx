@@ -1,8 +1,12 @@
+import { useScore } from '../../context/useScore';
+
 interface Props {
   name: string;
 }
 
 function AdjustRadios({ name }: Props) {
+  const { handleScore } = useScore();
+
   const RADIO_OPTION = [
     {
       id: 5,
@@ -30,6 +34,7 @@ function AdjustRadios({ name }: Props) {
       label: '전혀 아니다',
     },
   ];
+
   return (
     <div
       className="flex flex-col md:flex-row gap-3"
@@ -38,7 +43,14 @@ function AdjustRadios({ name }: Props) {
     >
       {RADIO_OPTION.map(({ id, name, label }, i) => (
         <span className="flex gap-1" key={i}>
-          <input type="radio" name={name} id={`${name}-${id}`} value={id} required />
+          <input
+            type="radio"
+            name={name}
+            id={`${name}-${id}`}
+            value={id}
+            onChange={() => handleScore(id)}
+            required
+          />
           <label htmlFor={`${name}-${id}`}>{label}</label>
         </span>
       ))}

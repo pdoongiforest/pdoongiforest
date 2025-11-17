@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import supabase from '@/supabase/supabase';
 
 import { useNavigate } from 'react-router-dom';
-import { useBoardContext } from '@/shared/context/useBoardContext';
+import { useBoardContext } from '@/features/boardWrite/context/useBoardContext';
 import { useHashTagContext } from '@/shared/context/useHashTag';
 import { useProfileImageContext } from '@/shared/context/useProfileImage';
 import { useToast } from '@/shared/utils/useToast';
