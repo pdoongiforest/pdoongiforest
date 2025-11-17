@@ -19,7 +19,7 @@ function ThreadWrapper({ isReplyPress, setIsReplyPress }: Props) {
     <>
       <div
         className={tw(
-          'w-full max-w-[1200px] mx-auto pt-20 pb-[140px]',
+          'w-full max-w-[1200px] mx-auto pb-[140px]',
           isReplyPress && 'max-w-[1000px] mx-0'
         )}
       >

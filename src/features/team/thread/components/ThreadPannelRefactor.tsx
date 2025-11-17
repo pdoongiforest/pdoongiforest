@@ -28,7 +28,6 @@ function ThreadPannel({ setIsReplyPress }: Props) {
     setFiles,
     setReply,
     reply,
-    // setIsReplyPress,
     isOpen,
     setIsOpen,
   } = useThread();
@@ -39,8 +38,8 @@ function ThreadPannel({ setIsReplyPress }: Props) {
   const [mediaFiles, setMediaFiles] = useState<File[]>([]);
   const editRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLDivElement | null>(null);
+  const replyInputRef = useRef<HTMLDivElement | null>(null);
   const timeStamp = commentTime(created_at ?? '');
-  console.log({ reply });
 
   const handleSave = async (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent> | React.KeyboardEvent
@@ -51,6 +50,15 @@ function ThreadPannel({ setIsReplyPress }: Props) {
     const editContent = editRef.current?.innerText.trim() ?? '';
     if (!editContent) setIsEditing(false);
 
+    if (editContent.length === 0 && files?.length === 0) {
+      showWarningAlert(
+        '빈 내용을 등록할 수 없습니다',
+        '한 글자 또는 하나 이상의 파일을 등록해주세요'
+      );
+      setIsEditing(false);
+      return;
+    }
+
     const { error } = await supabase
       .from('thread')
       .update({
@@ -59,6 +67,7 @@ function ThreadPannel({ setIsReplyPress }: Props) {
       .eq('thread_id', thread_id);
     setContent(editContent);
     setIsEditing(!isEditing);
+
     if (error) console.error();
   };
 
@@ -145,6 +154,10 @@ function ThreadPannel({ setIsReplyPress }: Props) {
     if (inputRef.current) {
       inputRef.current.innerHTML = '';
     }
+
+    if (!replyInputRef.current) return;
+    const el = replyInputRef.current;
+    el.scrollTo({ top: el.scrollHeight + 50 });
   };
 
   const handleReplyDelete = (targetId: string) => {
@@ -250,7 +263,7 @@ function ThreadPannel({ setIsReplyPress }: Props) {
         <p className="text-2xl">스레드</p>
       </div>
 
-      <div className="overflow-y-auto pt-14 px-8 h-[calc(100vh-230px)] ">
+      <div className="overflow-y-auto pt-14 px-8 h-[calc(100vh-230px)] pb-10" ref={replyInputRef}>
         <div className="flex justify-between items-center w-full">
           {/* 프로필, 닉네임, 시간 */}
           <div className="flex items-center gap-1">
@@ -371,7 +384,6 @@ function ThreadPannel({ setIsReplyPress }: Props) {
 
         {reply &&
           reply.map((item) => {
-            console.log('item', item);
             return (
               <IsMineProvider key={item.reply_id} writerProfileId={item.profile_id}>
                 <ThreadReplyComponent
@@ -404,13 +416,6 @@ function ThreadPannel({ setIsReplyPress }: Props) {
               <p className="text-3xl text-gray">+</p>
             </button>
             <div className="flex flex-col w-full max-h-[200px] overflow-y-auto">
-              <div
-                aria-placeholder="내용을 입력해주세요"
-                contentEditable="true"
-                className="w-full min-h-10 focus:outline-none items-center py-2"
-                ref={inputRef}
-                onKeyDown={handleKeyDown}
-              ></div>
               {mediaFiles.length > 0 && (
                 <Swiper
                   slidesPerView="auto"
@@ -460,6 +465,13 @@ function ThreadPannel({ setIsReplyPress }: Props) {
                   })}
                 </Swiper>
               )}
+              <div
+                aria-placeholder="내용을 입력해주세요"
+                contentEditable="true"
+                className="w-full min-h-10 focus:outline-none max-h-20 items-center py-2 wrap-break-word block"
+                ref={inputRef}
+                onKeyDown={handleKeyDown}
+              ></div>
             </div>
             <button type="button" onClick={handleSubmitReply}>
               <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />

@@ -28,7 +28,7 @@ function MemberList({ isReplyPress }: Props) {
     };
     fetchData();
   }, [id]);
-  console.log(memberList);
+  // console.log(memberList);
 
   return (
     <div

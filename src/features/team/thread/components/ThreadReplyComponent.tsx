@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import type { Tables } from '@/supabase/database.types';
 import supabase from '@/supabase/supabase';
 import { useIsMine } from '@/shared/context/useIsMine';
-import { showConfirmAlert } from '@/shared/utils/sweetAlert';
+import { showConfirmAlert, showWarningAlert } from '@/shared/utils/sweetAlert';
 import { commentTime } from '../commentTime';
 import { getUserData } from '../hooks/getUserData';
 import ProfileIcon from '@/shared/assets/character.png';
@@ -47,6 +47,15 @@ function ThreadReplyComponent({ reply, onDelete }: Prop) {
     }
     const editContent = editRef.current?.innerText.trim() ?? '';
     if (!editContent) setIsEditing(false);
+
+    if (editContent.length === 0 && files?.length === 0) {
+      showWarningAlert(
+        '빈 내용을 등록할 수 없습니다',
+        '한 글자 또는 하나 이상의 파일을 등록해주세요'
+      );
+      setIsEditing(false);
+      return;
+    }
 
     const { error } = await supabase
       .from('thread_reply')
@@ -105,6 +114,15 @@ function ThreadReplyComponent({ reply, onDelete }: Prop) {
   const handleEditFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const answer = await showConfirmAlert('정말로 삭제하시겠습니까?', '확인을 누르면 삭제됩니다');
     if (!answer.isConfirmed) return;
+
+    if (files?.length === 1 && content?.length === 0) {
+      showWarningAlert(
+        '빈 내용을 등록할 수 없습니다',
+        '한 글자 또는 하나 이상의 파일을 등록해주세요'
+      );
+      setIsEditing(false);
+      return;
+    }
 
     const img = e.target as HTMLImageElement;
     const target = Number(img.closest('button')?.dataset.index);
@@ -229,9 +247,9 @@ function ThreadReplyComponent({ reply, onDelete }: Prop) {
       <div className="flex flex-row gap-7 items-center pl-11">
         <LikeBtn
           likeUser={reply.like_user ?? []}
-          targetId={reply.thread_id}
-          table="thread"
-          columnId="thread_id"
+          targetId={reply.reply_id}
+          table="thread_reply"
+          columnId="reply_id"
         />
       </div>
     </li>

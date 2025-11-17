@@ -141,14 +141,7 @@ function ThreadInput({ setThreadData, id }: Props) {
         >
           <p className="text-3xl text-gray">+</p>
         </button>
-        <div className="flex flex-col w-full max-h-[200px] overflow-y-auto">
-          <div
-            aria-placeholder="내용을 입력해주세요"
-            contentEditable="true"
-            className="w-full min-h-10 focus:outline-none items-center py-2"
-            ref={inputRef}
-            onKeyDown={handleKeyDown}
-          ></div>
+        <div className="flex flex-col w-full overflow-y-auto max-h-[200px]">
           {files.length > 0 && (
             <Swiper
               slidesPerView="auto"
@@ -189,6 +182,14 @@ function ThreadInput({ setThreadData, id }: Props) {
               })}
             </Swiper>
           )}
+
+          <div
+            aria-placeholder="내용을 입력해주세요"
+            contentEditable="true"
+            className="w-full min-h-10 focus:outline-none max-h-20 items-center py-2 wrap-break-word block"
+            ref={inputRef}
+            onKeyDown={handleKeyDown}
+          ></div>
         </div>
         <button type="button" onClick={handleSubmit}>
           <img src="/src/shared/assets/send.svg" alt="전송" title="전송하기" />

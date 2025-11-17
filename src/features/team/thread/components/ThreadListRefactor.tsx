@@ -33,7 +33,6 @@ interface Props {
 function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPress }: Props) {
   const [replyData, setReplyData] = useState<Record<string, ReplyWithUser[]>>({});
   const { profileId } = useAuth();
-  // const [isReplyPress, setIsReplyPress] = useState(false);
   const [openThreadId, setOpenThreadId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -79,6 +78,7 @@ function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPre
         }
       )
       .subscribe();
+    window.scrollTo(0, document.documentElement.scrollHeight);
     return () => {
       supabase.removeChannel(channel);
     };
@@ -128,7 +128,7 @@ function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPre
     if (threadData.length > 0) {
       fetchInitialReplies();
     }
-  }, [threadData]);
+  }, [threadData, isReplyPress]);
 
   const fetchThreadReplyData = async (thread_id: string) => {
     const { data, error } = await supabase
@@ -164,7 +164,7 @@ function ThreadList({ setThreadData, threadData, id, isReplyPress, setIsReplyPre
   // console.log({ indexingThreadData });
 
   return (
-    <div className="flex flex-col w-full pb-30">
+    <div className="flex flex-col w-full pb-10">
       <ul className="space-y-2.5">
         {indexingThreadData &&
           indexingThreadData.reverse().map((thread) => {
