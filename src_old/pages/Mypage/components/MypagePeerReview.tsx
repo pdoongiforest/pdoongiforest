@@ -147,9 +147,9 @@ function MypagePeerReview({ profileId }: Props) {
           </button>
         </section>
       ) : (
-        <div className={S.nothing}>
-          <img src="/images/emptyContents.png" alt="피어리뷰 없음" />
-          <p>
+        <div className="flex flex-col items-center justify-center animation: fadeIn 0.7s ease-in-out; margin-bottom: 4rem;">
+          <img src="/images/emptyContents.png" alt="피어리뷰 없음" className='w-8rem mb-1rem' />
+          <p className='text-center font-semibold text-sm leading-6 p-2.5 border border-green-500 rounded-32px shadow-[0_4px_12px_rgba(166,179,125,0.4)] text-green-500 bg-green-50'>
             아직 피어리뷰가 없습니다 <br />
             스터디, 프로젝트에 가입하여 피어리뷰를 작성해보세요!
             <br />
@@ -160,3 +160,30 @@ function MypagePeerReview({ profileId }: Props) {
   );
 }
 export default MypagePeerReview;
+
+width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.7s ease-in-out;
+  margin-bottom: 4rem;
+
+  img {
+    width: 8rem;
+    margin-bottom: 1rem;
+  }
+  p {
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.6;
+
+    padding: 0.5rem 1.5rem;
+    border: 2px solid #a6b37d;
+    border-radius: 32px;
+
+    box-shadow: 0 4px 12px rgba(166, 179, 125, 0.4);
+    color: #a6b37d;
+    background-color: #f0f8e0;
+  }

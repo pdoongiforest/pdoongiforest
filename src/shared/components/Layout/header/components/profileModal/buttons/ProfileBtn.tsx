@@ -1,10 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 
-function ProfileBtn({ profileId }: { profileId: string | null }) {
+function ProfileBtn({
+  profileId,
+  setShowProfileModal,
+}: {
+  profileId: string | null;
+  setShowProfileModal: (showProfileModal: boolean) => void;
+}) {
   const navigate = useNavigate();
 
   const handleProfile = () => {
     navigate(`/mypage/${profileId}`);
+    setShowProfileModal(false);
   };
 
   return (

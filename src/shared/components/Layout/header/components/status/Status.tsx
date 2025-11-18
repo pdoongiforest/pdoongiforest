@@ -6,50 +6,43 @@ import supabase from '@/supabase/supabase';
 
 export type StatusCode = '0' | '1' | '2' | '3' | null;
 
-interface Props {
-  userID?: string;
-}
-
-function Status({ userID }: Props) {
+function Status() {
   const [status, setStatus] = useState<StatusCode | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     if (!user?.id) return;
     const fetchUserStatus = async () => {
-      const status = await getUserStatus(userID ?? user?.id);
+      const status = await getUserStatus(user?.id);
       if (status) {
         setStatus(status);
       }
     };
     fetchUserStatus();
-  }, [userID, user?.id]);
+  }, [user?.id]);
 
   useEffect(() => {
     const channel = supabase
-      .channel(`status-${userID ?? user?.id}`)
+      .channel(`status-${user?.id}`)
       .on(
         'postgres_changes',
         {
-          event: '*',
+          event: 'UPDATE',
           schema: 'public',
           table: 'user_base',
-          filter: `user_id=eq.${userID ?? user?.id}`,
         },
         (payload) => {
-          console.log(payload);
-          const updatedUser = payload.new;
-          console.log('Status updated:', updatedUser);
-          // if (updatedUser.user_id === user?.id) {
-          //   setStatus(updatedUser.status);
-          // }
+          if (payload.new.user_id === user?.id) {
+            const updatedUser = payload.new;
+            setStatus(updatedUser.status);
+          }
         }
       )
       .subscribe();
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [userID, user?.id]);
+  }, [user?.id]);
 
   return (
     <img

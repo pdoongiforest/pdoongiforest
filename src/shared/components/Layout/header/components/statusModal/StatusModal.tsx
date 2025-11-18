@@ -16,7 +16,6 @@ interface Props {
 
 function StatusModal({ showStatusModal, setShowStatusModal, isMobile, triggerRef }: Props) {
   const statusModalRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
 
   const { user } = useAuth();
   const [selectedStatus, setSelectedStatus] = useState<StatusCode | null>(null);
@@ -32,14 +31,17 @@ function StatusModal({ showStatusModal, setShowStatusModal, isMobile, triggerRef
     fetchUserStatus();
   }, [user?.id]);
 
-  useAnimationStartEnd({
+  const { visible } = useAnimationStartEnd({
     ref: statusModalRef,
-    config: {
+    configOpen: {
       from: { opacity: 0, y: -30 },
-      to: { opacity: 1, y: 0, duration: 0.3, ease: 'power2.out' },
+      to: { opacity: 1, y: 0 },
+    },
+    configClose: {
+      from: { opacity: 1, y: 0 },
+      to: { opacity: 0, y: -30 },
     },
     showModal: showStatusModal,
-    setVisible: setVisible,
   });
 
   useCloseOutside({

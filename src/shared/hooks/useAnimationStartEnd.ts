@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 
 type AnimationConfig = {
@@ -8,38 +8,37 @@ type AnimationConfig = {
 
 type Props = {
   ref: React.RefObject<HTMLElement | null>;
-  config: AnimationConfig;
+  configOpen: AnimationConfig;
+  configClose: AnimationConfig;
   showModal: boolean;
-  setVisible: (visible: boolean) => void;
 };
 
-export function useAnimationStartEnd({ ref, config, showModal, setVisible }: Props) {
-  const tweenRef = useRef<gsap.core.Timeline | null>(null);
+export function useAnimationStartEnd({ ref, configOpen, configClose, showModal }: Props) {
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (ref.current && !tweenRef.current) {
-      tweenRef.current = gsap.timeline({ paused: true }).fromTo(ref.current, config.from, {
-        ...config.to,
-        onReverseComplete: () => {
-          setTimeout(() => {
-            setVisible(false);
-          }, 300);
-        },
-      });
-    }
-
+    if (!ref.current) return;
     if (showModal) {
       setVisible(true);
-      if (tweenRef.current) {
-        tweenRef.current.play();
-      }
-    } else {
-      if (tweenRef.current) {
-        tweenRef.current.reverse();
-      } else {
-        // timteline이 아직 생성되지 않았다면 항상 false
-        setVisible(false);
-      }
+      const tl = gsap.timeline();
+      gsap.set(ref.current, { ...configOpen.from });
+      tl.to(ref.current, {
+        ...configOpen.to,
+        duration: 0.3,
+        ease: 'power2.out',
+      });
+    } else if (visible) {
+      // ✅ 닫을 때도 새로 만들기
+      const tl = gsap.timeline({
+        onComplete: () => setVisible(false),
+      });
+      tl.to(ref.current, {
+        ...configClose.to,
+        duration: 0.2,
+        ease: 'power2.in',
+      });
     }
-  }, [showModal, ref, config]);
+  }, [showModal, ref, configOpen, configClose, visible]);
+
+  return { visible, setVisible };
 }
