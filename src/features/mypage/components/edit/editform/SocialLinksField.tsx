@@ -1,12 +1,20 @@
-import { Controller, useFieldArray, type Control } from 'react-hook-form';
+import {
+  Controller,
+  useFieldArray,
+  type Control,
+  type FieldErrors,
+  type UseFormClearErrors,
+} from 'react-hook-form';
 import type { ProfileFormData } from './FormSection';
 
 interface SocialLinksFieldProps {
   control: Control<ProfileFormData>;
   onDirtyChange: () => void;
+  errors?: FieldErrors<ProfileFormData>;
+  clearErrors: UseFormClearErrors<ProfileFormData>;
 }
 
-function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
+function SocialLinksField({ control, errors, clearErrors, onDirtyChange }: SocialLinksFieldProps) {
   const { fields, append, remove } = useFieldArray({
     control,
     name: 'social',
@@ -49,6 +57,7 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
                 {...field}
                 type="url"
                 onChange={(e) => {
+                  console.log(e.target.value);
                   field.onChange(e);
                   onDirtyChange();
                 }}
@@ -63,6 +72,8 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
             className="text-red-500 hover:text-red-700 shrink-0 whitespace-nowrap"
             onClick={() => {
               remove(index);
+              // 항목 삭제 시 에러 clear (submit 시 다시 validation 실행됨)
+              clearErrors('social');
               onDirtyChange();
             }}
           >
@@ -81,6 +92,9 @@ function SocialLinksField({ control, onDirtyChange }: SocialLinksFieldProps) {
       >
         추가하기
       </button>
+      {errors?.social && typeof errors.social === 'object' && 'message' in errors.social && (
+        <p className="text-red-500 text-sm">{errors.social.message}</p>
+      )}
     </fieldset>
   );
 }

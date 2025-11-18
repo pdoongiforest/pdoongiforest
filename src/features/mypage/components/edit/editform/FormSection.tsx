@@ -120,7 +120,12 @@ function FormSection({ onDirtyChange }: { onDirtyChange: (isDirty: boolean) => v
         <InterestSection control={control} onDirtyChange={() => onDirtyChange(true)} />
       </fieldset>
 
-      <SocialLinksField control={control} onDirtyChange={() => onDirtyChange(true)} />
+      <SocialLinksField
+        control={control}
+        errors={errors}
+        clearErrors={clearErrors}
+        onDirtyChange={() => onDirtyChange(true)}
+      />
 
       <fieldset>
         <legend className="sr-only">자기소개</legend>
