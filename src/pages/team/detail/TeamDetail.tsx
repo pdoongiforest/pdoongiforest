@@ -1,9 +1,9 @@
 import StudyTitle from '@/features/team/components/detail/StudyTitle';
-import type { Board } from '@/shared/@types/global';
+import type { StudyWithBoard } from '@/shared/@types/global';
 import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
 
 function TeamDetail() {
-  const { board } = useLoaderData() as { board: Board };
+  const { study } = useLoaderData() as { study: StudyWithBoard };
 
   return (
     <div className="mt-12 page-layout max-w-1200">
@@ -104,7 +104,7 @@ function TeamDetail() {
       </nav>
 
       <main className="flex flex-1 mt-5">
-        <Outlet context={{ board }} />
+        <Outlet context={{ study }} />
       </main>
     </div>
   );

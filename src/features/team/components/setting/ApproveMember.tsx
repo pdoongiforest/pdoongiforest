@@ -1,41 +1,46 @@
-import type { Tables } from '@/supabase/database.types';
 import MemberCard from './MemberCard';
 import { useEffect, useState } from 'react';
+
+import type { Tables } from '@/supabase/database.types';
+import type { Profile } from '@/shared/@types/global';
 import supabase from '@/supabase/supabase';
-import { useAuth } from '@/features/auth/AuthProvider';
+
+interface Props {
+  studyId: string;
+}
 
 type Approve = Tables<'study_approve'> & {
-  nickname: Profile['nickname'];
-  profile_images: Profile['profile_images'];
+  user_profile: Profile;
 };
-type Profile = Tables<'user_profile'>;
-
-function ApproveMember() {
-  const { profileId } = useAuth();
-  const [approveMember, setApproveMember] = useState<Approve[] | null>([]);
-
-  const requestMember = approveMember?.filter((v) => v.status === '0');
+function ApproveMember({ studyId }: Props) {
+  const [approveMember, setApproveMember] = useState<Approve[]>([]);
+  const requestMember = approveMember.filter((a) => a.status === '0').map((a) => a.user_profile);
 
   useEffect(() => {
     const fetch = async () => {
-      const { data, error } = await supabase.from('study_approve').select('*,user_profile(*)');
-      if (error) console.log('가입 요청 불러오기 실패');
+      const { data, error } = await supabase
+        .from('study_approve')
+        .select('*,user_profile(*)')
+        .eq('study_id', studyId);
+
+      if (error) throw new Error('가입 요청 불러오기 실패');
       if (data) setApproveMember(data);
     };
     fetch();
-  }, []);
+  }, [studyId]);
 
   return (
     <>
       <h2 className="text-2xl">가입요청</h2>
       <ul>
-        {requestMember?.map(({ id, nickname, profile_images }) => (
-          <li key={id}>
+        {requestMember.map(({ user_id, profile_id, nickname, profile_images }) => (
+          <li key={user_id}>
             <MemberCard
               variants="approve"
-              profileId={profileId ?? ''}
-              nickname={nickname ?? '멤버'}
-              src={profile_images ?? ''}
+              studyId={studyId}
+              profileId={profile_id}
+              nickname={nickname}
+              src={profile_images}
             />
           </li>
         ))}

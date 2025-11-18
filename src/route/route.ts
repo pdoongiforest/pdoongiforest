@@ -46,9 +46,12 @@ export const router = createBrowserRouter([
       {
         path: '/team/:id',
         loader: async ({ params }) => {
-          const { data } = await supabase.from('board').select('*').eq('board_id', params.id);
-
-          return { board: data };
+          const { data } = await supabase
+            .from('study')
+            .select('*,board(*)')
+            .eq('board_id', params.id)
+            .single();
+          return { study: data };
         },
         Component: TeamDetail,
         children: [
