@@ -11,6 +11,7 @@ import TeamDetail from '@/pages/team/detail/TeamDetail';
 import PeerReview from '@/pages/team/peerReview/PeerReview';
 import Setting from '@/pages/team/setting/Setting';
 import Team from '@/pages/team/Team';
+import supabase from '@/supabase/supabase';
 import { createBrowserRouter } from 'react-router-dom';
 
 export const router = createBrowserRouter([
@@ -40,6 +41,11 @@ export const router = createBrowserRouter([
       },
       {
         path: '/team/:id',
+        loader: async ({ params }) => {
+          const { data } = await supabase.from('board').select('*').eq('board_id', params.id);
+
+          return { board: data };
+        },
         Component: TeamDetail,
         children: [
           {

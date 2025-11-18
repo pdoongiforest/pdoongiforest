@@ -1,12 +1,13 @@
-import { NavLink, Outlet } from 'react-router-dom';
+import StudyTitle from '@/features/team/components/detail/StudyTitle';
+import type { Board } from '@/shared/@types/global';
+import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
 
 function TeamDetail() {
+  const { board } = useLoaderData() as { board: Board };
+
   return (
     <div className="mt-12 page-layout max-w-1200">
-      <header className="flex flex-col gap-1">
-        <p className="font-light">스터디</p>
-        <h1 className="text-2xl font-semibold">스터디 명</h1>
-      </header>
+      <StudyTitle />
       <nav className="mt-5">
         <ul className="flex gap-3 border-b border-gray-400">
           <NavLink
@@ -103,7 +104,7 @@ function TeamDetail() {
       </nav>
 
       <main className="flex flex-1 mt-5">
-        <Outlet />
+        <Outlet context={{ board }} />
       </main>
     </div>
   );
