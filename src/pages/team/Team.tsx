@@ -3,8 +3,11 @@ import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthProvider';
 import BoardCard from '@/features/board/components/BoardCard';
+import type { Tables } from '@/supabase/database.types';
 
+type Board = Tables<'board'>;
 interface Study {
+  board: Board;
   profile_id: string;
   board_id: string;
 }
@@ -25,9 +28,9 @@ function TeamPage() {
   return (
     <div className={S.container}>
       <ul className={S.teamList}>
-        {myTeams?.map(({ board_id }) => (
-          <li key={board_id}>
-            <BoardCard />
+        {myTeams?.map((team) => (
+          <li key={team.board_id}>
+            <BoardCard boardInfo={team.board} />
           </li>
         ))}
       </ul>
