@@ -65,7 +65,7 @@
 }
 
 .Toastify__toast--error .Toastify__toast-icon svg {
-  @apply fill-white;
+  @apply fill-red-500;
 }
 
 .Toastify__close-button {
