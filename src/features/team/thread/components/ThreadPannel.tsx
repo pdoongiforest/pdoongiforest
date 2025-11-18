@@ -86,7 +86,7 @@ function ThreadPannel({ setIsReplyPress }: Props) {
   const insertStorage = async (fileList: File[]) => {
     const uploadResults = await Promise.all(
       fileList.map(async (file) => {
-        const filepath = `${profileId}/${crypto.randomUUID()}-${file.name}`;
+        const filepath = `${profileId}/${crypto.randomUUID()}`;
         const { error } = await supabase.storage.from('thread').upload(filepath, file);
 
         if (error) return null;
