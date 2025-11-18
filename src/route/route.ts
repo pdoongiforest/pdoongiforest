@@ -11,6 +11,7 @@ import TeamDetail from '@/pages/team/detail/TeamDetail';
 import PeerReview from '@/pages/team/peerReview/PeerReview';
 import Setting from '@/pages/team/setting/Setting';
 import Team from '@/pages/team/Team';
+import Thread from '@/pages/team/thread/Thread';
 import InfoChange from '@/pages/Mypage/InfoChange';
 import PasswordChange from '@/pages/Mypage/PasswordChange';
 import Mypage from '@/pages/Mypage/Mypage2';
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
         path: '/team/:id',
         Component: TeamDetail,
         children: [
+          {
+            index: true,
+            Component: Thread,
+          },
           {
             path: 'peerreview',
             Component: PeerReview,
