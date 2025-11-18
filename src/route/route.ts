@@ -11,8 +11,12 @@ import TeamDetail from '@/pages/team/detail/TeamDetail';
 import PeerReview from '@/pages/team/peerReview/PeerReview';
 import Setting from '@/pages/team/setting/Setting';
 import Team from '@/pages/team/Team';
-import supabase from '@/supabase/supabase';
+import Thread from '@/pages/team/thread/Thread';
+import InfoChange from '@/pages/Mypage/InfoChange';
+import PasswordChange from '@/pages/Mypage/PasswordChange';
+import Mypage from '@/pages/Mypage/Mypage2';
 import { createBrowserRouter } from 'react-router-dom';
+import supabase from '@/supabase/supabase';
 
 export const router = createBrowserRouter([
   {
@@ -49,6 +53,10 @@ export const router = createBrowserRouter([
         Component: TeamDetail,
         children: [
           {
+            index: true,
+            Component: Thread,
+          },
+          {
             path: 'peerreview',
             Component: PeerReview,
           },
@@ -57,6 +65,18 @@ export const router = createBrowserRouter([
             Component: Setting,
           },
         ],
+      },
+      {
+        path: '/mypage/:id',
+        Component: Mypage,
+      },
+      {
+        path: '/mypage/:id/info',
+        Component: InfoChange,
+      },
+      {
+        path: '/mypage/:id/password',
+        Component: PasswordChange,
       },
     ],
   },

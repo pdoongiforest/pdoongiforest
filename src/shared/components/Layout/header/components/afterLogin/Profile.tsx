@@ -1,10 +1,7 @@
-import ProfileIcon from '@/shared/assets/character.png';
-
-import { useEffect, useState } from 'react';
-import ProfileModal, { type ProfileData } from '../profileModal/ProfileModal';
+import { useState } from 'react';
+import ProfileModal from '../profileModal/ProfileModal';
 import Status from '../status/Status';
-import { useAuth } from '@/features/auth/AuthProvider';
-import { getUserProfile } from '../../api/getUser';
+import { useHeaderProfile } from '../../hooks/useHeaderProfile';
 
 interface Props {
   profileId: string | null;
@@ -13,9 +10,7 @@ interface Props {
 function Profile({ profileId }: Props) {
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [visible, setVisible] = useState(false);
-
-  const { user } = useAuth();
-  const [profileData, setProfileData] = useState<ProfileData | null>(null);
+  const { profileData, isLoading } = useHeaderProfile(profileId);
 
   // 프로필 모달 창 토글
   const handleShowProfileModal = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -24,16 +19,11 @@ function Profile({ profileId }: Props) {
     setShowProfileModal(!showProfileModal);
   };
 
-  useEffect(() => {
-    if (!user?.id) return;
-    const fetchProfile = async () => {
-      const profile = await getUserProfile(user?.id);
-      if (profile) {
-        setProfileData(profile);
-      }
-    };
-    fetchProfile();
-  }, [user?.id]);
+  if (isLoading) {
+    return (
+      <div className="w-[40px] h-[40px] flex items-center justify-center rounded-full cursor-pointer bg-white "></div>
+    );
+  }
 
   return (
     <>
@@ -47,13 +37,18 @@ function Profile({ profileId }: Props) {
         aria-expanded={showProfileModal}
         aria-haspopup="true"
       >
-        <img
-          src={profileData?.profile_images ?? ProfileIcon}
-          alt={
-            profileData?.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
-          }
-          className="object-cover w-full h-full"
-        />
+        {profileData?.profile_images ? (
+          <img
+            key={profileData.profile_images} // 이미지 URL이 변경되면 강제 리렌더링
+            src={`${profileData.profile_images}?t=${Date.now()}`}
+            alt={
+              profileData.nickname ? `${profileData.nickname}님의 프로필 이미지` : '프로필 이미지'
+            }
+            className="object-cover w-full h-full rounded-full"
+          />
+        ) : (
+          <div className="w-full h-full rounded-full bg-gray-200" />
+        )}
         <Status />
       </button>
       <ProfileModal
