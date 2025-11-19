@@ -1,9 +1,17 @@
 import StudyTitle from '@/features/team/components/detail/StudyTitle';
-import type { StudyWithBoard } from '@/shared/@types/global';
+import type {
+  ApproveWithProfile,
+  MemberWithProfile,
+  StudyWithBoard,
+} from '@/features/team/types/types';
 import { NavLink, Outlet, useLoaderData } from 'react-router-dom';
 
 function TeamDetail() {
-  const { study } = useLoaderData() as { study: StudyWithBoard };
+  const { study, approves, members } = useLoaderData() as {
+    study: StudyWithBoard;
+    approves: ApproveWithProfile;
+    members: MemberWithProfile;
+  };
 
   return (
     <div className="mt-12 page-layout max-w-1200">
@@ -24,8 +32,8 @@ function TeamDetail() {
               isPending
                 ? 'pending'
                 : isActive
-                  ? 'text-primary border-b border-primary flex items-center'
-                  : 'flex items-center'
+                  ? 'text-primary border-b border-primary flex items-center gap-1'
+                  : 'flex items-center gap-1'
             }
           >
             피어리뷰
@@ -65,8 +73,8 @@ function TeamDetail() {
               isPending
                 ? 'pending'
                 : isActive
-                  ? 'text-primary border-b border-primary flex items-center'
-                  : 'flex items-center'
+                  ? 'text-primary border-b border-primary flex items-center gap-1'
+                  : 'flex items-center gap-1'
             }
           >
             관리
@@ -104,7 +112,7 @@ function TeamDetail() {
       </nav>
 
       <main className="flex flex-1 mt-5">
-        <Outlet context={{ study }} />
+        <Outlet context={{ study, approves, members }} />
       </main>
     </div>
   );

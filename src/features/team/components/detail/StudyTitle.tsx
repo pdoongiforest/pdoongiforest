@@ -1,5 +1,5 @@
-import type { StudyWithBoard } from '@/shared/@types/global';
 import { useLoaderData } from 'react-router-dom';
+import type { StudyWithBoard } from '../../types/types';
 
 function StudyTitle() {
   const { study } = useLoaderData() as { study: StudyWithBoard };

@@ -1,16 +1,19 @@
 import { useToast } from '@/shared/utils/useToast';
 import supabase from '@/supabase/supabase';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   variants: 'approve' | 'member';
   src: string;
   nickname: string;
   profileId: string;
-  studyId: string;
 }
 
-function MemberCard({ variants, src, nickname, profileId, studyId }: Props) {
+function MemberCard({ variants, src, nickname, profileId }: Props) {
   const { success, error } = useToast();
+
+  const params = useParams();
+
   const handleAccept = async () => {
     try {
       const { error: approveError } = await supabase
@@ -21,10 +24,12 @@ function MemberCard({ variants, src, nickname, profileId, studyId }: Props) {
 
       const { error: insertError } = await supabase.from('study_member').insert({
         profile_id: profileId,
-        study_id: studyId,
+        study_id: params.id,
         authority: '1',
       });
       success('멤버를 승인하였습니다.');
+      window.location.reload();
+
       if (insertError) throw new Error('승인 요청 실패');
     } catch (err) {
       error('예상치 못한 에러가 발생했습니다.');
@@ -41,6 +46,7 @@ function MemberCard({ variants, src, nickname, profileId, studyId }: Props) {
       .eq('profile_id', profileId);
     if (error) throw new Error('거절 요청 실패');
     success('거절하였습니다.');
+    window.location.reload();
   };
 
   const handleEmission = async () => {
@@ -56,6 +62,7 @@ function MemberCard({ variants, src, nickname, profileId, studyId }: Props) {
       .eq('profile_id', profileId);
     if (emmisionError) throw new Error('거절 요청 실패');
     success('추방에 성공했습니다.');
+    window.location.reload();
   };
 
   return (
