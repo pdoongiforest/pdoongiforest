@@ -14,7 +14,7 @@ export function ScoreProvider({ children }: { children: React.ReactNode }) {
   };
 
   const getAverage = (score.current / 4).toFixed(1);
-  console.log(getAverage);
+
   return (
     <ScoreContext.Provider value={{ handleScore, getAverage }}>{children}</ScoreContext.Provider>
   );
