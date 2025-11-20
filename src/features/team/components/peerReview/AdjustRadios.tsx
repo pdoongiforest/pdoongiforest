@@ -1,11 +1,11 @@
-import { useScore } from '../../context/useScore';
+import { useReview } from '../../context/useReview';
 
 interface Props {
   name: string;
 }
 
 function AdjustRadios({ name }: Props) {
-  const { handleScore } = useScore();
+  const { score, handleScore } = useReview();
 
   const RADIO_OPTION = [
     {
@@ -48,7 +48,8 @@ function AdjustRadios({ name }: Props) {
             name={name}
             id={`${name}-${id}`}
             value={id}
-            onChange={() => handleScore(id)}
+            checked={score[name] == id}
+            onChange={() => handleScore(id, name)}
             required
           />
           <label htmlFor={`${name}-${id}`}>{label}</label>

@@ -1,87 +1,25 @@
-import AdjustMember from '@/features/team/components/peerReview/AdjustMember';
-import { ScoreProvider } from '@/features/team/context/ScoreContext';
-import Button from '@/shared/components/button/Button';
+import PeerReviewTemplate from '@/features/team/components/peerReview/PeerReviewTemplate';
+import { PeerReviewProvider } from '@/features/team/context/peerReviewContext';
+import type { TeamOutlet } from '@/features/team/types/types';
+import { useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
 
 function PeerReview() {
+  const { members } = useOutletContext<TeamOutlet>();
+  const [currentIndex, setCurrentIndex] = useState(0);
   return (
-    <ScoreProvider>
+    <PeerReviewProvider memberId={members[currentIndex].profile_id}>
       <section className="mt-8 w-full">
-        <header className="flex justify-between items-center">
-          <button type="button" className="flex flex-col" aria-label="이전">
-            <svg
-              aria-hidden="true"
-              width="30"
-              height="24"
-              viewBox="0 0 30 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M11.9625 5.92969L4.375 11.9997L11.9625 18.0697"
-                stroke="#171717"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M25.6254 12H4.58789"
-                stroke="#171717"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            이전
-          </button>
-          <p>유저</p>
-          <button type="button" className="flex flex-col" aria-label="다음">
-            <svg
-              aria-hidden="true"
-              width="30"
-              height="24"
-              viewBox="0 0 30 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M18.0375 5.92969L25.625 11.9997L18.0375 18.0697"
-                stroke="#171717"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M4.37461 12H25.4121"
-                stroke="#171717"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            다음
-          </button>
-        </header>
-        <main className="mt-9">
-          <AdjustMember />
-        </main>
-        <footer className="mt-9 flex justify-between">
-          <span>1/7</span>
-
-          <Button
-            type="submit"
-            size="lg"
-            disabled={true}
-            title="모든 피어리뷰가 제출되면 활성화됩니다."
-          >
-            제출
-          </Button>
-        </footer>
+        <div>
+          <PeerReviewTemplate
+            members={members}
+            member={members[currentIndex]}
+            currentIndex={currentIndex}
+            setCurrentIndex={setCurrentIndex}
+          />
+        </div>
       </section>
-    </ScoreProvider>
+    </PeerReviewProvider>
   );
 }
 
