@@ -1,43 +1,36 @@
-import { useEffect, useState } from 'react';
+import { useOutletContext } from 'react-router-dom';
+import type { TeamOutlet } from '../../types/types';
 import MemberCard from './MemberCard';
-import supabase from '@/supabase/supabase';
-import type { Tables } from '@/supabase/database.types';
-import { useAuth } from '@/features/auth/AuthProvider';
 
-type Study = Tables<'study_member'> & {
-  nickname: Profile['nickname'];
-  profile_images: Profile['profile_images'];
-};
-type Profile = Tables<'user_profile'>;
+interface Props {
+  adminId: string;
+}
 
-function Management() {
-  const { profileId } = useAuth();
-  const [member, setMember] = useState<Study[] | null>([]);
+function Management({ adminId }: Props) {
+  const { members } = useOutletContext<TeamOutlet>();
 
-  useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase.from('study_member').select('*,user_profile(*)');
-      if (error) console.log('가입 멤버 불러오기 실패');
-      if (data) setMember(data);
-    };
-    fetch();
-  }, []);
+  const studyMember = members.map((a) => a.user_profile).filter((a) => a.profile_id !== adminId);
 
   return (
     <>
       <h2 className="text-2xl">멤버 관리</h2>
-      <div className="flex flex-wrap gap-3">
-        {member &&
-          member.map(({ member_id, profile_images, nickname }) => (
-            <MemberCard
-              key={member_id}
-              profileId={profileId ?? ''}
-              src={profile_images ?? ''}
-              nickname={nickname ?? '멤버'}
-              variants="member"
-            />
-          ))}
-      </div>
+      <ul className="flex flex-wrap gap-3">
+        {studyMember.length > 0 ? (
+          studyMember.map(({ user_id, profile_id, profile_images, nickname }) => (
+            <li key={user_id}>
+              <MemberCard
+                key={user_id}
+                profileId={profile_id}
+                src={profile_images}
+                nickname={nickname}
+                variants="member"
+              />
+            </li>
+          ))
+        ) : (
+          <li>멤버가 없습니다.</li>
+        )}
+      </ul>
     </>
   );
 }

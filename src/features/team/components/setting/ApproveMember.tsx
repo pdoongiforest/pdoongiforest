@@ -1,44 +1,29 @@
-import type { Tables } from '@/supabase/database.types';
+import type { TeamOutlet } from '../../types/types';
 import MemberCard from './MemberCard';
-import { useEffect, useState } from 'react';
-import supabase from '@/supabase/supabase';
-import { useAuth } from '@/features/auth/AuthProvider';
-
-type Approve = Tables<'study_approve'> & {
-  nickname: Profile['nickname'];
-  profile_images: Profile['profile_images'];
-};
-type Profile = Tables<'user_profile'>;
+import { useOutletContext } from 'react-router-dom';
 
 function ApproveMember() {
-  const { profileId } = useAuth();
-  const [approveMember, setApproveMember] = useState<Approve[] | null>([]);
+  const { approves } = useOutletContext<TeamOutlet>();
 
-  const requestMember = approveMember?.filter((v) => v.status === '0');
-
-  useEffect(() => {
-    const fetch = async () => {
-      const { data, error } = await supabase.from('study_approve').select('*,user_profile(*)');
-      if (error) console.log('가입 요청 불러오기 실패');
-      if (data) setApproveMember(data);
-    };
-    fetch();
-  }, []);
-
+  const requestMember = approves.filter((user) => user.status === '0').map((a) => a.user_profile);
   return (
     <>
       <h2 className="text-2xl">가입요청</h2>
       <ul>
-        {requestMember?.map(({ id, nickname, profile_images }) => (
-          <li key={id}>
-            <MemberCard
-              variants="approve"
-              profileId={profileId ?? ''}
-              nickname={nickname ?? '멤버'}
-              src={profile_images ?? ''}
-            />
-          </li>
-        ))}
+        {requestMember.length > 0 ? (
+          requestMember.map(({ user_id, profile_id, nickname, profile_images }) => (
+            <li key={user_id}>
+              <MemberCard
+                variants="approve"
+                profileId={profile_id}
+                nickname={nickname}
+                src={profile_images}
+              />
+            </li>
+          ))
+        ) : (
+          <li>가입 요청이 없습니다.</li>
+        )}
       </ul>
     </>
   );

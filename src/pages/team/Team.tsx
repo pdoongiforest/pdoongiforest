@@ -3,19 +3,27 @@ import { useEffect, useState } from 'react';
 import supabase from '@/supabase/supabase';
 import { useAuth } from '@/features/auth/AuthProvider';
 import BoardCard from '@/features/board/components/BoardCard';
+import type { Tables } from '@/supabase/database.types';
 
-interface Study {
-  profile_id: string;
-  board_id: string;
-}
+type Board = Tables<'board'>;
+type Study = Tables<'study'> & {
+  board: Board;
+};
+type MyStudy = Tables<'study_member'> & {
+  study: Study;
+};
 
 function TeamPage() {
   const { profileId } = useAuth();
-  const [myTeams, setMyTeams] = useState<Study[] | null>([]);
+  const [myTeams, setMyTeams] = useState<MyStudy[]>([]);
 
   useEffect(() => {
+    if (!profileId) return;
     const fetch = async () => {
-      const { data, error } = await supabase.from('study').select('*,board(*)');
+      const { data, error } = await supabase
+        .from('study_member')
+        .select('*,study(*,board(*))')
+        .eq('profile_id', profileId);
       if (error) console.error('참여 중 스터디 데이터 가져오기 실패');
       if (data) setMyTeams(data);
     };
@@ -25,11 +33,12 @@ function TeamPage() {
   return (
     <div className={S.container}>
       <ul className={S.teamList}>
-        {myTeams?.map(({ board_id }) => (
-          <li key={board_id}>
-            <BoardCard />
-          </li>
-        ))}
+        {myTeams &&
+          myTeams.map((team) => (
+            <li key={team.member_id}>
+              <BoardCard boardInfo={team.study.board} />
+            </li>
+          ))}
       </ul>
     </div>
   );

@@ -1,4 +1,6 @@
+import { useToast } from '@/shared/utils/useToast';
 import supabase from '@/supabase/supabase';
+import { useParams } from 'react-router-dom';
 
 interface Props {
   variants: 'approve' | 'member';
@@ -8,15 +10,31 @@ interface Props {
 }
 
 function MemberCard({ variants, src, nickname, profileId }: Props) {
+  const { success, error } = useToast();
+
+  const params = useParams();
+
   const handleAccept = async () => {
-    const { error } = await supabase
-      .from('study_approve')
-      .update({
-        status: 1,
-      })
-      .eq('profile_id', profileId);
-    if (error) console.log('승인 요청 실패');
-    console.log('업데이트성공');
+    try {
+      const { error: approveError } = await supabase
+        .from('study_approve')
+        .update({ status: '1' })
+        .eq('profile_id', profileId);
+      if (approveError) throw new Error('업데이트 요청 실패');
+
+      const { error: insertError } = await supabase.from('study_member').insert({
+        profile_id: profileId,
+        study_id: params.id,
+        authority: '1',
+      });
+      success('멤버를 승인하였습니다.');
+      window.location.reload();
+
+      if (insertError) throw new Error('승인 요청 실패');
+    } catch (err) {
+      error('예상치 못한 에러가 발생했습니다.');
+      console.error('예기치 못한 에러가 발생했습니다', err);
+    }
   };
 
   const handleReject = async () => {
@@ -26,25 +44,33 @@ function MemberCard({ variants, src, nickname, profileId }: Props) {
         status: 2,
       })
       .eq('profile_id', profileId);
-    if (error) console.log('거절 요청 실패');
-    console.log('업데이트성공');
+    if (error) throw new Error('거절 요청 실패');
+    success('거절하였습니다.');
+    window.location.reload();
   };
 
   const handleEmission = async () => {
-    const { error } = await supabase
-      .from('study_member')
-      .update({
-        authority: 0,
-      })
+    const { error: approveError } = await supabase
+      .from('study_approve')
+      .delete()
       .eq('profile_id', profileId);
-    if (error) console.log('거절 요청 실패');
-    console.log('업데이트성공');
+    if (approveError) throw new Error('거절 요청 실패');
+
+    const { error: emmisionError } = await supabase
+      .from('study_member')
+      .delete()
+      .eq('profile_id', profileId);
+    if (emmisionError) throw new Error('거절 요청 실패');
+    success('추방에 성공했습니다.');
+    window.location.reload();
   };
 
   return (
     <div className="rounded-sm bg-white px-3 py-4 flex items-center justify-between h-17 w-full md:w-72 drop-shadow-[0_2px_8px_rgba(0,0,0,0.10)]">
       <div className="flex items-center gap-4">
-        <img src={src} alt="멤버 카드 이미지" />
+        <div className="w-10 h-10 rounded-full overflow-hidden">
+          <img src={src} alt="멤버 카드 이미지" />
+        </div>
         <div>
           <p>{nickname}</p>
           <span>피어온도</span>
