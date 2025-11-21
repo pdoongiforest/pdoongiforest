@@ -25,7 +25,7 @@ function AdjustMember() {
     },
   ];
 
-  const { handleSave, review } = useReview();
+  const { handleTextReview, review } = useReview();
 
   return (
     <form
@@ -57,7 +57,7 @@ function AdjustMember() {
             name="peerReview"
             id="peerReviewText"
             value={review.review_contents || ''}
-            onChange={(e) => handleSave(e.target.value)}
+            onChange={(e) => handleTextReview(e.target.value)}
             placeholder='예시) "이번 프로젝트에서 인상 깊었던 점: 빠른 응답과 꼼꼼한 코드 리뷰.  
             다음에 더 좋을 것 같은 점: 회의에서 의견을 좀 더 적극적으로 나눠주시면 좋겠습니다."'
           ></textarea>

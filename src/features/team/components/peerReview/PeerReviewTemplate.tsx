@@ -1,7 +1,6 @@
 import Button from '@/shared/components/button/Button';
 import AdjustMember from './AdjustMember';
 import type { MemberWithProfile } from '../../types/types';
-import supabase from '@/supabase/supabase';
 import { useReview } from '../../context/useReview';
 
 interface Props {
@@ -13,15 +12,7 @@ interface Props {
 
 function PeerReviewTemplate({ member, members, currentIndex, setCurrentIndex }: Props) {
   const { nickname, profile_images, profile_id } = member.user_profile;
-  const { allReview, handleSaveNext, handleSavePrev } = useReview();
-
-  const handleSubmit = async () => {
-    const { error } = await supabase.from('peer_review').insert({
-      allReview,
-    });
-
-    if (error) throw new Error('피어리뷰 전송에러');
-  };
+  const { handleSaveNext, handleSavePrev, handleSubmit } = useReview();
 
   const handleNext = () => {
     handleSaveNext(profile_id);
@@ -123,7 +114,7 @@ function PeerReviewTemplate({ member, members, currentIndex, setCurrentIndex }: 
           size="lg"
           variant="primary"
           disabled={currentIndex + 1 !== members.length}
-          title="모든 피어리뷰가 제출되면 활성화됩니다."
+          title="모든 피어리뷰가 작성되면 활성화됩니다."
           className="text-white"
           onClick={handleSubmit}
         >

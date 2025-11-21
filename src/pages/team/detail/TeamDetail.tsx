@@ -14,6 +14,7 @@ function TeamDetail() {
     approves: ApproveWithProfile;
     members: MemberWithProfile;
   };
+
   const { profileId } = useAuth();
   const { id } = useParams();
   const isAdmin = study.profile_id === profileId;
