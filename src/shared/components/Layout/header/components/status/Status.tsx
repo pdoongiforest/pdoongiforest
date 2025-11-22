@@ -6,20 +6,24 @@ import supabase from '@/supabase/supabase';
 
 export type StatusCode = '0' | '1' | '2' | '3' | null;
 
-function Status() {
+interface Props {
+  userID?: string;
+}
+
+function Status({ userID }: Props) {
   const [status, setStatus] = useState<StatusCode | null>(null);
   const { user } = useAuth();
 
   useEffect(() => {
     if (!user?.id) return;
     const fetchUserStatus = async () => {
-      const status = await getUserStatus(user?.id);
+      const status = await getUserStatus(userID ?? user?.id);
       if (status) {
         setStatus(status);
       }
     };
     fetchUserStatus();
-  }, [user?.id]);
+  }, [user?.id, userID]);
 
   useEffect(() => {
     const channel = supabase
