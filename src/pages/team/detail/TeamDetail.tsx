@@ -14,6 +14,16 @@ function TeamDetail() {
     approves: ApproveWithProfile;
     members: MemberWithProfile;
   };
+
+  const today = new Date().toISOString().split('T')[0];
+  const deadline = study.board.deadline.split('T')[0];
+
+  const deadlineDate = new Date(deadline);
+  const extendedDeadline = new Date(deadlineDate);
+  extendedDeadline.setDate(extendedDeadline.getDate() + 7);
+  const finalDeadline = extendedDeadline.toISOString().split('T')[0];
+  const isDeadLine = today >= deadline && today <= finalDeadline;
+
   const { profileId } = useAuth();
   const { id } = useParams();
   const isAdmin = study.profile_id === profileId;
@@ -38,44 +48,51 @@ function TeamDetail() {
           </NavLink>
           <NavLink
             to="peerreview"
+            onClick={(e) => {
+              if (!isDeadLine) {
+                e.preventDefault();
+                alert('피어리뷰 기간이 아닙니다.');
+              }
+            }}
             className={({ isActive, isPending }) =>
-              isPending
-                ? 'pending'
-                : isActive
-                  ? 'text-primary border-b border-primary flex items-center gap-1'
-                  : 'flex items-center gap-1'
+              `flex items-center gap-1
+              ${!isDeadLine ? 'cursor-not-allowed opacity-50' : ''}
+              ${isPending ? 'pending' : isActive ? 'text-primary border-b border-primary' : ''} 
+            `
             }
           >
             피어리뷰
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M4 6.66732V5.33398C4 3.12732 4.66667 1.33398 8 1.33398C11.3333 1.33398 12 3.12732 12 5.33398V6.66732"
-                stroke="#222222"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8.00065 12.3333C8.92113 12.3333 9.66732 11.5871 9.66732 10.6667C9.66732 9.74619 8.92113 9 8.00065 9C7.08018 9 6.33398 9.74619 6.33398 10.6667C6.33398 11.5871 7.08018 12.3333 8.00065 12.3333Z"
-                stroke="#222222"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M11.334 14.666H4.66732C2.00065 14.666 1.33398 13.9993 1.33398 11.3327V9.99935C1.33398 7.33268 2.00065 6.66602 4.66732 6.66602H11.334C14.0007 6.66602 14.6673 7.33268 14.6673 9.99935V11.3327C14.6673 13.9993 14.0007 14.666 11.334 14.666Z"
-                stroke="#222222"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            {!isDeadLine && (
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M4 6.66732V5.33398C4 3.12732 4.66667 1.33398 8 1.33398C11.3333 1.33398 12 3.12732 12 5.33398V6.66732"
+                  stroke="#222222"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M8.00065 12.3333C8.92113 12.3333 9.66732 11.5871 9.66732 10.6667C9.66732 9.74619 8.92113 9 8.00065 9C7.08018 9 6.33398 9.74619 6.33398 10.6667C6.33398 11.5871 7.08018 12.3333 8.00065 12.3333Z"
+                  stroke="#222222"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M11.334 14.666H4.66732C2.00065 14.666 1.33398 13.9993 1.33398 11.3327V9.99935C1.33398 7.33268 2.00065 6.66602 4.66732 6.66602H11.334C14.0007 6.66602 14.6673 7.33268 14.6673 9.99935V11.3327C14.6673 13.9993 14.0007 14.666 11.334 14.666Z"
+                  stroke="#222222"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
           </NavLink>
           <NavLink
             to="settings"

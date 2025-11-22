@@ -1,11 +1,11 @@
-import { useScore } from '../../context/useScore';
+import { useReview } from '../../context/useReview';
 
 interface Props {
   name: string;
 }
 
 function AdjustRadios({ name }: Props) {
-  const { handleScore } = useScore();
+  const { score, handleScore } = useReview();
 
   const RADIO_OPTION = [
     {
@@ -36,25 +36,28 @@ function AdjustRadios({ name }: Props) {
   ];
 
   return (
-    <div
-      className="flex flex-col md:flex-row gap-3"
-      role="radiogroup"
-      aria-labelledby="question-label"
-    >
-      {RADIO_OPTION.map(({ id, name, label }, i) => (
-        <span className="flex gap-1" key={i}>
-          <input
-            type="radio"
-            name={name}
-            id={`${name}-${id}`}
-            value={id}
-            onChange={() => handleScore(id)}
-            required
-          />
-          <label htmlFor={`${name}-${id}`}>{label}</label>
-        </span>
-      ))}
-    </div>
+    <fieldset>
+      <div
+        className="flex flex-col md:flex-row gap-3"
+        role="radiogroup"
+        aria-labelledby="question-label"
+      >
+        {RADIO_OPTION.map(({ id, name, label }, i) => (
+          <span className="flex gap-1" key={i}>
+            <input
+              type="radio"
+              name={name}
+              id={`${name}-${id}`}
+              value={id}
+              checked={score[name] == id}
+              onChange={() => handleScore(id, name)}
+              required
+            />
+            <label htmlFor={`${name}-${id}`}>{label}</label>
+          </span>
+        ))}
+      </div>
+    </fieldset>
   );
 }
 export default AdjustRadios;
